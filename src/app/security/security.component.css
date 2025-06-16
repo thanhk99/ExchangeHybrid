@@ -1,0 +1,68 @@
+.security-center {
+  max-width: 800px;
+  margin: auto;
+  font-family: Arial, sans-serif;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.card {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 10px;
+  background-color: #fff;
+}
+
+.card-icon {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.card.danger {
+  background-color: #fff9f5;
+  border-color: #fcd5ce;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.desc {
+  font-size: 14px;
+  color: #666;
+}
+
+.recommended {
+  background-color: #d4fcd7;
+  color: #22c55e;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 8px;
+}
+
+.setup-link {
+  color: #1d4ed8;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.auth-method {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #eee;
+  padding: 12px 0;
+}
+
+.masked {
+  font-family: monospace;
+  margin-right: 10px;
+}

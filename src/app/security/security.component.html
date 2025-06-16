@@ -1,0 +1,49 @@
+<div class="security-center">
+  <h2>Trung tâm bảo mật</h2>
+
+  <!-- Mục bảo mật chờ xử lý -->
+  <div class="card danger">
+    <div class="card-icon">⚠️</div>
+    <div>
+      <div class="title">Mục bảo mật chờ xử lý</div>
+      <div class="desc">Bảo vệ tài khoản của bạn bằng cách bật các tính năng bảo mật được đề xuất.</div>
+    </div>
+  </div>
+
+  <!-- Các mục bảo mật -->
+  <div class="card" *ngFor="let item of securityItems">
+    <div class="card-icon">{{ item.icon }}</div>
+    <div>
+      <div class="title">
+        {{ item.title }}
+        <span *ngIf="item.recommended" class="recommended">Được đề xuất</span>
+      </div>
+      <div class="desc">{{ item.desc }}</div>
+    </div>
+    <a href="#" class="setup-link">Thiết lập</a>
+  </div>
+
+  <!-- Phương thức xác thực -->
+  <h3>Phương thức xác thực</h3>
+  <div class="auth-method">
+    <div>
+      <div class="title">Xác thực qua điện thoại</div>
+      <div class="desc">Nhận mã xác thực qua SMS...</div>
+    </div>
+    <div>
+      <span class="masked">****008</span>
+      <a href="#">Thay đổi số điện thoại</a>
+    </div>
+  </div>
+  <div class="auth-method">
+    <div>
+      <div class="title">Xác thực qua email</div>
+      <div class="desc">Nhận mã xác thực qua email...</div>
+    </div>
+    <div>
+      <span class="masked">{{ maskEmail(user.email) }}</span>
+      <a href="#">Thay đổi email</a>
+    </div>
+  </div>
+</div>
+
