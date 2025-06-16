@@ -181,6 +181,10 @@
     gap: 2rem;
   }
 
+  .left-content1 h1 {
+    font-size: 32px;
+  }
+
   .input-group {
     flex-direction: column;
     align-items: center;
@@ -209,8 +213,8 @@
   .phone-image img {
     width: 100%;
     height: auto;
-    /* max-width: 250px; 
-    max-height: 500px;  */
+    max-width: 300px; 
+    max-height: 500px;
     object-fit: contain;
   }
 
