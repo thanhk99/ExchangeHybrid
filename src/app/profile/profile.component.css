@@ -4,7 +4,6 @@
   padding: 30px;
   background-color: #fff;
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: #111;
 }
@@ -123,6 +122,7 @@ p strong {
   justify-content: flex-end;
   gap: 10px;
 }
+
 .modal-actions button {
   padding: 8px 12px;
   border: none;
@@ -130,6 +130,7 @@ p strong {
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
 }
+
 .cancelEdit {
   background-color: #f0f0f0;
   color: #111;
@@ -143,9 +144,96 @@ p strong {
 .cancelEdit:hover {
   background-color: #e0e0e0;
 }
+
 .confirmEdit:hover {
   background-color: #333;
 }
+
 .modal-actions button:hover {
   transform: scale(1.02);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1366px) { /* ~14-inch */
+  .container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+  }
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+  p {
+    font-size: 14px;
+    padding: 8px 0;
+  }
+  .btn-link {
+    padding: 3px 8px;
+    font-size: 12px;
+  }
+  .modal {
+    width: 300px;
+    padding: 15px;
+  }
+}
+
+@media screen and (min-width: 1367px) and (max-width: 1920px) { /* ~15.6-inch and 22-inch */
+  .container {
+    max-width: 700px;
+    margin: 25px auto;
+    padding: 25px;
+  }
+  h2 {
+    font-size: 26px;
+    margin-bottom: 25px;
+  }
+  h3 {
+    font-size: 17px;
+    margin-bottom: 13px;
+  }
+  p {
+    font-size: 14.5px;
+    padding: 9px 0;
+  }
+  .btn-link {
+    padding: 3.5px 9px;
+    font-size: 12.5px;
+  }
+  .modal {
+    width: 350px;
+    padding: 18px;
+  }
+}
+
+@media screen and (min-width: 1921px) { /* ~24-inch */
+  .container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 30px;
+  }
+  h2 {
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+  h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+  p {
+    font-size: 15px;
+    padding: 10px 0;
+  }
+  .btn-link {
+    padding: 4px 10px;
+    font-size: 13px;
+  }
+  .modal {
+    width: 400px;
+    padding: 20px;
+  }
 }
