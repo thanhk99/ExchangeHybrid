@@ -1,0 +1,23 @@
+<nav class="header">
+  <div class="header-left">
+    <a class="header-logo" href="#">
+      <img src="icon.ico" alt="Logo" height="30">
+    </a>
+    <div class="dropdown-wrapper" *ngFor="let item of menuItems">
+      <div class="dropdown" [ngClass]="{'active': activeDropdown === item.label}"
+           (mouseenter)="onMouseEnter(item.label)" (mouseleave)="onMouseLeave()">
+        <a class="header-leftmore">{{ item.label }}</a>
+        <div class="dropdown-content" *ngIf="activeDropdown === item.label">
+          <a href="#" *ngFor="let subItem of item.subItems">{{ subItem }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="header-right">
+    <form class="find">
+      <input class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
+    </form>
+    <a class="header-rightmore" href="#">Đăng nhập</a>
+    <a class="header-rightmore" href="#">Đăng ký</a>
+  </div>
+</nav>
