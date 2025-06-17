@@ -1,3 +1,5 @@
+/* src/app/app.component.css */
+
 /* General reset and base styles */
 * {
   margin: 0;
@@ -6,12 +8,11 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
-.security-container {
+.security-container, .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  /* background: #f5f7fa; */
-  min-height: 100vh;
+  min-height: 60vh;
 }
 
 /* Typography */
@@ -44,7 +45,7 @@ h3 {
   border-radius: 8px;
   padding: 1rem;
   margin: 1rem 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   gap: 1rem;
 }
 
@@ -70,8 +71,8 @@ h3 {
   background: #fff;
   border-radius: 8px;
   padding: 1rem;
-  margin: 0.5rem 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   gap: 1rem;
 }
 
@@ -126,9 +127,9 @@ h3 {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.5);
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -160,10 +161,6 @@ h3 {
   color: #666;
 }
 
-.modal-body {
-  padding: 1rem 0;
-}
-
 .form-group {
   margin-bottom: 1.5rem;
 }
@@ -175,12 +172,69 @@ h3 {
   font-weight: 500;
 }
 
-.form-group input {
+.anti-phishing-input {
   width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  background-color: #f9f9f9;
+}
+
+.anti-phishing-input:focus {
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.2); /* xanh lam nhạt */
+  background-color: #fff;
+}
+
+.anti-phishing-input::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+.anti-phishing-input:hover {
+  border-color: #888;
+}
+
+
+.password-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input input {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 1rem; /* Điều chỉnh padding cho biểu tượng */
+  border: 2px solid #ddd;
   border-radius: 6px;
   font-size: 1rem;
+  color: #333;
+  background-color: #fff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.password-input input:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 5px rgba(0, 102, 204, 0.3);
+}
+
+.password-input input::placeholder {
+  color: #999;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 0.75rem;
+  cursor: pointer;
+  color: #555;
+}
+
+.toggle-password:hover {
+  color: #000;
 }
 
 .requirements div {
@@ -202,6 +256,7 @@ h3 {
   border-radius: 6px;
   cursor: pointer;
   font-size: 1rem;
+  transition: background 0.2s;
 }
 
 .submit-btn:disabled {
@@ -213,26 +268,57 @@ h3 {
   background: #0052a3;
 }
 
+.cancel-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #f5f7fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.cancel-btn:hover {
+  background: #e9ecef;
+}
+
 /* Verification Section */
 .verification-section {
   margin: 1.5rem 0;
 }
 
-.code-input {
+.code-input, .code-input-group {
   display: flex;
   gap: 0.5rem;
 }
 
-.code-input input {
+.code-input input, .code-input-group input {
   flex: 1;
+  padding: 0.75rem;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  color: #333;
+  background-color: #fff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.code-input button {
+.code-input input:focus, .code-input-group input:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 5px rgba(0, 102, 204, 0.3);
+}
+
+.code-input button, .send-code-btn {
   padding: 0.75rem 1rem;
   background: #f5f7fa;
   border: 1px solid #ddd;
   border-radius: 6px;
   cursor: pointer;
+}
+
+.code-input button:hover, .send-code-btn:hover {
+  background: #e9ecef;
 }
 
 /* Auth Method */
@@ -243,8 +329,8 @@ h3 {
   background: #fff;
   border-radius: 8px;
   padding: 1rem;
-  margin: 0.5rem 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .method-info {
@@ -280,7 +366,11 @@ h3 {
   cursor: pointer;
 }
 
-/* Phone Modal */
+.change-btn:hover {
+  background: #e9ecef;
+}
+
+/* Security Notice and No Auth Section */
 .security-notice {
   display: flex;
   align-items: flex-start;
@@ -290,38 +380,9 @@ h3 {
   font-size: 0.9rem;
 }
 
-.phone-input-group {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.phone-input-group select,
-.phone-input-group input {
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-}
-
-.phone-input-group select {
-  width: 100px;
-}
-
-.code-input-group {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.send-code-btn {
-  padding: 0.75rem 1rem;
-  background: #f5f7fa;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
 .no-auth-section {
   margin: 1.5rem 0;
+  text-align: center;
 }
 
 .confirm-btn {
@@ -334,21 +395,11 @@ h3 {
   cursor: pointer;
 }
 
-.cancel-btn {
-  width: 100%;
-  padding: 0.75rem;
-  background: #f5f7fa;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-top: 0.5rem;
+.confirm-btn:hover {
+  background: #0052a3;
 }
 
 /* Account Security */
-.container {
-  margin-top: 2rem;
-}
-
 .section {
   margin: 1.5rem 0;
 }
@@ -360,8 +411,8 @@ h3 {
   padding: 1rem;
   background: #fff;
   border-radius: 8px;
-  margin: 0.5rem 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .option span:first-child {
@@ -374,30 +425,13 @@ h3 {
   font-size: 0.9rem;
 }
 
-
-
-/* Responsive Design */
-@media (max-width: 1600px) {
-  .security-container {
-    padding: 15px;
-  }
-
-  h1 {
-    font-size: 1.8rem;
-  }
-
-  h2 {
-    font-size: 1.4rem;
-  }
-
-  .modal-container {
-    width: 95%;
-    max-width: 500px;
-  }
+.link:hover {
+  text-decoration: underline;
 }
 
-@media (max-width: 1366px) {
-  .security-container {
+/* Responsive Design for Specific Screen Sizes */
+@media (max-width: 1366px) { /* ~14 inch */
+  .security-container, .container {
     padding: 10px;
   }
 
@@ -407,6 +441,10 @@ h3 {
 
   h2 {
     font-size: 1.3rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
   }
 
   .security-item,
@@ -419,17 +457,95 @@ h3 {
 
   .setup-btn,
   .change-btn,
-  .confirm-btn,
-  .cancel-btn {
+  .submit-btn,
+  .cancel-btn,
+  .confirm-btn {
     width: 100%;
   }
 
-  .phone-input-group,
+  .code-input,
   .code-input-group {
     flex-direction: column;
   }
 
-  .phone-input-group select {
-    width: 100%;
+  .modal-container {
+    width: 95%;
+    max-width: 450px;
+  }
+
+  .form-control,
+  .password-input input,
+  .code-input input,
+  .code-input-group input {
+    font-size: 0.95rem;
+    padding: 0.65rem;
+  }
+}
+
+@media (min-width: 1367px) and (max-width: 1600px) { /* ~15.6 inch */
+  .security-container, .container {
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  .modal-container {
+    max-width: 500px;
+  }
+}
+
+@media (min-width: 1601px) and (max-width: 1920px) { /* ~22 inch */
+  .security-container, .container {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .modal-container {
+    max-width: 550px;
+  }
+}
+
+@media (min-width: 1921px) { /* ~24 inch and larger */
+  .security-container, .container {
+    padding: 25px;
+  }
+
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  h2 {
+    font-size: 1.7rem;
+  }
+
+  .modal-container {
+    max-width: 600px;
+  }
+
+  .security-item,
+  .auth-method,
+  .option {
+    padding: 1.25rem;
+  }
+
+  .form-control,
+  .password-input input,
+  .code-input input,
+  .code-input-group input {
+    font-size: 1.1rem;
+    padding: 0.85rem;
   }
 }

@@ -39,9 +39,11 @@ export class Security {
     confirmKey: '',
     verificationCode: ''
   };
-
-  password: string = '';
   showPasswordSection: boolean = false;
+  password: string = '';
+  shownewPassword: boolean = false; // Biến toggle cho mật khẩu mới
+  showPassword: boolean = false; // Biến toggle cho mật khẩu
+  showConfirmPassword: boolean = false; // Biến toggle cho xác nhận mật khẩu
 
 
 
@@ -76,6 +78,20 @@ export class Security {
       recommended: false
     }
   ];
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility() {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
+
+  toggleNewPasswordVisibility() {
+    this.shownewPassword = !this.shownewPassword;
+  }
+
+  
 
 
   maskEmail(email: string): string {
@@ -186,6 +202,16 @@ export class Security {
       !!this.smsCode;
   }
 
+  onlyNumberKey(event: KeyboardEvent): boolean {
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault(); // Ngăn ký tự không phải số
+      return false;
+    }
+    return true;
+  }
+
+
   // Phương thức lưu mã chống lừa đảo
   saveAntiPhishingCode(): void {
     if (this.isValidCode(this.antiPhishingCode)) {
@@ -237,6 +263,7 @@ export class Security {
     this.showPhoneModal = false;
     this.showEmailModal = false;
     this.showAccessKeyModal = false;
+    this.showPasswordSection = false;
 
     // Kiểm tra và mở modal tương ứng
     switch (item.title) {

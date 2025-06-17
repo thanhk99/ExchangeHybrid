@@ -9,7 +9,6 @@ import { CommonModule } from '@angular/common';
 })
 export class NavTabs {
   tabs = [
-    { label: 'Tổng quát', path: '/' },
     { label: 'Thông tin', path: '/profile' },
     { label: 'Cài đặt bảo mật', path: '/security' },
     { label: 'Xác minh', path: '/verify' },

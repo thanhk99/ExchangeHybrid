@@ -13,20 +13,71 @@
   text-decoration: none;
   color: #908b8b;
   font-family: Arial, sans-serif;
+  font-size: 1rem;
+  transition: color 0.3s ease;
 }
 
 .menu-item:hover {
-  /* background-color: #e9ecef; */
   color: #000;
   border-radius: 5px;
 }
 
 .active {
   border-bottom: 2px solid #000;
-    color: #000;
+  color: #000;
   font-weight: bold;
 }
-a{
-    text-decoration: none;
-    cursor: pointer;
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Responsive Design for Specific Screen Sizes */
+@media (max-width: 1366px) { /* ~14 inch */
+  .menu {
+    padding: 8px 0;
+  }
+
+  .menu-item {
+    margin: 0 10px;
+    padding: 4px 8px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 1367px) and (max-width: 1600px) { /* ~15.6 inch */
+  .menu {
+    padding: 10px 0;
+  }
+
+  .menu-item {
+    margin: 0 12px;
+    padding: 5px 10px;
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1601px) and (max-width: 1920px) { /* ~22 inch */
+  .menu {
+    padding: 12px 0;
+  }
+
+  .menu-item {
+    margin: 0 15px;
+    padding: 6px 12px;
+    font-size: 1.1rem;
+  }
+}
+
+@media (min-width: 1921px) { /* ~24 inch and larger */
+  .menu {
+    padding: 15px 0;
+  }
+
+  .menu-item {
+    margin: 0 20px;
+    padding: 8px 15px;
+    font-size: 1.2rem;
+  }
 }
