@@ -1,72 +1,84 @@
-/* Các style chung */
+/* General reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
 .security-container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  background: #f5f7fa;
+  min-height: 100vh;
 }
 
-.section {
-  margin: 30px 0;
-  padding: 20px 0;
-  border-bottom: 1px solid #eee;
+/* Typography */
+h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 1.5rem;
 }
 
-/* Thông báo bảo mật */
+h2 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #444;
+  margin: 0.75rem 0;
+}
+
+/* Security Alert */
 .security-alert {
   display: flex;
   align-items: center;
-  background-color: #fff8e6;
-  padding: 15px;
+  background: #fff;
   border-radius: 8px;
-  margin-bottom: 25px;
-}
-
-h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.security-notice {
-  background-color: #fff8e6;
-  padding: 15px;
-  border-radius: 5px;
-  margin-bottom: 25px;
-  display: flex;
-  align-items: flex-start;
-}
-
-.security-notice input[type="checkbox"] {
-  margin-right: 10px;
-  margin-top: 3px;
+  padding: 1rem;
+  margin: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  gap: 1rem;
 }
 
 .alert-icon {
-  font-size: 24px;
-  margin-right: 15px;
+  font-size: 1.5rem;
+  color: #ff9500;
 }
 
 .alert-title {
-  font-weight: bold;
-  margin-bottom: 5px;
+  font-weight: 500;
+  color: #333;
 }
 
 .alert-desc {
   color: #666;
-  font-size: 14px;
+  font-size: 0.9rem;
 }
 
-/* Danh sách bảo mật */
+/* Security Item */
 .security-item {
   display: flex;
   align-items: center;
-  padding: 15px 0;
-  border-bottom: 1px solid #f0f0f0;
+  background: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  gap: 1rem;
 }
 
 .item-icon {
-  font-size: 24px;
-  margin-right: 15px;
+  font-size: 1.5rem;
+  width: 40px;
+  text-align: center;
 }
 
 .item-content {
@@ -74,75 +86,49 @@ h1 {
 }
 
 .item-title {
-  font-weight: bold;
-  margin-bottom: 5px;
+  font-weight: 500;
+  color: #333;
   display: flex;
   align-items: center;
+  gap: 0.5rem;
+}
+
+.recommended-badge {
+  background: #e6f3ff;
+  color: #0066cc;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
 }
 
 .item-desc {
   color: #666;
-  font-size: 14px;
-}
-
-.recommended-badge {
-  background-color: #1890ff;
-  color: white;
-  font-size: 12px;
-  padding: 2px 8px;
-  border-radius: 10px;
-  margin-left: 10px;
+  font-size: 0.9rem;
 }
 
 .setup-btn {
-  background: none;
+  padding: 0.5rem 1rem;
+  background: #0066cc;
+  color: white;
   border: none;
-  color: #1890ff;
+  border-radius: 6px;
   cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s;
 }
 
-/* Phương thức xác thực */
-.auth-method {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 0;
+.setup-btn:hover {
+  background: #0052a3;
 }
 
-.method-info {
-  flex: 1;
-}
-
-.method-title {
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.method-desc {
-  color: #666;
-  font-size: 14px;
-}
-
-.masked-info {
-  margin-right: 15px;
-  color: #666;
-}
-
-.change-btn {
-  background: none;
-  border: none;
-  color: #1890ff;
-  cursor: pointer;
-}
-
-/* Modal */
+/* Modal Styles */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: rgba(0,0,0,0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -150,270 +136,298 @@ h1 {
 }
 
 .modal-container {
-  background-color: white;
+  background: #fff;
   border-radius: 8px;
-  padding: 25px;
-  width: 100%;
-  max-width: 450px;
+  width: 90%;
+  max-width: 600px;
+  padding: 1.5rem;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
-.notice {
-  background-color: #f5f5f5;
-  padding: 10px;
-  border-radius: 5px;
-  margin: 15px 0;
-  font-size: 14px;
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.modal-header button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+}
+
+.modal-body {
+  padding: 1rem 0;
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: 500;
 }
 
-.phone-input {
-  display: flex;
-}
-
-.phone-input select {
-  margin-right: 10px;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.phone-input input,
 .form-group input {
   width: 100%;
-  padding: 10px;
+  padding: 0.75rem;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.requirements div {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+}
+
+.requirements .valid {
+  color: #28a745;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.submit-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background: #0052a3;
+}
+
+/* Verification Section */
+.verification-section {
+  margin: 1.5rem 0;
 }
 
 .code-input {
   display: flex;
+  gap: 0.5rem;
 }
 
 .code-input input {
   flex: 1;
-  margin-right: 10px;
 }
 
-.send-code-btn {
-  padding: 0 15px;
-  background-color: #f0f0f0;
+.code-input button {
+  padding: 0.75rem 1rem;
+  background: #f5f7fa;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
 }
 
-.modal-actions {
+/* Auth Method */
+.auth-method {
   display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.cancel-btn {
-  padding: 10px 20px;
-  background-color: #f5f5f5;
-  border: none;
-  border-radius: 4px;
-  margin-right: 10px;
-  cursor: pointer;
+.method-info {
+  flex: 1;
 }
 
-.confirm-btn {
-  padding: 10px 20px;
-  background-color: #1890ff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.form-section, .verification-section, .no-auth-section {
-  margin-bottom: 25px;
-}
-
-h2 {
-  font-size: 18px;
-  margin-bottom: 15px;
+.method-title {
+  font-weight: 500;
   color: #333;
+}
+
+.method-desc {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.method-action {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.masked-info {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.change-btn {
+  padding: 0.5rem 1rem;
+  background: #f5f7fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Phone Modal */
+.security-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  color: #666;
+  font-size: 0.9rem;
 }
 
 .phone-input-group {
   display: flex;
+  gap: 0.5rem;
+}
+
+.phone-input-group select,
+.phone-input-group input {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
 }
 
 .phone-input-group select {
-  width: 80px;
-  padding: 10px;
-  margin-right: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.phone-input-group input {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  width: 100px;
 }
 
 .code-input-group {
   display: flex;
-  margin-bottom: 15px;
-}
-
-.code-input-group input {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-right: 10px;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .send-code-btn {
-  padding: 0 15px;
-  background-color: #f0f0f0;
+  padding: 0.75rem 1rem;
+  background: #f5f7fa;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-}
-
-.confirm-btn {
-  padding: 10px 20px;
-  background-color: #1890ff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
 }
 
 .no-auth-section {
-  border-top: 1px solid #eee;
-  padding-top: 20px;
+  margin: 1.5rem 0;
 }
 
+.confirm-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #f5f7fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+/* Account Security */
 .container {
-  padding: 20px;
-  font-family: Arial, sans-serif;
+  margin-top: 2rem;
 }
 
 .section {
-  margin-bottom: 20px;
-}
-
-h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-h3 {
-  font-size: 18px;
-  margin-bottom: 10px;
+  margin: 1.5rem 0;
 }
 
 .option {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 10px;
-  margin-bottom: 5px;
-  border-radius: 5px;
+  gap: 1rem;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 8px;
+  margin: 0.5rem 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .option span:first-child {
-  margin-right: 10px;
+  font-size: 1.5rem;
 }
 
 .link {
-  color: #1890ff;
+  color: #0066cc;
   cursor: pointer;
-  text-decoration: none;
-}
-
-.link:hover {
-  text-decoration: underline;
+  font-size: 0.9rem;
 }
 
 /* Responsive Design */
-@media screen and (max-width: 1366px) { /* ~14-inch */
+@media (max-width: 1600px) {
   .security-container {
-    max-width: 600px;
     padding: 15px;
   }
+
   h1 {
-    font-size: 20px;
-    margin-bottom: 15px;
+    font-size: 1.8rem;
   }
-  .security-alert, .security-notice {
-    padding: 12px;
-    margin-bottom: 20px;
+
+  h2 {
+    font-size: 1.4rem;
   }
-  .security-item, .auth-method {
-    padding: 12px 0;
-  }
+
   .modal-container {
-    max-width: 350px;
-    padding: 20px;
-  }
-  .phone-input select, .phone-input-group select, .phone-input input, .form-group input {
-    padding: 8px;
+    width: 95%;
+    max-width: 500px;
   }
 }
 
-@media screen and (min-width: 1367px) and (max-width: 1920px) { /* ~15.6-inch and 22-inch */
+@media (max-width: 1366px) {
   .security-container {
-    max-width: 700px;
-    padding: 18px;
-  }
-  h1 {
-    font-size: 22px;
-    margin-bottom: 18px;
-  }
-  .security-alert, .security-notice {
-    padding: 13px;
-    margin-bottom: 22px;
-  }
-  .security-item, .auth-method {
-    padding: 13px 0;
-  }
-  .modal-container {
-    max-width: 400px;
-    padding: 22px;
-  }
-  .phone-input select, .phone-input-group select, .phone-input input, .form-group input {
-    padding: 9px;
-  }
-}
-
-@media screen and (min-width: 1921px) { /* ~24-inch */
-  .security-container {
-    max-width: 800px;
-    padding: 20px;
-  }
-  h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  .security-alert, .security-notice {
-    padding: 15px;
-    margin-bottom: 25px;
-  }
-  .security-item, .auth-method {
-    padding: 15px 0;
-  }
-  .modal-container {
-    max-width: 450px;
-    padding: 25px;
-  }
-  .phone-input select, .phone-input-group select, .phone-input input, .form-group input {
     padding: 10px;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  .security-item,
+  .auth-method,
+  .option {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .setup-btn,
+  .change-btn,
+  .confirm-btn,
+  .cancel-btn {
+    width: 100%;
+  }
+
+  .phone-input-group,
+  .code-input-group {
+    flex-direction: column;
+  }
+
+  .phone-input-group select {
+    width: 100%;
   }
 }

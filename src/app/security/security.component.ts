@@ -12,6 +12,9 @@ export class Security {
   // Trạng thái modal
   showPhoneModal = false;
   showEmailModal = false;
+  showAntiPhishingModal = false;
+  showPasswordModal = false;
+  showAccessKeyModal = false;
 
   // Dữ liệu form
   newPhone = '';
@@ -25,6 +28,12 @@ export class Security {
   newEmailCode = '';
   currentEmailCode = '';
   phoneCode = '';
+  antiPhishingCode: string = '';
+  confirmPassword: string = '';
+  smsCode: string = '';
+  newPassword: string = '';
+
+
 
   user = {
     email: 'chipngaocho123@gmail.com',
@@ -57,6 +66,7 @@ export class Security {
       recommended: false
     }
   ];
+
 
   maskEmail(email: string): string {
     const [name, domain] = email.split('@');
@@ -144,4 +154,90 @@ export class Security {
     // Logic xác nhận
     this.closeModal();
   }
+
+  // Phương thức kiểm tra định dạng mã chống lừa đảo
+  isValidCodeFormat(code: string): boolean {
+    return /^[A-Za-z0-9]*$/.test(code);
+  }
+
+  // Phương thức kiểm tra mã hợp lệ
+  isValidCode(code: string): boolean {
+    return !!code &&
+      code.length >= 1 &&
+      code.length <= 20 &&
+      this.isValidCodeFormat(code);
+  }
+
+  // Phương thức kiểm tra mật khẩu hợp lệ
+  isValidPassword(): boolean {
+    return !!this.newPassword &&
+      !!this.confirmPassword &&
+      this.newPassword === this.confirmPassword &&
+      !!this.smsCode;
+  }
+
+  // Phương thức lưu mã chống lừa đảo
+  saveAntiPhishingCode(): void {
+    if (this.isValidCode(this.antiPhishingCode)) {
+      // Gọi API hoặc xử lý lưu mã
+      console.log('Mã chống lừa đảo đã được lưu:', this.antiPhishingCode);
+      this.showAntiPhishingModal = false;
+      // Có thể thêm thông báo thành công ở đây
+    }
+  }
+
+  // Phương thức gửi mã SMS
+  sendSMSCode(): void {
+    // Gọi API gửi mã xác thực qua SMS
+    console.log('Mã SMS đã được gửi');
+    // Có thể thêm thông báo đã gửi mã ở đây
+  }
+
+  // Phương thức cập nhật mật khẩu
+  updatePassword(): void {
+    if (this.isValidPassword()) {
+      // Gọi API đổi mật khẩu
+      console.log('Mật khẩu mới:', this.newPassword);
+      console.log('Mã xác thực:', this.smsCode);
+      this.showPasswordModal = false;
+      // Có thể thêm thông báo thành công ở đây
+    }
+  }
+
+  // Phương thức mở modal thiết lập
+  // Phương thức mở modal thiết lập
+setupItem(item: any): void {
+  // Đóng tất cả modal trước khi mở modal mới
+  this.showAntiPhishingModal = false;
+  this.showPasswordModal = false;
+  this.showPhoneModal = false;
+  this.showEmailModal = false;
+  this.showAccessKeyModal = false;
+
+  // Kiểm tra và mở modal tương ứng
+  switch(item.title) {
+    case 'Mã chống lừa đảo':
+      this.showAntiPhishingModal = true;
+      break;
+      
+    case 'Mật khẩu đăng nhập':
+      this.showPasswordModal = true;
+      break;
+      
+    // case 'Khóa truy cập':
+    //   this.generateAccessKey(); // Sử dụng phương thức đã có
+    //   break;
+      
+    case 'Xác thực qua điện thoại':
+      this.openPhoneModal();
+      break;
+      
+    case 'Xác thực qua email':
+      this.openEmailModal();
+      break;
+      
+    default:
+      console.warn('Không tìm thấy chức năng tương ứng với:', item.title);
+  }
+}
 }

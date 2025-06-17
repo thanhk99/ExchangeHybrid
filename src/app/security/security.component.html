@@ -20,7 +20,78 @@
       </div>
       <div class="item-desc">{{ item.desc }}</div>
     </div>
-    <button class="setup-btn">Thiết lập</button>
+    <button class="setup-btn" (click)="setupItem(item)">Thiết lập</button>
+  </div>
+
+  <!--Mật khẩu cấp 2-->
+  
+  
+  <!-- Mã chống lừa đảo -->
+  <div class="modal-overlay" *ngIf="showAntiPhishingModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2>Trung tâm bảo mật > Mã chống lừa đảo</h2>
+        <button (click)="showAntiPhishingModal = false">×</button>
+      </div>
+
+      <div class="modal-body">
+        <h3>Tạo mã của bạn</h3>
+        <p>Tìm hiểu thêm</p>
+
+        <div class="form-group">
+          <label>Mã chống lừa đảo</label>
+          <input type="text" [(ngModel)]="antiPhishingCode" placeholder="Nhập mã mà chỉ bạn có thể nhận ra">
+
+          <div class="requirements">
+            <div [class.valid]="(antiPhishingCode.length || 0) >= 1 && (antiPhishingCode.length || 0) <= 20">
+              ✓ 1 - 20 ký tự
+            </div>
+            <div [class.valid]="isValidCodeFormat(antiPhishingCode)">
+              ✓ Chỉ chứa chữ cái và chữ số (A-Z, a-z, 0-9)
+            </div>
+          </div>
+        </div>
+
+        <button class="submit-btn" [disabled]="!isValidCode(antiPhishingCode)" (click)="saveAntiPhishingCode()">
+          Gửi
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Modal đặt mật khẩu đăng nhập -->
+  <div class="modal-overlay" *ngIf="showPasswordModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2>Trung tâm bảo mật > Đặt mật khẩu đăng nhập</h2>
+        <button (click)="showPasswordModal = false">×</button>
+      </div>
+
+      <div class="modal-body">
+        <h3>Đặt mật khẩu đăng nhập</h3>
+
+        <div class="form-group">
+          <label>Mật khẩu mới</label>
+          <input type="password" [(ngModel)]="newPassword" placeholder="Vui lòng nhập mật khẩu mới">
+        </div>
+
+        <div class="form-group">
+          <label>Xác nhận mật khẩu mới</label>
+          <input type="password" [(ngModel)]="confirmPassword" placeholder="Vui lòng nhập mật khẩu mới">
+        </div>
+
+        <div class="verification-section">
+          <h4>Xác thực qua điện thoại</h4>
+          <div class="code-input">
+            <input type="text" [(ngModel)]="smsCode" placeholder="Nhập mã">
+            <button (click)="sendSMSCode()">Gửi mã</button>
+          </div>
+        </div>
+
+        <button class="submit-btn" [disabled]="!isValidPassword()" (click)="updatePassword()">
+          Xác nhận
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- Phương thức xác thực -->
@@ -154,38 +225,38 @@
   </div>
 
   <div class="container">
-  <h2>Bảo mật tài khoản</h2>
-  
-  <div class="section">
-    <h3>Quản lý</h3>
-    <div class="option">
-      <span>📝</span> Quản lý thiết bị
-      <span class="link">Quản lý</span>
-    </div>
-    <div class="option">
-      <span>🔒</span> Quản lý xác minh hai yếu tố
-      <span class="link">Quản lý</span>
-    </div>
-  </div>
+    <h2>Bảo mật tài khoản</h2>
 
-  <div class="section">
-    <h3>Quyền giao dịch</h3>
-    <div class="option">
-      <span>📋</span> Thiệt lập cấp độ quyền giao dịch chi bản
-      <span class="link">Tắt/Bật</span>
+    <div class="section">
+      <h3>Quản lý</h3>
+      <div class="option">
+        <span>📝</span> Quản lý thiết bị
+        <span class="link">Quản lý</span>
+      </div>
+      <div class="option">
+        <span>🔒</span> Quản lý xác minh hai yếu tố
+        <span class="link">Quản lý</span>
+      </div>
     </div>
-  </div>
 
-  <div class="section">
-    <h3>Quản lý tài khoản</h3>
-    <div class="option">
-      <span>💳</span> Đổi bảng tài khoản bị băng đong. Để mở khóa tài khoản, hãy bảo đảm bạn đã đăng nhập tài khoản
-      <span class="link">></span>
+    <div class="section">
+      <h3>Quyền giao dịch</h3>
+      <div class="option">
+        <span>📋</span> Thiệt lập cấp độ quyền giao dịch chi bản
+        <span class="link">Tắt/Bật</span>
+      </div>
     </div>
-    <div class="option">
-      <span>🔐</span> Động tài khoản
-      <span class="link">></span>
+
+    <div class="section">
+      <h3>Quản lý tài khoản</h3>
+      <div class="option">
+        <span>💳</span> Đổi bảng tài khoản bị băng đong. Để mở khóa tài khoản, hãy bảo đảm bạn đã đăng nhập tài khoản
+        <span class="link">></span>
+      </div>
+      <div class="option">
+        <span>🔐</span> Động tài khoản
+        <span class="link">></span>
+      </div>
     </div>
   </div>
-</div>
 </div>
