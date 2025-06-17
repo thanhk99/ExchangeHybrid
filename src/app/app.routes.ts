@@ -4,9 +4,10 @@ import { Security } from './security/security.component';
 import { HomepageComponent } from './homepage/homepage.component';
 
 export const routes: Routes = [
+    { path: '', component: HomepageComponent },
     { path: 'profile', component: ProfileComponent },
     { path: 'security', component: Security },
-    { path: '', component: HomepageComponent },
     { path: '**', redirectTo: '', pathMatch: 'full' }
+
 ];
 

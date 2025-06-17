@@ -1,0 +1,9 @@
+<nav class="menu">
+  <a *ngFor="let tab of tabs"
+     class="menu-item"
+     [class.active]="currentRoute === tab.path"
+     (click)="navigateTo(tab.path)">
+    {{ tab.label }}
+  </a>
+</nav>
+

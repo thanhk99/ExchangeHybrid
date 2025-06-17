@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { NavTabs } from "./shared/nav-tabs/nav-tabs";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, NavTabs],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

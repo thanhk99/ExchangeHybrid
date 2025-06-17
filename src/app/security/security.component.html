@@ -24,8 +24,48 @@
   </div>
 
   <!--Mật khẩu cấp 2-->
-  
-  
+  <div class="modal-overlay" *ngIf="showPasswordSection">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2>Trung tâm bảo mật > Mật khẩu cấp 2</h2>
+      <button (click)="showPasswordSection = false">×</button>
+    </div>
+
+    <div class="modal-body">
+      <h3>Thiết lập mật khẩu cấp 2</h3>
+
+      <div class="form-group">
+        <label for="passwordLevel2">Mật khẩu cấp 2 (6 chữ số)</label>
+        <input
+          type="password"
+          id="passwordLevel2"
+          [(ngModel)]="password"
+          maxlength="6"
+          pattern="[0-9]{6}"
+          placeholder="Nhập 6 số"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPasswordLevel2">Xác nhận mật khẩu</label>
+        <input
+          type="password"
+          id="confirmPasswordLevel2"
+          [(ngModel)]="confirmPassword"
+          maxlength="6"
+          pattern="[0-9]{6}"
+          placeholder="Xác nhận 6 số"
+        />
+      </div>
+
+      <div class="button-group">
+        <button class="submit-btn" (click)="save()">Xác nhận</button>
+        <button class="cancel-btn" (click)="showPasswordSection = false">Hủy</button>
+      </div>
+    </div>
+  </div>
+</div>
+
   <!-- Mã chống lừa đảo -->
   <div class="modal-overlay" *ngIf="showAntiPhishingModal">
     <div class="modal-container">

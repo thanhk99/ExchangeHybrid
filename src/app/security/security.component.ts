@@ -32,6 +32,16 @@ export class Security {
   confirmPassword: string = '';
   smsCode: string = '';
   newPassword: string = '';
+  accessKey = '';
+  isAccessKeyActive = false;
+  accessKeyForm = {
+    newKey: '',
+    confirmKey: '',
+    verificationCode: ''
+  };
+
+  password: string = '';
+  showPasswordSection: boolean = false;
 
 
 
@@ -43,7 +53,7 @@ export class Security {
   securityItems = [
     {
       icon: '🔒',
-      title: 'Khóa truy cập',
+      title: 'Mật khẩu cấp 2',
       desc: 'Trải nghiệm đăng nhập an toàn không cần mật khẩu và mã xác thực',
       recommended: true
     },
@@ -204,40 +214,54 @@ export class Security {
     }
   }
 
-  // Phương thức mở modal thiết lập
-  // Phương thức mở modal thiết lập
-setupItem(item: any): void {
-  // Đóng tất cả modal trước khi mở modal mới
-  this.showAntiPhishingModal = false;
-  this.showPasswordModal = false;
-  this.showPhoneModal = false;
-  this.showEmailModal = false;
-  this.showAccessKeyModal = false;
-
-  // Kiểm tra và mở modal tương ứng
-  switch(item.title) {
-    case 'Mã chống lừa đảo':
-      this.showAntiPhishingModal = true;
-      break;
-      
-    case 'Mật khẩu đăng nhập':
-      this.showPasswordModal = true;
-      break;
-      
-    // case 'Khóa truy cập':
-    //   this.generateAccessKey(); // Sử dụng phương thức đã có
-    //   break;
-      
-    case 'Xác thực qua điện thoại':
-      this.openPhoneModal();
-      break;
-      
-    case 'Xác thực qua email':
-      this.openEmailModal();
-      break;
-      
-    default:
-      console.warn('Không tìm thấy chức năng tương ứng với:', item.title);
+  save() {
+    if (this.password === this.confirmPassword && this.password.length === 6) {
+      alert('Mật khẩu đã được lưu!');
+    } else {
+      alert('Mật khẩu không khớp hoặc không đúng định dạng (6 số)!');
+    }
   }
-}
+
+  change() {
+    this.password = '';
+    this.confirmPassword = '';
+    alert('Nhập lại mật khẩu mới!');
+  }
+
+  // Phương thức mở modal thiết lập
+  // Phương thức mở modal thiết lập
+  setupItem(item: any): void {
+    // Đóng tất cả modal trước khi mở modal mới
+    this.showAntiPhishingModal = false;
+    this.showPasswordModal = false;
+    this.showPhoneModal = false;
+    this.showEmailModal = false;
+    this.showAccessKeyModal = false;
+
+    // Kiểm tra và mở modal tương ứng
+    switch (item.title) {
+      case 'Mã chống lừa đảo':
+        this.showAntiPhishingModal = true;
+        break;
+
+      case 'Mật khẩu đăng nhập':
+        this.showPasswordModal = true;
+        break;
+
+      case 'Mật khẩu cấp 2':
+        this.showPasswordSection = true;
+        break;
+
+      case 'Xác thực qua điện thoại':
+        this.openPhoneModal();
+        break;
+
+      case 'Xác thực qua email':
+        this.openEmailModal();
+        break;
+
+      default:
+        console.warn('Không tìm thấy chức năng tương ứng với:', item.title);
+    }
+  }
 }
