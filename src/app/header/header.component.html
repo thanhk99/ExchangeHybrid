@@ -1,12 +1,17 @@
 <header class="header">
-  <div class="header-left">
-    <a class="header-logo" href="#">
-      <img src="icon.ico" alt="Logo" height="30">
+  <div class="logo">
+    <a class="header-logo" href="">
+      <img src="iconnobg.png" alt="Logo" height="30">
     </a>
-    <div class="dropdown-wrapper" *ngFor="let item of menuItems">
+  </div>
+  <div class="header-left">
+    <div class="dropdown-wrapper" *ngFor="let item of menuItems" [ngClass]="{'active': activeDropdown === item.label || (isMobile && showMobileMenu)}">
       <div class="dropdown" [ngClass]="{'active': activeDropdown === item.label}"
-           (mouseenter)="onMouseEnter(item.label)" (mouseleave)="onMouseLeave()">
-        <a class="header-leftmore">{{ item.label }}</a>
+           (mouseenter)="onMouseEnter(item.label)" (mouseleave)="onMouseLeave()"
+           (click)="toggleDropdown(item.label)" *ngIf="!isMobile || (isMobile && showMobileMenu)">
+        <a class="header-leftmore">{{ item.label }}
+          <span class="arrow" [class.open]="activeDropdown === item.label">&#9662;</span>
+        </a>
         <div class="dropdown-content" *ngIf="activeDropdown === item.label">
           <a href="#" *ngFor="let subItem of item.subItems">{{ subItem }}</a>
         </div>
@@ -19,5 +24,26 @@
     </form>
     <a class="header-rightmore" href="#">Đăng nhập</a>
     <a class="header-rightmore" href="#">Đăng ký</a>
+    <button class="hamburger-menu" (click)="toggleMenu()" *ngIf="isMobile">
+      <span>☰</span>
+    </button>
   </div>
+
+  <!-- Mobile Sidebar Menu -->
+<div class="mobile-sidebar" [ngClass]="{'active': showMobileMenu}" *ngIf="isMobile">
+  <div class="close-btn" (click)="toggleMenu()">×</div>
+
+  <a class="header-rightmore" href="#">Đăng ký</a>
+  <a class="header-rightmore" href="#">Đăng nhập</a>
+
+  <div *ngFor="let item of menuItems">
+    <div class="mobile-dropdown-header" (click)="toggleDropdown(item.label)">
+      {{ item.label }}
+      <span class="arrow" [class.open]="activeDropdown === item.label">&#9662;</span>
+    </div>
+    <div class="mobile-dropdown-content" *ngIf="activeDropdown === item.label">
+      <a href="#" *ngFor="let subItem of item.subItems">{{ subItem }}</a>
+    </div>
+  </div>
+</div>
 </header>

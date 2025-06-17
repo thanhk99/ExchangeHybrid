@@ -11,33 +11,61 @@ import { CommonModule } from '@angular/common';
 export class HeaderComponent {
   activeDropdown: string | null = null;
   timeout: any;
+  isMobile: boolean = false;
+  showMobileMenu: boolean = false;
+
+  searchActive: boolean = false;
+
+toggleSearch() {
+  this.searchActive = !this.searchActive;
+}
 
   menuItems = [
     { label: 'Mua tiền mặt', subItems: ['Mua bằng thẻ Visa, Mastercard và các thẻ khác', 'Giao dịch P2P', 'Mua/bán với hơn 100 phương thức thanh toán'] },
     { label: 'Khám phá', subItems: ['Thị trường', 'Cơ hội'] },
-    { label: 'Giao dịch', subItems: ['Chuyển đổi', 'Spots','Features','Quyền chọn'] },
-    { label: 'Tăng trưởng', subItems: ['Earn', 'Vay','Jumpstart'] },
-    { label: 'Tổ chức', subItems: ['Trang chủ tổ chức', 'Thị trường liquid','API','Chương trình nhà môi giới'] },
-    { label: 'Thêm', subItems: ['xBTC', 'Bảo mật quỹ tiền','Trạng thái'] }
+    { label: 'Giao dịch', subItems: ['Chuyển đổi', 'Spots', 'Features', 'Quyền chọn'] },
+    { label: 'Tăng trưởng', subItems: ['Earn', 'Vay', 'Jumpstart'] },
+    { label: 'Tổ chức', subItems: ['Trang chủ tổ chức', 'Thị trường liquid', 'API', 'Chương trình nhà môi giới'] },
+    { label: 'Thêm', subItems: ['xBTC', 'Bảo mật quỹ tiền', 'Trạng thái'] }
   ];
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.checkScreenSize();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize() {
+    this.isMobile = window.innerWidth < 1200;
+    if (!this.isMobile) {
+      this.showMobileMenu = false;
+      this.activeDropdown = null;
+    }
+  }
+ 
 
   onMouseEnter(label: string) {
-    clearTimeout(this.timeout);
-    this.activeDropdown = label;
+    if (!this.isMobile) {
+      clearTimeout(this.timeout);
+      this.activeDropdown = label;
+    }
   }
 
   onMouseLeave() {
-    clearTimeout(this.timeout);
-    this.timeout = setTimeout(() => {
-      this.activeDropdown = null;
-    }, 200); 
+    if (!this.isMobile) {
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        this.activeDropdown = null;
+      }, 200); 
+    }
   }
 
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
-    if (this.activeDropdown) {
+    if (this.activeDropdown && !this.isMobile) {
       const dropdown = document.querySelector(`.dropdown.active`);
       const dropdownContent = document.querySelector(`.dropdown-content`);
       if (dropdown && dropdownContent) {
@@ -46,7 +74,6 @@ export class HeaderComponent {
         const mouseX = event.clientX;
         const mouseY = event.clientY;
 
-        // Kiểm tra nếu chuột vẫn trong vùng dropdown hoặc dropdown-content
         if (
           mouseX >= rect.left && mouseX <= rect.right && mouseY >= rect.top && mouseY <= rect.bottom ||
           mouseX >= contentRect.left && mouseX <= contentRect.right && mouseY >= contentRect.top && mouseY <= contentRect.bottom
@@ -56,5 +83,23 @@ export class HeaderComponent {
       }
     }
   }
+
+  toggleMenu() {
+  console.log('Toggling menu, showMobileMenu:', !this.showMobileMenu);
+  this.showMobileMenu = !this.showMobileMenu;
+  if (!this.showMobileMenu) {
+    this.activeDropdown = null;
+  }
+}
+
+  toggleDropdown(label: string) {
+  if (this.isMobile) {
+    // Nếu đang mở thì đóng
+    this.activeDropdown = this.activeDropdown === label ? null : label;
+  } else {
+    // Nếu không phải mobile thì xử lý hover
+    this.activeDropdown = label;
+  }
+}
 
 }
