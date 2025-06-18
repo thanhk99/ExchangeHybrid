@@ -14,7 +14,12 @@ export class HeaderComponent {
   isMobile: boolean = false;
   showMobileMenu: boolean = false;
 
+  constructor(private router: Router) {}
+
   searchActive: boolean = false;
+
+  isLoggedIn: boolean = true;
+  showUserMenu = false;
 
 toggleSearch() {
   this.searchActive = !this.searchActive;
@@ -101,5 +106,6 @@ toggleSearch() {
     this.activeDropdown = label;
   }
 }
+
 
 }
