@@ -153,6 +153,7 @@ p strong {
   transform: scale(1.02);
 }
 
+
 /* Responsive Design */
 @media screen and (max-width: 1366px) { /* ~14-inch */
   .container {

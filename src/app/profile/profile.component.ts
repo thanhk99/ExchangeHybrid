@@ -22,7 +22,8 @@ export class ProfileComponent {
     country: 'Việt Nam',
     verified: false,
     level: 'Người dùng thông thường',
-    linkedAccount: 'Google'
+    linkedAccount: 'Google',
+   
   };
 
   copyToClipboard(value: string): void {
@@ -59,6 +60,8 @@ goTo()
 {
   this.router.navigate(['/security']);
 }
+
+
 
 
 }
