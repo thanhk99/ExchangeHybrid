@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-security',
@@ -45,7 +46,7 @@ export class Security {
   showPassword: boolean = false; // Biến toggle cho mật khẩu
   showConfirmPassword: boolean = false; // Biến toggle cho xác nhận mật khẩu
 
-
+  constructor(private router: Router) { }
 
   user = {
     email: 'chipngaocho123@gmail.com',
@@ -91,7 +92,11 @@ export class Security {
     this.shownewPassword = !this.shownewPassword;
   }
 
-  
+  goToDevice() {
+    this.router.navigate(['/device-management']);
+  }
+
+
 
 
   maskEmail(email: string): string {

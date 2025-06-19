@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { filter } from 'rxjs';
 @Component({
   selector: 'app-nav-tabs',
   imports: [CommonModule],
@@ -21,7 +22,12 @@ export class NavTabs {
   currentRoute = '';
 
   constructor(private router: Router) {
-    this.currentRoute = this.router.url;
+    // Lắng nghe sự thay đổi URL và cập nhật lại currentRoute
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      this.currentRoute = event.urlAfterRedirects;
+    });
   }
 
   navigateTo(path: string) {

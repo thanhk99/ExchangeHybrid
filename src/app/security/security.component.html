@@ -195,15 +195,15 @@
         <button class="send-code-btn" (click)="sendCurrentEmailCode()">Gửi mã</button>
       </div>
 
-      <h2>Xác thực qua điện thoại</h2>
+      <!-- <h2>Xác thực qua điện thoại</h2>
       <div class="code-input-group">
         <input type="text" [(ngModel)]="phoneCode" placeholder="Nhập mã">
         <button class="send-code-btn" (click)="sendPhoneVerificationCode()">Gửi mã</button>
-      </div>
+      </div> -->
     </div>
 
     <div class="no-auth-section">
-      <h2>Không có phương thức xác thực?</h2>
+      <h2 style="cursor: pointer;">Không có phương thức xác thực?</h2>
       <button class="confirm-btn" (click)="confirmEmailChange()">Xác nhận</button>
     </div>
 
@@ -220,7 +220,7 @@
     <h3>Quản lý</h3>
     <div class="option">
       <span>📝</span> Quản lý thiết bị
-      <span class="link">Quản lý</span>
+      <span class="link" (click)="goToDevice()">Quản lý</span>
     </div>
     <div class="option">
       <span>🔒</span> Quản lý xác minh hai yếu tố

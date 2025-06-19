@@ -41,7 +41,7 @@
 
   <div class="section">
     <h3>Chi tiết tài khoản</h3>
-    <p>Email: {{ maskEmail(user.email) }} <button class="btn-link">Thay đổi</button></p>
+    <p>Email: {{ maskEmail(user.email) }} <button class="btn-link" (click)="goTo()">Thay đổi</button></p>
     <p>Số điện thoại: {{ maskPhone(user.phone) }} <button class="btn-link">Thay đổi</button></p>
     <p>Tài khoản đã liên kết: {{ user.linkedAccount }}</p>
     <p>Bậc phí giao dịch: {{ user.level }} <button class="btn-link">Xem chi tiết</button></p>

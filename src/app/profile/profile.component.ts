@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-profile',
   imports: [CommonModule, FormsModule],
@@ -11,6 +12,8 @@ export class ProfileComponent {
 
   showModal = false;
   editedNickname = '';
+
+  constructor(private router: Router) { }
 
   user = {
     email: 'chipngaocho123@gmail.com',
@@ -51,6 +54,10 @@ maskEmail(email: string): string {
 
 maskPhone(phone: string): string {
   return '*******' + phone.slice(-3);
+}
+goTo()
+{
+  this.router.navigate(['/security']);
 }
 
 
