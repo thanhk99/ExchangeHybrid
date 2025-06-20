@@ -1,0 +1,240 @@
+.container {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 10px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #111;
+}
+
+h2 {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 30px;
+  color: #222;
+}
+
+.section {
+  margin-bottom: 30px;
+}
+
+h3 {
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+p {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 15px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+p strong {
+  font-weight: 500;
+}
+
+.btn-link {
+  padding: 4px 10px;
+  font-size: 13px;
+  border: 1px solid #ccc;
+  border-radius: 999px;
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-link:hover {
+  background-color: #f0f0f0;
+}
+
+.warning {
+  color: #f59e0b;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  width: 400px;
+  max-width: 90%;
+}
+
+.modal h3 {
+  margin-top: 0;
+}
+
+.modal input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.char-count {
+  text-align: right;
+  font-size: 12px;
+  color: #999;
+}
+
+.note {
+  font-size: 14px;
+  color: #555;
+}
+
+.note-small {
+  font-size: 12px;
+  color: #999;
+  margin-top: 8px;
+}
+
+.modal-actions {
+  margin-top: 15px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modal-actions button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.cancelEdit {
+  background-color: #f0f0f0;
+  color: #111;
+}
+
+.confirmEdit {
+  background-color: #111;
+  color: #f0f0f0;
+}
+
+.cancelEdit:hover {
+  background-color: #e0e0e0;
+}
+
+.confirmEdit:hover {
+  background-color: #333;
+}
+
+.modal-actions button:hover {
+  transform: scale(1.02);
+}
+
+
+/* Responsive Design */
+@media screen and (max-width: 1366px) { /* ~14-inch */
+  .container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+  }
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+  p {
+    font-size: 14px;
+    padding: 8px 0;
+  }
+  .btn-link {
+    padding: 3px 8px;
+    font-size: 12px;
+  }
+  .modal {
+    width: 300px;
+    padding: 15px;
+  }
+}
+
+@media screen and (min-width: 1367px) and (max-width: 1920px) { /* ~15.6-inch and 22-inch */
+  .container {
+    max-width: 700px;
+    margin: 25px auto;
+    padding: 25px;
+  }
+  h2 {
+    font-size: 26px;
+    margin-bottom: 25px;
+  }
+  h3 {
+    font-size: 17px;
+    margin-bottom: 13px;
+  }
+  p {
+    font-size: 14.5px;
+    padding: 9px 0;
+  }
+  .btn-link {
+    padding: 3.5px 9px;
+    font-size: 12.5px;
+  }
+  .modal {
+    width: 350px;
+    padding: 18px;
+  }
+}
+
+@media screen and (min-width: 1921px) { /* ~24-inch */
+  .container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 30px;
+  }
+  h2 {
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+  h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+  p {
+    font-size: 15px;
+    padding: 10px 0;
+  }
+  .btn-link {
+    padding: 4px 10px;
+    font-size: 13px;
+  }
+  .modal {
+    width: 400px;
+    padding: 20px;
+  }
+}

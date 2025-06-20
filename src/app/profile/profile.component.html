@@ -1,0 +1,51 @@
+
+
+<div class="container">
+  <h2>Thông tin</h2>
+
+ <div class="section">
+  <h3>Thông tin cá nhân</h3>
+  <p>
+    Biệt danh: <strong>{{ maskEmail(user.email) }}</strong>
+    <button class="btn-link" (click)="openEditNickname()">Thay đổi</button>
+  </p>
+  <p>
+    ID người dùng: {{ user.userId }}
+    <button class="btn-link" (click)="copyToClipboard(user.userId)">Sao chép</button>
+  </p>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" [class.active]="showModal">
+  <div class="modal">
+    <h3>Biệt danh</h3>
+    <p class="note">
+      Đảm bảo biệt danh của bạn không chứa từ ngữ khiếm nhã, các tên chính thức của nền tảng...
+    </p>
+    <input type="text" [(ngModel)]="editedNickname" maxlength="20" />
+    <div class="char-count">{{ editedNickname.length }}/20</div>
+    <p class="note-small">Biệt danh của bạn còn 10 lần chỉnh sửa trong năm nay</p>
+
+    <div class="modal-actions">
+      <button (click)="cancelEdit()" class="cancelEdit">Huỷ</button>
+      <button (click)="confirmEdit()" class="confirmEdit">Xác nhận</button>
+    </div>
+  </div>
+</div>
+
+  <div class="section">
+    <h3>Thông tin xác minh</h3>
+    <p>Xác minh danh tính: <span class="warning">{{ user.verified ? 'Đã xác minh' : 'Chưa được xác minh' }}</span> 
+      <button class="btn-link" *ngIf="!user.verified">Xác minh ngay</button>
+    </p>
+    <p>Quốc gia/Khu vực: {{ user.country }}</p>
+  </div>
+
+  <div class="section">
+    <h3>Chi tiết tài khoản</h3>
+    <p>Email: {{ maskEmail(user.email) }} <button class="btn-link" (click)="goTo()">Thay đổi</button></p>
+    <p>Số điện thoại: {{ maskPhone(user.phone) }} <button class="btn-link">Thay đổi</button></p>
+    <p>Tài khoản đã liên kết: {{ user.linkedAccount }}</p>
+    <p>Bậc phí giao dịch: {{ user.level }} <button class="btn-link">Xem chi tiết</button></p>
+  </div>
+</div>
