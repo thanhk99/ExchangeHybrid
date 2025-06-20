@@ -6,10 +6,10 @@ import { DeviceManagement } from './device-management/device-management';
 
 export const routes: Routes = [
     { path: '', component: HomepageComponent },
+    { path: '**', redirectTo: '', pathMatch: 'full' },
     { path: 'profile', component: ProfileComponent },
     { path: 'security', component: Security },
-    { path: 'device-management', component: DeviceManagement },
-    { path: '**', redirectTo: '', pathMatch: 'full' }
+    { path: 'device-management', component: DeviceManagement }
 
 ];
 
