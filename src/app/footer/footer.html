@@ -1,0 +1,17 @@
+<div class="footer">
+  <div class="footer-container">
+
+    <div class="footer-column" *ngFor="let section of footerSections">
+  <div *ngFor="let group of section.subSections">
+    <div class="footer-header" (click)="toggleGroup(group)">
+      <h3>{{ group.title }}</h3>
+      <span class="arrow" [class.open]="group.open">&#9662;</span>
+    </div>
+    <ul [ngClass]="{ 'show': group.open || isDesktop }">
+      <li *ngFor="let item of group.items">{{ item }}</li>
+    </ul>
+  </div>
+</div>
+
+  </div>
+</div>
