@@ -21,7 +21,7 @@ export class HeaderComponent {
 
   searchActive: boolean = false;
 
-  isLoggedIn: boolean = true;
+  isLoggedIn: boolean = false;
   showUserMenu = false;
 
 

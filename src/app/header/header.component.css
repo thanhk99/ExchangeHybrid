@@ -23,7 +23,7 @@
 }
 
 .header-logo img {
-  height: 30px;
+  height: 40px;
   margin-right: 15px;
 }
 
@@ -46,10 +46,15 @@
   color: #ccc;
 }
 
+.mr-2{
+  margin-right: 8px;
+}
+
 /* Dropdown styling */
 .dropdown-wrapper {
   position: relative;
   display: inline-block;
+
 }
 
 .dropdown {
@@ -328,11 +333,21 @@
 @media screen and (min-width: 1920px) {
   .header {
     padding: 1rem 2rem; 
-    height: 40px; 
+    height: 45px;  
+    display: flex;
+    align-items: center;
   }
 
   .header-left {
     gap: 50px; 
+    display: flex;
+    align-items: center;
+  }
+
+  .header-leftmore {
+    display: flex;
+    align-items: center;
+    height: 100%;
   }
 
   .header-logo img {
@@ -366,6 +381,7 @@
     padding: 10px 15px; 
     font-size: 14px; 
   }
+
 }
 
 @media screen and (max-width: 1200px) {
@@ -474,6 +490,89 @@
   margin-top: 4px;
   color: #ccc;
 }
+}
 
+@media screen and (max-width: 900px) {
+  .header-right .asset-dropdown-wrapper {
+    display: none;
+  }
 
+  .header-right .find {
+    flex: 1;
+    max-width: 100%;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .header-right input[type="search"] {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+  }
+}
+
+/* điện thoại */
+@media screen and (max-width: 600px) {
+  .header {
+    flex-wrap: wrap;
+    padding: 10px;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+  }
+
+  .header-left,
+  .asset-dropdown-wrapper,
+  .dropdown-wrapper {
+    display: none !important; 
+  }
+
+  .logo {
+    flex: 0 0 auto;
+  }
+
+  .header-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .header-right .find {
+    flex: 1;
+  }
+
+  .header-right .find input[type="search"] {
+    width: 100%;
+    padding: 6px 10px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+
+  .headerright-icon {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .user-icon,
+  .notify-icon,
+  .hamburger-menu {
+    font-size: 20px;
+    cursor: pointer;
+    color: white;
+    background: none;
+    border: none;
+  }
+
+  .user-dropdown,
+  .asset-dropdown {
+    display: none !important;
+  }
 }

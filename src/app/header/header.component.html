@@ -94,8 +94,10 @@
     </ng-container>
 
      <ng-template #notLoggedIn>
-      <a class="header-rightmore" href="#">Đăng nhập</a>
-      <a class="header-rightmore" href="#">Đăng ký</a>
+      <ng-container *ngIf="!isMobile">
+        <a class="header-rightmore mr-2" href="#">Đăng nhập</a>
+        <a class="header-rightmore" href="#">Đăng ký</a>
+      </ng-container>
     </ng-template>
 
     <button class="hamburger-menu" (click)="toggleMenu()" *ngIf="isMobile">
@@ -107,9 +109,26 @@
 <div class="mobile-sidebar" [ngClass]="{'active': showMobileMenu}" *ngIf="isMobile">
   <div class="close-btn" (click)="toggleMenu()">×</div>
 
-  <ng-container *ngIf="!isLoggedIn">
-  <a class="header-rightmore" href="#">Đăng ký</a>
-  <a class="header-rightmore" href="#">Đăng nhập</a>
+  <ng-container *ngIf="!isLoggedIn && isMobile">
+    <a class="header-rightmore" href="#">Đăng ký</a>
+    <a class="header-rightmore" href="#">Đăng nhập</a>
+  </ng-container>
+
+  <ng-container *ngIf="isLoggedIn && isMobile">
+  <div class="mobile-dropdown-header" (click)="toggleDropdown('Tài sản')">
+    Tài sản
+    <span class="arrow" [class.open]="activeDropdown === 'Tài sản'">&#9662;</span>
+  </div>
+  <div class="mobile-dropdown-content" *ngIf="activeDropdown === 'Tài sản'">
+    <a href="#">Tài sản của tôi</a>
+    <a href="#">Nạp tiền</a>
+    <a href="#">Rút tiền</a>
+    <a href="#">Chuyển tiền</a>
+    <a href="#">Phân tích</a>
+    <a href="#">Trung tâm lệnh</a>
+    <a href="#">Phí giao dịch của tôi</a>
+    <a href="#">Báo cáo PoR</a>
+  </div>
 </ng-container>
 
   <div *ngFor="let item of menuItems">
