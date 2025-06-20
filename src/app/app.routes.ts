@@ -8,7 +8,7 @@ export const routes: Routes = [
     { path: '', component: HomepageComponent },
     { path: 'profile', component: ProfileComponent },
     { path: 'security', component: Security },
-    { path: 'device-management', component: DeviceManagement }
+    { path: 'device-management', component: DeviceManagement },
     { path: '**', redirectTo: '', pathMatch: 'full' },
 
 ];
