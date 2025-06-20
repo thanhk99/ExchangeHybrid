@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-profile',
   imports: [CommonModule, FormsModule],
@@ -13,7 +14,9 @@ export class ProfileComponent {
   showModal = false;
   editedNickname = '';
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              private toastr: ToastrService
+  ) { }
 
   user = {
     email: 'chipngaocho123@gmail.com',
@@ -28,7 +31,7 @@ export class ProfileComponent {
 
   copyToClipboard(value: string): void {
     navigator.clipboard.writeText(value);
-    alert('Đã sao chép!');
+    this.toastr.success('Đã sao chép!');
   }
 
   openEditNickname() {
@@ -43,7 +46,7 @@ cancelEdit() {
 confirmEdit() {
   this.user.email = this.editedNickname;
   this.showModal = false;
-  alert('Đã cập nhật tên người dùng thành công!');
+  this.toastr.success('Đã cập nhật tên người dùng thành công!');
   this.editedNickname = '';
 }
 

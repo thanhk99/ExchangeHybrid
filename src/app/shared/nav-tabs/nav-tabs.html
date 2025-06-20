@@ -1,9 +1,18 @@
-<nav class="menu">
-  <a *ngFor="let tab of tabs"
-     class="menu-item"
-     [class.active]="currentRoute === tab.path"
-     (click)="navigateTo(tab.path)">
-    {{ tab.label }}
-  </a>
-</nav>
+<!-- Chỉ hiển thị thanh nav nếu không ở trang home -->
+<div class="menu-container" *ngIf="!isHomePage">
+  <!-- Overlay che nền -->
+  <div class="overlay" *ngIf="menuOpen" (click)="toggleMenu()"></div>
 
+  <!-- Nút hamburger -->
+  <div class="hamburger" (click)="toggleMenu()">☰</div>
+
+  <!-- Menu hamburger -->
+  <nav class="menu" [class.open]="menuOpen">
+    <a *ngFor="let tab of tabs"
+       class="menu-item"
+       [class.active]="currentRoute === tab.path"
+       (click)="navigateTo(tab.path)">
+      {{ tab.label }}
+    </a>
+  </nav>
+</div>

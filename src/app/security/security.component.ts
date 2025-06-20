@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-security',
@@ -46,7 +47,9 @@ export class Security {
   showPassword: boolean = false; // Biến toggle cho mật khẩu
   showConfirmPassword: boolean = false; // Biến toggle cho xác nhận mật khẩu
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              private toastr: ToastrService
+  ) { }
 
   user = {
     email: 'chipngaocho123@gmail.com',
@@ -247,16 +250,17 @@ export class Security {
 
   save() {
     if (this.password === this.confirmPassword && this.password.length === 6) {
-      alert('Mật khẩu đã được lưu!');
+      this.toastr.success('Mật khẩu đã được cập nhật thành công!');
+      this.showPasswordSection = false; 
     } else {
-      alert('Mật khẩu không khớp hoặc không đúng định dạng (6 số)!');
+      this.toastr.error('Mật khẩu không khớp hoặc không đúng định dạng (6 số)!');
     }
   }
 
   change() {
     this.password = '';
     this.confirmPassword = '';
-    alert('Nhập lại mật khẩu mới!');
+    this.toastr.info('Nhập lại mật khẩu mới!');
   }
 
   // Phương thức mở modal thiết lập

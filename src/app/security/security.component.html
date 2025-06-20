@@ -80,7 +80,9 @@
 
         <div class="form-group">
           <label>Mã chống lừa đảo</label>
-          <input type="text"  [(ngModel)]="antiPhishingCode" placeholder="Nhập mã mà chỉ bạn có thể nhận ra">
+          <div class="code-input-group">
+            <input type="text" [(ngModel)]="antiPhishingCode" placeholder="Nhập mã mà chỉ bạn có thể nhận ra">
+          </div>
 
           <div class="requirements">
             <div [class.valid]="(antiPhishingCode.length || 0) >= 1 && (antiPhishingCode.length || 0) <= 20">
@@ -179,7 +181,9 @@
 
     <div class="form-section">
       <h2>Địa chỉ email mới</h2>
-      <input type="email" [(ngModel)]="newEmail" placeholder="Nhập địa chỉ email mới">
+      <div class="code-input-group">
+        <input type="email" [(ngModel)]="newEmail" placeholder="Nhập địa chỉ email mới">
+      </div>
     </div>
 
     <div class="verification-section">

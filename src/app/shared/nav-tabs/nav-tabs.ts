@@ -18,6 +18,7 @@ export class NavTabs {
     { label: 'API', path: '/api' },
     { label: 'Ủy quyền chuyển tiếp ba', path: '/forward' }
   ];
+  menuOpen = false;
 
   currentRoute = '';
 
@@ -30,9 +31,17 @@ export class NavTabs {
     });
   }
 
+  get isHomePage(): boolean {
+    return this.currentRoute === '/';
+  }
+
   navigateTo(path: string) {
     this.router.navigate([path]);
     this.currentRoute = path;
+  }
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
   }
 
 }
