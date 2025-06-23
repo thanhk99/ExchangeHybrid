@@ -14,6 +14,10 @@ export const routes: Routes = [
     { path: 'device-management', component: DeviceManagement },
     { path: 'assetpage', component: Assetpage },
     { path: 'funding-wallet', component: FundingWallet },
+    { path: 'profile', component: ProfileComponent },
+    { path: 'security', component: Security },
+    { path: 'device-management', component: DeviceManagement },
+    { path: '**', redirectTo: '', pathMatch: 'full' },
 
       { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
