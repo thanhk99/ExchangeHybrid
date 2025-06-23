@@ -3,14 +3,26 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { NavTabs } from '../shared/nav-tabs/nav-tabs';
+
 
 @Component({
   selector: 'app-security',
-  imports: [CommonModule, FormsModule],
   templateUrl: './security.component.html',
+  imports: [CommonModule, FormsModule, NavTabs],
   styleUrls: ['./security.component.css']
 })
 export class Security {
+
+  profiletabs = [
+    { label: 'Thông tin', path: '/profile' },
+    { label: 'Cài đặt bảo mật', path: '/security' },
+    { label: 'Xác minh', path: '/verify' },
+    { label: 'Tùy chọn', path: '/options' },
+    { label: 'Tài khoản phụ', path: '/subaccount' },
+    { label: 'API', path: '/api' },
+    { label: 'Ủy quyền chuyển tiếp ba', path: '/forward' }
+  ];
   // Trạng thái modal
   showPhoneModal = false;
   showEmailModal = false;
