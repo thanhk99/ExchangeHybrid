@@ -5,7 +5,14 @@
   "projects": {
     "HybridExchange": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": { 
+          "type": "component" ,
+          "skipImport": true
+        },
+        "@schematics/angular:directive": { "type": "directive" },
+        "@schematics/angular:service": { "type": "service" }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",

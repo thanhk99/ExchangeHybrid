@@ -1,0 +1,808 @@
+.main-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 40px;
+    font-family: 'Inter', sans-serif;
+    justify-content: center;
+    align-items: center;
+}
+
+.top-section {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  width: 70%;
+    align-items: center;
+}
+
+.deposit-box {
+  width: 60%;
+  background: #fff;
+  /* border: 1px solid #eee; */
+  padding: 20px;
+  border-radius: 8px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+}
+
+.faq-box {
+  width: 35%;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  border: 1px solid #eee;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+}
+
+.faq-header {
+  margin-bottom: 15px;
+}
+
+.faq-content ul {
+  list-style: none; 
+  padding: 0;
+  margin: 0;
+}
+
+.faq-content li {
+  margin: 8px 0;
+}
+
+/*******************************************/
+.step {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.step-number {
+  background-color: #d3d3d3;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 20px;
+  margin-right: 10px;
+}
+
+.step-title {
+  color: #a0a0a0;
+  font-weight: 500;
+}
+
+.step-number.active {
+  background-color: black;
+}
+
+.step-title.active {
+  color: black;
+  font-weight: bold;
+}
+
+.step-content {
+  margin-left: 30px;
+  margin-top: 10px;
+  position: relative;
+  width: 70%;
+}
+
+/* Button chọn coin */
+.crypto-select {
+  width: 100%;
+  padding: 12px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* Coin nhanh */
+.quick-coins {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.coin {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.coin img {
+  width: 16px;
+  height: 16px;
+}
+
+/* Dropdown */
+.dropdown {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  width: 100%;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  z-index: 10;
+  padding: 10px 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.dropdown-search {
+  width: 90%;
+  margin: 0 auto 10px auto;
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+  background-color: #f1f1f1;
+  display: block;
+}
+
+
+.dropdown-section {
+  padding: 0 20px;
+  margin-bottom: 6px;
+  font-size: 12px;
+  color: gray;
+  font-weight: 500;
+}
+
+/* Item trong dropdown */
+.dropdown-item {
+  padding: 8px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+.dropdown-item img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.dropdown-item .symbol {
+  font-weight: bold;
+  margin-right: 4px;
+}
+
+.dropdown-item .name {
+  font-size: 12px;
+  color: gray;
+}
+
+.network-select {
+  width: 100%;
+  padding: 12px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+/* Dropdown mạng */
+.network-dropdown {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  width: 100%;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  padding: 10px 0;
+}
+
+/* Box gợi ý nên chọn mạng nào */
+.network-hint {
+  padding: 12px 16px;
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #eee;
+}
+
+.network-hint strong {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.network-hint .icon {
+  background-color: black;
+  color: white;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  font-size: 10px;
+  text-align: center;
+  line-height: 16px;
+  margin-right: 6px;
+}
+
+.network-hint small {
+  color: gray;
+  font-size: 12px;
+}
+
+.network-hint a {
+  color: black;
+  text-decoration: underline;
+  font-size: 13px;
+  display: block;
+  margin-top: 6px;
+  cursor: pointer;
+}
+
+/* Item từng mạng */
+.network-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.network-item:hover {
+  background-color: #f8f8f8;
+}
+
+.network-item img {
+  width: 20px;
+  height: 20px;
+}
+
+.network-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.network-name {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.network-desc {
+  font-size: 12px;
+  color: gray;
+}
+
+.deposit-details-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #fff;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.qr-img {
+  width: 100px;
+  height: 100px;
+}
+
+.address-info {
+  flex: 1;
+}
+
+.address-label {
+  font-size: 13px;
+  color: gray;
+  margin-bottom: 4px;
+}
+
+.wallet-address {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  word-break: break-all;
+}
+
+.copy-btn {
+  padding: 6px 12px;
+  font-size: 13px;
+  background-color: black;
+  color: white;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Giao dịch chi tiết */
+.transaction-info {
+  margin-top: 10px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #f1f1f1;
+  font-size: 14px;
+}
+
+.label {
+  color: gray;
+}
+
+.value {
+  font-weight: 500;
+}
+
+.tooltip {
+  font-size: 12px;
+  background-color: #ccc;
+  border-radius: 50%;
+  padding: 1px 5px;
+  margin-left: 4px;
+  cursor: help;
+}
+
+.arrow {
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+
+/*******************************************/
+ .bottom-section {
+  background: #fff;
+  border: 1px solid #eee;
+  padding: 20px;
+  border-radius: 8px;
+  width: 70%;
+}
+
+.bottom-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.left-title {
+  border-bottom: 2px solid black;
+  padding-bottom: 2px;
+}
+
+.right-link {
+  color: black;
+  font-size: 14px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1fr 1fr 1fr;
+  color: gray;
+  font-size: 13px;
+  border-bottom: 1px solid #eee;
+  padding: 8px 0;
+}
+
+.empty-box {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.no-data {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+
+/*****************************có dữ liệu********************/
+.dashboard-container {
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+  height: 100%;
+  font-family: 'inter', sans-serif; 
+  width: 100%;
+  gap: 10%;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+
+/* LEFT SIDE */
+.left-container {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.summary-section {
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+ border: 1px solid #e0e0e0;
+}
+
+.summary-section h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.total-value {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 10px 0 4px;
+}
+
+.pnl-today {
+  color: gray;
+  font-size: 14px;
+}
+
+.green {
+  color: green;
+  font-weight: 500;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border-radius: 15px;
+  border: none;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
+
+.btn.light {
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+}
+
+.total-value-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sumary-header{
+  display: flex;
+}
+
+/* .total-value-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+} */
+
+.eye-icon {
+  cursor: pointer;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.eye-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ASSET SECTION */
+
+
+.assets-section {
+  background-color:white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+   border: 1px solid #e0e0e0;
+   height: 60%;
+
+  h4 {
+    font-size: 18px;
+    font-weight: 600;
+    text-align: left;
+    margin-bottom: 20px;
+    margin-top: 0;
+  }
+
+  .empty-asset {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+
+  .asset-icon {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+
+    svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  }
+
+  .title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+    max-width: 300px;
+    text-align: center;
+  }
+
+  .deposit-button {
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: #f0f0f0;
+    }
+  }
+}
+}
+
+/* RIGHT SIDE */
+.right-container {
+  width: 25%;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.content-above {
+  height: 12%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.content-above h1{
+  font-size: 18px;
+}
+
+
+.content-above .arrow{
+  font-size: 30px;
+}
+
+.content-above button {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  background-color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  width: 100%;
+  justify-content: space-between;
+}
+/****/
+.history-section {
+  background-color: white;
+  padding: 16px 20px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.history-header h4 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.see-more {
+  font-size: 14px;
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.see-more:hover {
+  text-decoration: underline;
+}
+
+.history-section ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.history-section li {
+  padding: 12px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.history-section li:last-child {
+  border-bottom: none;
+}
+
+.history-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.history-desc {
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  display: block;
+}
+
+.timestamp {
+  font-size: 12px;
+  color: #888;
+  margin-top: 4px;
+}
+
+.history-amount {
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.history-amount.positive {
+  color: green;
+}
+
+.history-amount.negative {
+  color: red;
+}
+
+
+/***/
+.more {
+  text-align: center;
+  margin-top: 12px;
+}
+
+.more .arrow {
+  font-size: 30px;
+  color: black;
+  cursor: pointer;
+}
+
+.dropdown-btn {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  background-color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  width: 100%;
+  display: flex;           
+  justify-content: space-between;
+  align-items: center;
+}
+/*************************************************/
+
+
+/********* res ko dl **********/
+@media screen and (min-width: 780px) and (max-width: 1280px) {
+    .top-section {
+    width: 100% !important;
+    flex-direction: row;
+  }
+
+  .deposit-box {
+    width: 75% !important;
+  }
+
+  .faq-box {
+    width: 25% !important;
+  }
+  .bottom-section{
+    width: 85%;
+  }
+}
+
+@media screen and (max-width: 748px) {
+
+  .top-section {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .deposit-box {
+    width: 100%;
+    order: 1;
+  }
+
+  .bottom-section {
+    width: 100%;
+    margin-top: 20px;
+    order: 2;
+  }
+
+  .faq-box {
+    width: 100%;
+    order: 3; /* Đưa xuống cuối */
+  }
+}
+
+/***************res có dl****************/
+
+
+@media (max-width: 900px) {
+  .dashboard-container {
+    flex-direction: column;
+    gap: 24px;
+    padding: 0 5%;
+  }
+
+  .left-container,
+  .right-container {
+    width: 90%;
+  }
+
+  .content-above button {
+    width: 100%;
+  }
+}
+
+@media (min-width: 950px) and (max-width: 1280px){
+  .left-container{
+    width: 45%;
+  }
+  .right-container{
+    width: 30%;
+  }
+}

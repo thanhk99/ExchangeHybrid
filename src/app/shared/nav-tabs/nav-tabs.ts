@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs';
@@ -9,15 +9,11 @@ import { filter } from 'rxjs';
   styleUrl: './nav-tabs.css'
 })
 export class NavTabs {
-  tabs = [
-    { label: 'Thông tin', path: '/profile' },
-    { label: 'Cài đặt bảo mật', path: '/security' },
-    { label: 'Xác minh', path: '/verify' },
-    { label: 'Tùy chọn', path: '/options' },
-    { label: 'Tài khoản phụ', path: '/subaccount' },
-    { label: 'API', path: '/api' },
-    { label: 'Ủy quyền chuyển tiếp ba', path: '/forward' }
-  ];
+  @Input() tabs: { label: string; path: string }[] = [];
+
+  @Input() showOnlyOnNonHome = true;
+
+
   menuOpen = false;
 
   currentRoute = '';

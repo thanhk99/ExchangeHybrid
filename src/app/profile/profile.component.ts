@@ -3,19 +3,30 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { NavTabs } from '../shared/nav-tabs/nav-tabs';
 @Component({
   selector: 'app-profile',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NavTabs],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent {
 
+    profiletabs = [
+    { label: 'Thông tin', path: '/profile' },
+    { label: 'Cài đặt bảo mật', path: '/security' },
+    { label: 'Xác minh', path: '/verify' },
+    { label: 'Tùy chọn', path: '/options' },
+    { label: 'Tài khoản phụ', path: '/subaccount' },
+    { label: 'API', path: '/api' },
+    { label: 'Ủy quyền chuyển tiếp ba', path: '/forward' }
+  ];
+
   showModal = false;
   editedNickname = '';
 
   constructor(private router: Router,
-              private toastr: ToastrService
+              private toastr: ToastrService,
   ) { }
 
   user = {

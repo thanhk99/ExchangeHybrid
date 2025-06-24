@@ -1,14 +1,25 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { NavTabs } from '../shared/nav-tabs/nav-tabs';
 
 
 @Component({
   selector: 'app-device-management',
-  imports: [CommonModule],
+  imports: [CommonModule, NavTabs],
   templateUrl: './device-management.html',
   styleUrl: './device-management.css'
 })
 export class DeviceManagement {
+  profiletabs = [
+    { label: 'Thông tin', path: '/profile' },
+    { label: 'Cài đặt bảo mật', path: '/security' },
+    { label: 'Xác minh', path: '/verify' },
+    { label: 'Tùy chọn', path: '/options' },
+    { label: 'Tài khoản phụ', path: '/subaccount' },
+    { label: 'API', path: '/api' },
+    { label: 'Ủy quyền chuyển tiếp ba', path: '/forward' }
+  ];
   devices = [
     {
       name: 'Chrome 137.0.0.0',
