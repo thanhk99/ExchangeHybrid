@@ -8,7 +8,6 @@ import { FundingWallet } from './funding-wallet/funding-wallet';
 
 export const routes: Routes = [
     { path: '', component: HomepageComponent },
-  
     { path: 'profile', component: ProfileComponent },
     { path: 'security', component: Security },
     { path: 'device-management', component: DeviceManagement },
@@ -18,7 +17,5 @@ export const routes: Routes = [
     { path: 'security', component: Security },
     { path: 'device-management', component: DeviceManagement },
     { path: '**', redirectTo: '', pathMatch: 'full' },
-
-      { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
