@@ -26,5 +26,4 @@ export const routes: Routes = [
     { path: 'assetpage', component: Assetpage },
     { path: 'funding-wallet', component: FundingWallet },
     { path: '**', redirectTo: '', pathMatch: 'full' },
->>>>>>> df8f62167175b7aacbaccc76f4459bc35cf5ed1a
 ];
