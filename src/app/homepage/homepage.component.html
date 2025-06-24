@@ -1,27 +1,68 @@
 <div class="container">
-
   <div class="content1">
     <div class="left-content1">
-    <h1>Trải nghiệm ứng dụng crypto toàn diện tại Việt Nam</h1>
+      <h1>Trải nghiệm ứng dụng crypto toàn diện tại Việt Nam</h1>
+      <!-- Form đăng ký -->
+      <div id="registerForm" class="form-section hidden">
+        <form id="registerFormElement" data-step="1">
+          <!-- Bước 1:Nhập email -->
+          <div id="registerStep1" class="form-step active">
+            <input
+              type="email"
+              id="registerEmail"
+              class="form-input"
+              placeholder="Địa chỉ email"
+            />
+            <button type="button" id="sendOtpRegister" class="main-button">
+              Dùng thử OKX
+            </button>
+          </div>
+          <!-- Bước 2: Xac thực OTP -->
+          <div id="registerStep2" class="form-step">
+            <div>
+              <label for="registerOtp" class="form-label">Mã OTP:</label>
+              <input type="text" id="registerOtp" name="otp " />
+            </div>
+            <button
+              type="button"
+              id="resendRegisterOtp"
+              class="secondary-button"
+            >
+              Gửi lại OTP
+            </button>
+            <button type="button" id="verifyOtpRegister" class="main-button">
+              Xác thực OTP
+            </button>
+          </div>
+          <!-- Bước 3: Nhập mật khẩu -->
+          <div id="registerStep3" class="form-step">
+            <div>
+              <label for="registerPassword" class="form-label">Mật khẩu</label>
+              <input
+                type="password"
+                name="password"
+                id="registerPassword"
+                class="form-input"
+                placeholder="**********"
+                required
+              />
+            </div>
+            <button type="submit" class="success-button">Đăng ký</button>
+          </div>
+        </form>
+      </div>
 
-    <div class="input-group">
-      <input type="email" placeholder="Địa chỉ email" />
-      <button>Dùng thử OKX</button>
+      <div class="sponsors">
+        <img src="logo3.png" alt="" />
+        <img src="logo2.png" alt="" />
+        <img src="logo1.png" alt="" />
+      </div>
     </div>
 
-    <div class="sponsors">
-      <img src="logo3.png" alt="" />
-      <img src="logo2.png" alt="" />
-      <img src="logo1.png" alt="" />
+    <div class="phone-image">
+      <img src="phone.png" alt="" />
     </div>
   </div>
-
-  <div class="phone-image">
-    <img src="phone.png" alt="" />
-  </div>
-
-  </div>
-
 
   <div class="content2">
     <h1>Trade like a pro</h1>
@@ -33,10 +74,13 @@
 
   <div class="content3">
     <h1>With you every step of the way</h1>
-    <p>From making your first crypto trade to becoming a seasoned trader, you'll have us to guide you through the process. No question is too small. No sleepless nights. Have confidence in your crypto.</p>
+    <p>
+      From making your first crypto trade to becoming a seasoned trader, you'll
+      have us to guide you through the process. No question is too small. No
+      sleepless nights. Have confidence in your crypto.
+    </p>
     <div class="evolution-image">
       <img src="evolution.png" alt="" />
     </div>
   </div>
-
 </div>
