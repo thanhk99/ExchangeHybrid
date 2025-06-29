@@ -78,7 +78,7 @@ export class Security {
     },
     {
       icon: '🔑',
-      title: 'Mật khẩu đăng nhập',
+      title: 'Thay đổi mật khẩu',
       desc: 'Thiết lập mật khẩu để đăng nhập vào tài khoản của bạn',
       recommended: false
     },
@@ -293,7 +293,7 @@ export class Security {
         this.showAntiPhishingModal = true;
         break;
 
-      case 'Mật khẩu đăng nhập':
+      case 'Thay đổi mật khẩu':
         this.showPasswordModal = true;
         break;
 

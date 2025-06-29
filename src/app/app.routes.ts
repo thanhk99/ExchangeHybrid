@@ -22,6 +22,7 @@ export const routes: Routes = [
     { path: 'profile', component: ProfileComponent },
     { path: 'security', component: Security },
     { path: 'device-management', component: DeviceManagement },
+<<<<<<< HEAD
     { path: 'assetpage', component: Assetpage },
     { path: 'funding-wallet', component: FundingWallet },
     { path: 'market', component: MarketComponent },
@@ -35,5 +36,9 @@ export const routes: Routes = [
     { path: 'market/trade-data', component: TradeDataComponent },
     { path: 'market/arbitrage-data', component: ArbitrageDataComponent },
     { path: '**', redirectTo: '', pathMatch: 'full' },
+=======
+    { path: '**', redirectTo: '', pathMatch: 'full' }
+
+>>>>>>> 1d7496c05813d5213dd0277a0d727cf75679ead7
 ];
 
