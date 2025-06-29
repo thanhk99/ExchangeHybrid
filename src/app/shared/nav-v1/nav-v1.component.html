@@ -1,0 +1,31 @@
+<div class="menu-wrapper">
+  <div class="menu-list">
+    <button
+      *ngFor="let filter of mainFilters"
+      [class.active]="filter === activeFilter"
+      (click)="selectFilter(filter)"
+    >
+      {{ filter }}
+    </button>
+
+    <!-- Dropdown -->
+    <div class="dropdown-container">
+      <button class="more-button" (click)="toggleDropdown()">
+        Thêm
+        <span [ngClass]="{ 'arrow-up': dropdownOpen, 'arrow-down': !dropdownOpen }"></span>
+      </button>
+
+      <div class="dropdown" *ngIf="dropdownOpen">
+        <input type="text" [(ngModel)]="searchTerm" placeholder="Tìm kiếm..." />
+        <div
+          *ngFor="let item of moreFilters"
+          (click)="selectFilter(item)"
+          [class.dropdown-item-active]="item === activeFilter"
+          class="dropdown-item"
+        >
+          {{ item }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

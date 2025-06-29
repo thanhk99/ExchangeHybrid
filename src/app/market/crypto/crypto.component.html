@@ -1,1 +1,39 @@
-<p>crypto works!</p>
+<app-nav-tabs [tabs]="marketTabs"></app-nav-tabs>
+<app-nav-v1></app-nav-v1>
+<div class="container">
+  <h1>Giá tiền mã hóa hôm nay</h1>
+  <p class="desc">
+    Xem giá mới nhất của hàng trăm tài sản số được niêm yết trên OKX, cùng với thông tin về sự thay đổi giá hàng ngày và số liệu thống kê vốn hóa thị trường.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Tên</th>
+        <th>Giá</th>
+        <th>Thay đổi</th>
+        <th>Vốn hoá thị trường</th>
+        <th>Thao tác</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let coin of cryptos">
+        <td>
+          <span class="icon">{{ coin.icon }}</span>
+          <strong>{{ coin.name }}</strong><br />
+          <small>{{ coin.fullname }}</small>
+        </td>
+        <td>${{ coin.price | number: '1.0-4' }}</td>
+        <td [ngClass]="{ 'positive': coin.change > 0, 'negative': coin.change < 0 }">
+          {{ coin.change >= 0 ? '+' : '' }}{{ coin.change | number: '1.2-2' }}%
+        </td>
+        <td>{{ coin.marketCap }}</td>
+        <td class="actions">
+          <a href="#">Giao dịch</a> | <a href="#">Chuyển đổi</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+

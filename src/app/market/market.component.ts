@@ -39,6 +39,14 @@ export class MarketComponent {
       component: MarketComponent,
       children: [
         { path: 'favourite', component: FavouriteComponent },
+        { path: 'crypto', component: CryptoComponent },
+        { path: 'spot', component: SpotComponent },
+        { path: 'futures', component: FuturesComponent },
+        { path: 'options', component: OptionsComponent },
+        { path: 'pre-market', component: PreMarketComponent },
+        { path: 'okx-index', component: OkxIndexComponent },
+        { path: 'trade-data', component: TradeDataComponent },
+        { path: 'arbitrage-data', component: ArbitrageDataComponent },
       ]
     }
     
@@ -47,7 +55,7 @@ export class MarketComponent {
 
   marketTabs = [
     { label: 'Yêu thích', path: '/market/favourite' },
-    { label: 'Tiền mã hóa', path: '/market/crypto' },
+    { label: 'Tiền mã hóa', path: '/market/crypto/crypto-all' },
     { label: 'Spot', path: '/market/spot' },
     { label: 'Futures', path: '/market/futures' },
     { label: 'Quyền chọn', path: '/market/options' },

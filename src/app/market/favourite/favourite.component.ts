@@ -10,9 +10,9 @@ import { NavTabs } from '../../shared/nav-tabs/nav-tabs';
   imports: [CommonModule, RouterModule, NavTabs]
 })
 export class FavouriteComponent {
-  isAdded = false;
 
-    marketTabs = [
+
+  marketTabs = [
     { label: 'Yêu thích', path: '/market/favourite' },
     { label: 'Tiền mã hóa', path: '/market/crypto' },
     { label: 'Spot', path: '/market/spot' },
@@ -24,26 +24,58 @@ export class FavouriteComponent {
     { label: 'Dữ liệu arbitrage', path: '/market/arbitrage-data' },
   ];
 
-  coins = [
-    { code: 'BTC/USDT', name: 'Bitcoin', selected: false },
-    { code: 'ETH/USDT', name: 'Ethereum', selected: false },
-    { code: 'OKB/USDT', name: 'OKB', selected: false },
-    { code: 'XRP/USDT', name: 'XRP', selected: false },
-    { code: 'SOL/USDT', name: 'Solana', selected: false },
-    { code: 'DOGE/USDT', name: 'Dogecoin', selected: false },
-    { code: 'ADA/USDT', name: 'Cardano', selected: false },
-    { code: 'BCH/USDT', name: 'Bitcoin Cash', selected: false }
+   allCoins = [
+    {
+      symbol: 'BTC/USDT',
+      name: 'Bitcoin',
+      icon: 'https://assets.coingecko.com/coins/images/1/thumb/bitcoin.png',
+      price: 107654.1,
+      change: +0.33,
+      low24h: 107052.9,
+      high24h: 107728.0,
+      volumeCoin: '1,73 N BTC',
+      volumeUSD: '$186,70 Tr'
+    },
+    {
+      symbol: 'ETH/USDT',
+      name: 'Ethereum',
+      icon: 'https://assets.coingecko.com/coins/images/279/thumb/ethereum.png',
+      price: 2443.56,
+      change: +0.32,
+      low24h: 2419.74,
+      high24h: 2448.00,
+      volumeCoin: '62,83 N ETH',
+      volumeUSD: '$152,89 Tr'
+    },
+    // ... thêm các đồng coin tương tự như trên
   ];
 
-  favourites: { code: string; name: string; selected: boolean; }[] = [];
+  selectedSymbols = new Set<string>();
+  favorites: any[] = [];
+  showFavorites = false;
 
-  toggleCoin(coin: any) {
-    coin.selected = !coin.selected;
+  toggleSelection(symbol: string) {
+    if (this.selectedSymbols.has(symbol)) {
+      this.selectedSymbols.delete(symbol);
+    } else {
+      this.selectedSymbols.add(symbol);
+    }
   }
 
-  addToFavourite() {
-    this.favourites = this.coins.filter(c => c.selected);
-    this.isAdded = true;
+  isSelected(symbol: string): boolean {
+    return this.selectedSymbols.has(symbol);
   }
 
+  addToFavorites() {
+    this.favorites = this.allCoins.filter(c => this.selectedSymbols.has(c.symbol));
+    this.showFavorites = true;
+  }
+
+  removeFromFavorites(symbol: string) {
+    this.favorites = this.favorites.filter(c => c.symbol !== symbol);
+    this.selectedSymbols.delete(symbol);
+    if (this.favorites.length === 0) {
+      this.showFavorites = false;
+    }
+  }
 }
