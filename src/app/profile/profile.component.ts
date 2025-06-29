@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NavTabs } from '../shared/nav-tabs/nav-tabs';
+
 @Component({
   selector: 'app-profile',
   imports: [CommonModule, FormsModule, NavTabs],

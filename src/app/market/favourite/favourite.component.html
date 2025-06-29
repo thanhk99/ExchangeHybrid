@@ -1,0 +1,46 @@
+<!-- Trạng thái trước khi thêm -->
+<app-nav-tabs [tabs]="marketTabs"></app-nav-tabs>
+
+<div *ngIf="!isAdded">
+  <h3>Chọn tiền mã hóa</h3>
+
+  <div class="coin-grid">
+    <div class="coin-item" *ngFor="let coin of coins" [class.selected]="coin.selected" (click)="toggleCoin(coin)">
+      <div>{{ coin.code }}</div>
+      <div>{{ coin.name }}</div>
+      <div *ngIf="coin.selected">✔</div>
+    </div>
+  </div>
+
+  <button (click)="addToFavourite()">Thêm vào mục Yêu thích</button>
+</div>
+
+<!-- Trạng thái sau khi thêm -->
+<div *ngIf="isAdded">
+  <h3>Danh sách yêu thích</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Tên</th>
+        <th>Giá</th>
+        <th>Thay đổi</th>
+        <th>Thấp nhất 24h</th>
+        <th>Cao nhất 24h</th>
+        <th>Khối lượng 24h</th>
+        <th>Thao tác</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let coin of favourites">
+        <td>⭐ {{ coin.code }}</td>
+        <td>123.45</td>
+        <td>+1.2%</td>
+        <td>100</td>
+        <td>130</td>
+        <td>$300M</td>
+        <td>Biểu đồ | Giao dịch</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+

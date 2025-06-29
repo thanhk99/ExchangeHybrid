@@ -1,0 +1,18 @@
+.coin-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+.coin-item {
+  padding: 1rem;
+  background: #f5f5f5;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.coin-item.selected {
+  border: 2px solid #000;
+}
+button {
+  margin-top: 1rem;
+  padding: 10px 20px;
+}
