@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavTabs } from '../../shared/nav-tabs/nav-tabs';
 import { NavV1Component } from '../../shared/nav-v1/nav-v1.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-crypto',
@@ -11,6 +12,8 @@ import { NavV1Component } from '../../shared/nav-v1/nav-v1.component';
   imports: [CommonModule, NavTabs , NavV1Component]
 })
 export class CryptoComponent {
+
+  constructor(private router: Router) {}
 
     marketTabs = [
     { label: 'Yêu thích', path: '/market/favourite' },
@@ -37,4 +40,12 @@ export class CryptoComponent {
     { icon: '◎', name: 'SOL', fullname: 'Solana', price: 150.45, change: -0.22, marketCap: '80,47 T' },
     { icon: 'Ⓢ', name: 'USDC', fullname: 'USD Coin', price: 1.0000, change: 0.01, marketCap: '61,69 T' },
   ];
+
+
+
+  gotoChart(symbol: string) {
+    // Navigate to the chart page for the selected cryptocurrency
+    this.router.navigate(['/market/spot/chart', symbol]);
+    // Implement navigation logic here, e.g., using Angular Router
+  }
 }

@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router , RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs';
 @Component({
   selector: 'app-nav-tabs',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule  ],
   templateUrl: './nav-tabs.html',
   styleUrl: './nav-tabs.css'
 })

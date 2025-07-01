@@ -112,6 +112,10 @@ export class Security {
     this.router.navigate(['/device-management']);
   }
 
+  gotoHome() {
+    this.router.navigate(['/home']);
+  }
+
 
 
 

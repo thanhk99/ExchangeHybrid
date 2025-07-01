@@ -1,0 +1,161 @@
+<!-- market-info.component.html -->
+ <!-- bitcoin-chart.component.html -->
+<div class="bitcoin-chart-container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <h1>BTC Giá Bitcoin</h1>
+    <a href="#" class="buy-link">Buy with bids in training</a>
+    
+    <div class="price-section">
+      <div class="main-price">{{ priceData.currentPrice }}</div>
+      <div class="secondary-price">{{ priceData.usdPrice }}</div>
+    </div>
+    
+    <div class="meta-info">{{ priceData.metaInfo }}</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- USD Section -->
+  <div class="usd-section">
+    <h2>USD</h2>
+    <div class="usd-price">{{ priceData.usdSection.price }}</div>
+    <div class="usd-details">
+      <div class="tip">{{ priceData.usdSection.tip }}</div>
+      <div class="volume">{{ priceData.usdSection.volume }}</div>
+    </div>
+  </div>
+
+  <!-- Trading Section -->
+  <div class="trading-section">
+    <h2>Giao dịch Bitcoin như trader chuyên nghiệp</h2>
+    
+    <div class="ask-price">
+      <strong>Giá cầu hỏi</strong>
+    </div>
+    
+    <!-- Time Interval Selection -->
+    <div class="interval-selector">
+      <button 
+        *ngFor="let interval of timeIntervals"
+        [class.active]="interval.selected"
+        (click)="selectInterval(interval)"
+      >
+        {{ interval.time }}
+      </button>
+    </div>
+
+    <!-- ApexCharts Container -->
+    <div class="chart-container">
+      <div id="chart">
+        <apx-chart 
+          [series]="chartOptions.series ? chartOptions.series : []"
+          [chart]="chartOptions.chart ? chartOptions.chart : { type: 'line' }"
+          [xaxis]="chartOptions.xaxis ? chartOptions.xaxis : {}"
+          [yaxis]="chartOptions.yaxis ? chartOptions.yaxis : {}"
+          [title]="chartOptions.title ? chartOptions.title : {}"
+          [tooltip]="chartOptions.tooltip ? chartOptions.tooltip : {}"
+          [dataLabels]="chartOptions.dataLabels ? chartOptions.dataLabels : {}"
+          [stroke]="chartOptions.stroke ? chartOptions.stroke : {}"
+          [grid]="chartOptions.grid"
+          [colors]="chartOptions.colors ? chartOptions.colors : []">
+        </apx-chart>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="market-container">
+  <!-- Navigation Tabs -->
+  <div class="market-nav-tabs">
+    <button 
+      *ngFor="let tab of marketTabs" 
+      [class.active]="activeTab === tab.id"
+      (click)="switchTab(tab.id)"
+    >
+      {{ tab.label }}
+    </button>
+  </div>
+
+  <!-- Market Info Tab -->
+  <div *ngIf="activeTab === 'market-info'" class="market-info-section">
+    <h1>Thông tin thị trường Bitcoin</h1>
+    
+    <div class="market-stats">
+      <div class="stat-row">
+        <span class="stat-label">Vốn hóa thị trường</span>
+        <span class="stat-value">{{ marketData.marketCap }}</span>
+      </div>
+      
+      <div class="stat-row">
+        <span class="stat-label">Tổng cung lưu hành</span>
+        <span class="stat-value">{{ marketData.circulatingSupply }}</span>
+        <span class="stat-note">{{ marketData.supplyPercentage }}</span>
+      </div>
+      
+      <div class="stat-row">
+        <span class="stat-label">Thứ hạng vốn hóa thị trường</span>
+        <span class="stat-value">{{ marketData.marketRank }}</span>
+      </div>
+      
+      <div class="stat-row">
+        <span class="stat-label">Kiểm tra Certific</span>
+        <span class="stat-value">{{ marketData.certification }}</span>
+      </div>
+    </div>
+    
+    <div class="price-stats">
+      <div class="price-column">
+        <div class="price-stat">
+          <span class="price-label">Giá cao nhất 24h</span>
+          <span class="price-value">{{ marketData.high24h }}</span>
+        </div>
+        <div class="price-stat">
+          <span class="price-label">Giá thấp nhất 24h</span>
+          <span class="price-value">{{ marketData.low24h }}</span>
+        </div>
+      </div>
+      
+      <div class="price-column">
+        <div class="price-stat">
+          <span class="price-label">Cao nhất lịch sử</span>
+          <span class="price-value">{{ marketData.allTimeHigh }}</span>
+          <span class="price-change negative">{{ marketData.athChange }}</span>
+          <span class="price-date">{{ marketData.athDate }}</span>
+        </div>
+        
+        <div class="price-stat">
+          <span class="price-label">Thấp nhất lịch sử</span>
+          <span class="price-value">{{ marketData.allTimeLow }}</span>
+          <span class="price-change positive">{{ marketData.atlChange }}</span>
+          <span class="price-date">{{ marketData.atlDate }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Other Tabs (empty for now) -->
+  <div *ngIf="activeTab === 'news'" class="tab-content">
+    <h2>Tin tức</h2>
+    <!-- News content would go here -->
+  </div>
+
+  <div *ngIf="activeTab === 'introduction'" class="tab-content">
+    <h2>Giới thiệu</h2>
+    <!-- Introduction content would go here -->
+  </div>
+
+  <div *ngIf="activeTab === 'related-crypto'" class="tab-content">
+    <h2>Crypto liên quan</h2>
+    <!-- Related crypto content would go here -->
+  </div>
+
+  <div *ngIf="activeTab === 'social'" class="tab-content">
+    <h2>Mạng xã hội</h2>
+    <!-- Social media content would go here -->
+  </div>
+
+  <div *ngIf="activeTab === 'faq'" class="tab-content">
+    <h2>Câu hỏi thường gặp</h2>
+    <!-- FAQ content would go here -->
+  </div>
+</div>

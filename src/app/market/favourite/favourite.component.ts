@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { NavTabs } from '../../shared/nav-tabs/nav-tabs';
 @Component({
   selector: 'app-favourite',
@@ -11,6 +11,7 @@ import { NavTabs } from '../../shared/nav-tabs/nav-tabs';
 })
 export class FavouriteComponent {
 
+  constructor(private router: Router) {}
 
   marketTabs = [
     { label: 'Yêu thích', path: '/market/favourite' },
@@ -77,5 +78,10 @@ export class FavouriteComponent {
     if (this.favorites.length === 0) {
       this.showFavorites = false;
     }
+  }
+
+  gotoChart(symbol: string) {
+    // Navigate to the chart component for the selected coin
+    this.router.navigate(['/market/spot/chart'], { queryParams: { symbol } });
   }
 }

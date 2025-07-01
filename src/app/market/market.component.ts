@@ -10,9 +10,11 @@ import { PreMarketComponent } from './pre-market/pre-market.component';
 import { OkxIndexComponent } from './okx-index/okx-index.component';
 import { TradeDataComponent } from './trade-data/trade-data.component';
 import { ArbitrageDataComponent } from './arbitrage-data/arbitrage-data.component';
+
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { ChartComponent } from './spot/chart/chart.component';
 
 
 @Component({
@@ -21,7 +23,6 @@ import { NgModule } from '@angular/core';
   templateUrl: './market.component.html',
   styleUrl: './market.component.css',
   imports: [
-    NavTabs, 
     FavouriteComponent,
     RouterModule,
     CommonModule
@@ -40,13 +41,18 @@ export class MarketComponent {
       children: [
         { path: 'favourite', component: FavouriteComponent },
         { path: 'crypto', component: CryptoComponent },
-        { path: 'spot', component: SpotComponent },
+        { path: 'spot', component: SpotComponent, 
+          children: [
+            { path: 'chart', component: ChartComponent }
+          ]
+        },
         { path: 'futures', component: FuturesComponent },
         { path: 'options', component: OptionsComponent },
         { path: 'pre-market', component: PreMarketComponent },
         { path: 'okx-index', component: OkxIndexComponent },
         { path: 'trade-data', component: TradeDataComponent },
         { path: 'arbitrage-data', component: ArbitrageDataComponent },
+  
       ]
     }
     
@@ -54,15 +60,15 @@ export class MarketComponent {
 
 
   marketTabs = [
-    { label: 'Yêu thích', path: '/market/favourite' },
-    { label: 'Tiền mã hóa', path: '/market/crypto/crypto-all' },
-    { label: 'Spot', path: '/market/spot' },
-    { label: 'Futures', path: '/market/futures' },
-    { label: 'Quyền chọn', path: '/market/options' },
-    { label: 'Pre-market', path: '/market/pre-market' },
-    { label: 'Chỉ số OKX', path: '/market/okx-index' },
-    { label: 'Dữ liệu giao dịch', path: '/market/trade-data' },
-    { label: 'Dữ liệu arbitrage', path: '/market/arbitrage-data' },
+    { label: 'Yêu thích', path: 'favourite' },
+    { label: 'Tiền mã hóa', path: 'crypto' },
+    { label: 'Spot', path: 'spot' },
+    { label: 'Futures', path: 'futures' },
+    { label: 'Quyền chọn', path: 'options' },
+    { label: 'Pre-market', path: 'pre-market' },
+    { label: 'Chỉ số OKX', path: 'okx-index' },
+    { label: 'Dữ liệu giao dịch', path: 'trade-data' },
+    { label: 'Dữ liệu arbitrage', path: 'arbitrage-data' },
   ];
 
 }

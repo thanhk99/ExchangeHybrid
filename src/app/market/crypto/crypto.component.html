@@ -17,7 +17,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let coin of cryptos">
+      <tr *ngFor="let coin of cryptos" (click)="gotoChart(coin.name)">
         <td>
           <span class="icon">{{ coin.icon }}</span>
           <strong>{{ coin.name }}</strong><br />

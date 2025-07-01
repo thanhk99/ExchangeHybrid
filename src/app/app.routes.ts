@@ -15,6 +15,7 @@ import { PreMarketComponent } from './market/pre-market/pre-market.component';
 import { OkxIndexComponent } from './market/okx-index/okx-index.component';
 import { TradeDataComponent } from './market/trade-data/trade-data.component';
 import { ArbitrageDataComponent } from './market/arbitrage-data/arbitrage-data.component';
+import { ChartComponent } from './market/spot/chart/chart.component';
 
 
 
@@ -35,6 +36,8 @@ export const routes: Routes = [
     { path: 'market/okx-index', component: OkxIndexComponent },
     { path: 'market/trade-data', component: TradeDataComponent },
     { path: 'market/arbitrage-data', component: ArbitrageDataComponent },
+    { path: 'market/spot/chart', component: ChartComponent },
+
     { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 

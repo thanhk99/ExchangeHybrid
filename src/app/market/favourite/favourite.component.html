@@ -39,8 +39,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let coin of favorites">
-        <td>
+      <tr *ngFor="let coin of favorites" (click)="gotoChart(coin.symbol)">
+        <td >
           <span style="cursor: pointer;" (click)="removeFromFavorites(coin.symbol)">⭐</span>
           <img [src]="coin.icon" width="20" style="margin: 0 8px;" />
           {{ coin.symbol }}
