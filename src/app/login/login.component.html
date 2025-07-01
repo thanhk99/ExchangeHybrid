@@ -22,15 +22,15 @@
   <div class="right-container">
     <div id="loginForm" class="form-section">
       <h2 class="form-heading">Đăng Nhập</h2>
-      <form id="loginFormElement" data-step="1">
+      <form #loginFormElement id="loginFormElement" data-step="1">
         <!-- Step 1: Email and Password -->
-        <div id="loginStep1" class="form-step active">
+        <div #loginStep1 id="loginStep1" class="form-step active">
           <div class="mb-4">
             <label for="loginEmail" class="form-label">Email:</label>
             <input
               type="email"
               id="loginEmail"
-              name="email"
+              #loginEmail
               class="form-input"
               placeholder="your@example.com"
               required
@@ -41,23 +41,25 @@
             <input
               type="password"
               id="loginPassword"
-              name="password"
+              #loginPassword
               class="form-input"
               placeholder="********"
               required
             />
           </div>
-          <button type="submit" class="main-button">Tiếp tục Đăng nhập</button>
+          <button type="button" class="main-button" id="sendOtpBtn" #sendOtpBtn>
+            Tiếp tục Đăng nhập
+          </button>
         </div>
 
         <!-- Step 2: OTP Verification for Login -->
-        <div id="loginStep2" class="form-step">
+        <div #loginStep2 id="loginStep2" class="form-step">
           <div class="mb-4">
             <label for="loginOtp" class="form-label">Mã OTP:</label>
             <input
               type="text"
               id="loginOtp"
-              name="otp"
+              #loginOtp
               class="form-input"
               placeholder="Nhập mã OTP của bạn"
               required
@@ -66,7 +68,7 @@
           <button type="button" id="resendLoginOtp" class="secondary-button">
             Gửi lại OTP
           </button>
-          <button type="submit" class="success-button">
+          <button type="submit" class="success-button" id="loginBtn" #loginBtn>
             Xác thực &amp; Đăng Nhập
           </button>
         </div>

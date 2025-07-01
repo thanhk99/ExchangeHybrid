@@ -1,5 +1,7 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-register',
   standalone: false,
@@ -19,6 +21,7 @@ export class RegisterComponent {
   private registerOtp!: HTMLInputElement;
   private registerPassword!: HTMLInputElement;
   private confirmPassword!: HTMLInputElement;
+  constructor(private toastr: ToastrService) {}
 
   ngAfterViewInit() {
     // Lấy các phần tử từ DOM
@@ -74,30 +77,34 @@ export class RegisterComponent {
     const email = this.registerEmail.value.trim();
 
     if (!email) {
-      alert('Vui lòng nhập email để gửi OTP');
+      this.toastr.error('Vui lòng nhập email để gửi OTP', 'Lỗi', {
+        timeOut: 3000,
+      });
       return;
     }
 
     if (!this.isValidEmail(email)) {
-      alert('Email không hợp lệ');
+      this.toastr.error('Email không hợp lệ', 'Lỗi', { timeOut: 3000 });
       return;
     }
 
     this.currentRegisterEmail = email;
     this.setActiveFormStep(2);
-    alert(`Mã OTP đã được gửi đến ${email}`);
+    this.toastr.success(`Mã OTP đã được gửi đến ${email}`, 'Thành Công', {
+      timeOut: 3000,
+    });
   }
 
   private handleVerifyOtp() {
     const otp = this.registerOtp.value.trim();
 
     if (!otp) {
-      alert('Vui lòng nhập mã OTP');
+      this.toastr.error('Vui lòng nhập mã OTP', 'Lỗi', { timeOut: 3000 });
       return;
     }
 
     if (!/^\d{6}$/.test(otp)) {
-      alert('Mã OTP phải gồm 6 chữ số');
+      this.toastr.error('Mã OTP phải gồm 6 chữ số', 'Lỗi', { timeOut: 3000 });
       return;
     }
 
@@ -106,10 +113,16 @@ export class RegisterComponent {
 
   private handleResendOtp() {
     if (this.currentRegisterEmail) {
-      alert(`Đã gửi lại OTP đến ${this.currentRegisterEmail}`);
+      this.toastr.info(
+        `Đã gửi lại OTP đến ${this.currentRegisterEmail}`,
+        'Lỗi',
+        { timeOut: 3000 }
+      );
     } else {
-      alert(
-        'Không tìm thấy email để gửi lại OTP. Vui lòng quay lại bước trước.'
+      this.toastr.error(
+        'Không tìm thấy email để gửi lại OTP. Vui lòng quay lại bước trước.',
+        'Lỗi',
+        { timeOut: 3000 }
       );
     }
   }
@@ -119,14 +132,16 @@ export class RegisterComponent {
 
     // Kiểm tra mật khẩu
     if (!this.isPasswordValid(password)) {
-      alert(
-        'Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số, 1 ký tự đặc biệt và độ dài ≥8 ký tự'
+      this.toastr.info(
+        'Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số, 1 ký tự đặc biệt và độ dài ≥8 ký tự',
+        'Chú ý',
+        { timeOut: 3000 }
       );
       return;
     }
 
     // Đăng ký thành công
-    alert('Đăng ký thành công!');
+    this.toastr.success('Đăng ký thành công!', 'Thành công', { timeOut: 3000 });
     this.resetForm();
   }
 
@@ -156,7 +171,7 @@ export class RegisterComponent {
   }
 
   private isValidEmail(email: string): boolean {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
   }
 
