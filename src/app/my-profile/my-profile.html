@@ -1,0 +1,295 @@
+<app-nav-tabs [tabs]="buytabs"></app-nav-tabs>
+
+<div class="profile-container">
+  <div class="profile-header">
+    <div class="avatar">d</div>
+    <div class="user-info">
+      <div class="email">duc***gmail.com</div>
+      <div class="status">🟢 Đang online</div>
+      <div class="verify">
+        <span>✔ Đã xác minh giấy tờ tùy thân vào 21/06/2025</span>
+        <span>✔ Điện thoại di động</span>
+        <span>✔ Email</span>
+      </div>
+      <div class="country">🇻🇳 Việt Nam &nbsp;|&nbsp; Đã tham gia vào: 15/06/2025</div>
+    </div>
+    <button class="share-btn">📤 Chia sẻ</button>
+  </div>
+
+  <div class="assets-section">
+  <div class="asset-box">
+    <div class="title">Tài sản của tôi</div>
+    <div class="value">
+      <div class="value-left">
+        <div class="available">
+          <span class="available-dot">●</span> Khả dụng
+        </div>
+        <div class="amount">0,00 USDT</div>
+      </div>
+
+      <div class="vertical-line"></div> 
+
+      <div class="value-right">
+        <div class="locked">
+          <span class="locked-dot">●</span> Đã khóa
+        </div>
+        <div class="amount">0,00 USDT</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="stats-section">
+  <div class="box">
+    <h3>30 ngày</h3>
+
+    <div class="line-item">
+      <span>Lệnh đã hoàn tất (30D)</span>
+      <span class="stat-value">0</span>
+    </div>
+
+    <div class="line-item">
+      <span>🟢 Mua</span>
+      <span class="stat-value">0</span>
+    </div>
+    <div class="line-item">
+      <span>🔴 Bán</span>
+      <span class="stat-value">0</span>
+    </div>
+
+    <div class="line-item">
+      <span>Tỷ lệ hoàn tất (30D)</span>
+      <span class="stat-value">0,00%</span>
+    </div>
+
+    <div class="line-item">
+      <span>🟢 Mua</span>
+      <span class="stat-value">0,00%</span>
+    </div>
+    <div class="line-item">
+      <span>🔴 Bán</span>
+      <span class="stat-value">0,00%</span>
+    </div>
+
+    <div class="line-item">
+      <span>Số người dùng giao dịch</span>
+      <span class="stat-value">0</span>
+    </div>
+  </div>
+
+  <div class="vertical-line"></div>
+
+  <div class="box">
+    <h3>Tổng cộng</h3>
+
+    <div class="line-item">
+      <span>Tổng số lệnh đã hoàn tất</span>
+      <span class="stat-value">0</span>
+    </div>
+
+    <div class="line-item">
+      <span>Tổng giá trị (USD)</span>
+      <span class="stat-value">0,00</span>
+    </div>
+
+    <div class="line-item">
+      <span>Tổng tỷ lệ hoàn tất</span>
+      <span class="stat-value">0,00%</span>
+    </div>
+
+    <div class="line-item">
+      <span>Thời gian thanh toán TB</span>
+      <span class="stat-value">0s</span>
+    </div>
+  </div>
+
+  <div class="vertical-line"></div>
+
+  <div class="box">
+    <h3>Hồ sơ</h3>
+
+    <div class="line-item">
+      <span>Tỷ lệ đánh giá tích cực</span>
+      <span class="stat-value">NA</span>
+    </div>
+
+    <div class="line-item">
+      <span>🟢 Đánh giá tích cực</span>
+      <span class="stat-value">0</span>
+    </div>
+
+    <div class="line-item">
+      <span>🔴 Đánh giá tiêu cực</span>
+      <span class="stat-value">0</span>
+    </div>
+
+    <div class="line-item">
+      <span>Người theo dõi</span>
+      <span class="stat-value">0</span>
+    </div>
+
+    <div class="line-item">
+      <span>Chặn bởi</span>
+      <span class="stat-value">0</span>
+    </div>
+  </div>
+</div>
+
+<div class="settings-section" >
+  <!-- Tabs -->
+  <div class="tabs">
+    <div [class.active]="tab === 'setting'" (click)="setTab('setting')">Cài đặt</div>
+    <div [class.active]="tab === 'evaluate'" (click)="setTab('evaluate')">Đánh giá</div>
+  </div>
+
+  <div *ngIf="tab === 'setting'">
+    <!-- Mật khẩu & Bảo mật -->
+  <div class="setting-box">
+    <div class="setting-title">Mật khẩu & Bảo mật</div>
+    <div class="setting-item">
+      <div class="setting-label">
+        <div class="item-title">Tùy chọn mã xác minh</div>
+        <div class="item-desc">Chọn tần suất để chúng tôi yêu cầu bạn nhập mã xác minh trước khi tiến hành giao dịch. Mã có thể được gửi qua email, SMS hoặc ứng dụng xác thực.</div>
+      </div>
+      <div class="setting-action">Luôn luôn &gt;</div>
+    </div>
+  </div>
+
+  <!-- Quản lý phương thức thanh toán -->
+  <div class="setting-box">
+    <div class="setting-title">Quản lý phương thức thanh toán</div>
+
+    <div class="payment-actions">
+      <select class="filter-dropdown">
+        <option>Tất cả</option>
+      </select>
+      <input class="search-input" placeholder="Tìm theo tên hoặc số tài khoản của chủ tài khoản" />
+      <button class="add-method-btn">＋ Thêm phương thức thanh toán</button>
+    </div>
+
+    <div class="warning-box">
+      ⚠️ Bạn cần nhập thông tin tài khoản của mình khi thiết lập phương thức thanh toán. Không thể sử dụng tài khoản của bên thứ 3 để giao dịch P2P và hành động đó có thể khiến lệnh bị huỷ.
+    </div>
+
+    <div class="empty-payment">
+      <div class="empty-icon">📄</div>
+      <div class="empty-title">Bạn chưa thêm phương thức thanh toán nào</div>
+      <div class="empty-desc">Hãy dùng tên thật để thêm phương thức thanh toán.</div>
+    </div>
+  </div>
+
+  <!-- Tabs theo dõi -->
+<div class="follow-section">
+  <!-- Tabs -->
+  <div class="follow-tabs">
+    <div [class.active]="followTab === 'following'" (click)="setFollowTab('following')">Đang theo dõi</div>
+    <div [class.active]="followTab === 'blocked'" (click)="setFollowTab('blocked')">Đã chặn</div>
+    <div [class.active]="followTab === 'reported'" (click)="setFollowTab('reported')">Đã báo cáo</div>
+  </div>
+
+  <!-- Tab: Đang theo dõi -->
+  <div *ngIf="followTab === 'following'">
+    <div class="follow-table-header">
+      <span>Tên người dùng</span>
+      <span>Xác minh danh tính</span>
+      <span>Ngày đăng ký</span>
+      <span>Hành động</span>
+    </div>
+    <div class="follow-empty">
+      <div class="icon">📄</div>
+      <div class="title">Bạn chưa theo dõi bất kỳ ai</div>
+      <div class="desc">Theo dõi Nhà quảng cáo để dễ tìm thấy họ hơn.</div>
+    </div>
+  </div>
+
+  <!-- Tab: Đã chặn -->
+  <div *ngIf="followTab === 'blocked'">
+    <div class="blocked-tools">
+      <input class="search-id" placeholder="🔍 Nhập ID người dùng" />
+    </div>
+    <div class="follow-table-header blocked-table-header">
+      <span>UID</span>
+      <span>Tên đầy đủ (Lệnh / Tỷ lệ hoàn thành)</span>
+      <span>Thời gian thanh toán trung bình</span>
+      <span>Thời gian trung bình mở khóa crypto</span>
+      <span>Ngày chặn</span>
+      <span>Hành động</span>
+    </div>
+    <div class="follow-empty">
+      <div class="icon">📄</div>
+      <div class="title">Bạn chưa chặn bất kỳ ai</div>
+      <div class="desc">Chặn Nhà quảng cáo để dừng xem quảng cáo của họ.</div>
+    </div>
+  </div>
+
+  <!-- Tab: Đã báo cáo -->
+  <div *ngIf="followTab === 'reported'" class="report-section">
+      <div class="reported-tools">
+        <button class="report-btn">＋ Báo cáo người dùng</button>
+      </div>
+  <div class="report-header report-table-header">
+    <span>Tên người dùng</span>
+    <span>Đã báo cáo vào</span>
+    <span>Trạng thái</span>
+  </div>
+
+  <div class="follow-empty">
+    <div class="icon">📄</div>
+    <div class="title">Không tìm thấy báo cáo</div>
+  </div>
+</div>
+</div>
+
+
+<!-- API P2P -->
+<div class="api-box">
+  <div class="api-title">API P2P</div>
+  <div class="api-desc">Tạo và quản lý mã API P2P để tùy chỉnh trải nghiệm giao dịch P2P của bạn.
+    <span class="api-arrow">›</span>
+  </div>
+</div>
+  </div>
+
+  <div class="review-section" *ngIf="tab === 'evaluate'">
+  <!-- Tổng quan đánh giá -->
+  <div class="review-summary">
+    <div class="summary-item">
+      <div class="value">0</div>
+      <div class="label">Tổng số đánh giá</div>
+    </div>
+    <div class="summary-item">
+      <div class="value">NA</div>
+      <div class="label">Tỷ lệ đánh giá tích cực</div>
+    </div>
+  </div>
+
+  <!-- Tabs: Từ người mua / người bán -->
+  <div class="review-tabs">
+    <div [class.active]="reviewTab === 'buyer'" (click)="setReviewTab('buyer')">
+      Từ người mua (0)
+    </div>
+    <div [class.active]="reviewTab === 'seller'" (click)="setReviewTab('seller')">
+      Từ người bán (0)
+    </div>
+  </div>
+
+  <!-- Bộ lọc -->
+  <div class="review-filters">
+    <label><input type="checkbox" [(ngModel)]="hasComment" /> Có bình luận</label>
+    <div class="filter-tags">
+      <div [class.active]="filter === 'all'" (click)="setFilter('all')">Tất cả</div>
+      <div [class.active]="filter === 'positive'" (click)="setFilter('positive')">Tích cực</div>
+      <div [class.active]="filter === 'negative'" (click)="setFilter('negative')">Tiêu cực</div>
+    </div>
+  </div>
+
+  <!-- Trạng thái rỗng -->
+  <div class="follow-empty">
+    <div class="icon">📄</div>
+    <div class="title">Không có đánh giá</div>
+  </div>
+</div>
+
+</div>
+
+</div>

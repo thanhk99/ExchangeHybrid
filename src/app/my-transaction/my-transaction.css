@@ -1,0 +1,354 @@
+.order-page {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  height: 80vh;
+}
+
+.tabs-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 24px;
+}
+
+.tabs div {
+  cursor: pointer;
+  padding: 8px 0;
+  font-size: 16px;
+  color: #666;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.tabs div.active {
+  font-weight: 500;
+  color: #000;
+  border-bottom: 2px solid #000;
+}
+
+/* Right actions (nút chữ xanh) */
+.right-actions {
+  display: flex;
+  gap: 16px;
+}
+
+.right-actions button {
+  background: none;
+  border: none;
+  color: #1a73e8;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.right-actions button:hover {
+  text-decoration: underline;
+}
+
+/* Tabs */
+/* .tabs {
+  display: flex;
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 15px;
+}
+.tabs > div {
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+}
+.tabs > div.active {
+  border-color: #000;
+} */
+
+/* Filters */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filters input[type="date"],
+.filters input[type="text"] {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Dropdown */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #f7f7f7;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Mũi tên xoay */
+.dropdown .arrow {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.dropdown .arrow.open {
+  transform: rotate(180deg);
+}
+
+/* Dropdown menu */
+.dropdown ul {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border: 1px solid #ccc;
+  width: 180px;
+  padding: 0;
+  margin: 4px 0 0 0;
+  list-style: none;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.dropdown ul li {
+  padding: 10px 12px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.dropdown ul li:hover {
+  background-color: #f0f0f0;
+}
+
+/* Reset Button */
+.reset-btn {
+  padding: 6px 10px;
+  background: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* No Records */
+.no-records {
+  text-align: center;
+  margin-top: 100px;
+}
+.no-records-icon {
+  font-size: 60px;
+  margin-bottom: 10px;
+}
+.no-records-text strong {
+  font-size: 18px;
+}
+.no-records-text span {
+  color: gray;
+}
+
+/* right actions */
+/* .right-actions {
+  margin-top: 30px;
+  display: flex;
+  gap: 15px;
+}
+.right-actions button {
+  padding: 8px 16px;
+  border: none;
+  background: #0055ff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.right-actions button:hover {
+  background: #0041cc;
+} */
+
+.order-table {
+  table-layout: fixed; /* Giữ đúng tỷ lệ cột theo width */
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.order-table th,
+.order-table td {
+  padding: 8px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid #e0e0e0;
+  word-wrap: break-word;
+  white-space: normal;
+  font-size: 14px;
+}
+
+/* Phân chia cột theo tỷ lệ phần trăm tổng chiều ngang */
+.order-table th:nth-child(1),
+.order-table td:nth-child(1) {
+  width: 12%; /* ID lệnh */
+}
+
+.order-table th:nth-child(2),
+.order-table td:nth-child(2) {
+  width: 10%; /* Loại lệnh */
+}
+
+.order-table th:nth-child(3),
+.order-table td:nth-child(3) {
+  width: 12%; /* Số lượng */
+}
+
+.order-table th:nth-child(4),
+.order-table td:nth-child(4) {
+  width: 12%; /* Số tiền */
+}
+
+.order-table th:nth-child(5),
+.order-table td:nth-child(5) {
+  width: 12%; /* Đơn giá */
+}
+
+.order-table th:nth-child(6),
+.order-table td:nth-child(6) {
+  width: 18%; /* Đối tác */
+}
+
+.order-table th:nth-child(7),
+.order-table td:nth-child(7) {
+  width: 12%; /* Trạng thái */
+}
+
+.order-table th:nth-child(8),
+.order-table td:nth-child(8) {
+  width: 12%; /* Ngày & giờ */
+}
+
+
+/* ID link */
+.order-id .id-link {
+  color: #2563eb;
+  text-decoration: none;
+}
+.order-id .id-link:hover {
+  text-decoration: underline;
+}
+
+/* Loại lệnh */
+.order-type.buy {
+  color: #059669; /* xanh lá */
+  font-weight: 600;
+}
+.order-type.sell {
+  color: #dc2626; /* đỏ */
+  font-weight: 600;
+}
+
+/* Đối tác */
+.partner-name {
+  font-weight: 500;
+}
+.chat-btn {
+  margin-top: 4px;
+  background: #f3f4f6;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.chat-btn:hover {
+  background: #e5e7eb;
+}
+
+/* Trạng thái */
+.status {
+  font-weight: 500;
+  color: #6b7280;
+}
+.status.canceled {
+  color: #9ca3af; /* xám */
+}
+
+.status.pending {
+  color: #f97316; /* cam sáng */
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+@media (min-width: 1200px) {
+  .order-page{
+    width: 80%;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+   .order-page {
+    padding-bottom: 80px; 
+  }
+  .order-table {
+    border: none;
+  }
+
+  .order-table thead {
+    display: none;
+  }
+
+  .order-table, .order-table tbody, .order-table tr, .order-table td {
+    display: block;
+    /* width: 100%; */
+  }
+
+  .order-table tr {
+    margin: 16px auto;                
+  max-width: 95%;                 
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 16px 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  .order-table td {
+    padding: 6px 0;
+    text-align: left;
+    word-wrap: break-word;
+    white-space: normal;
+  }
+
+  /* Gắn label trước mỗi dòng */
+  .order-table td:nth-child(1)::before { content: "ID lệnh: "; font-weight: 600; }
+  .order-table td:nth-child(2)::before { content: "Loại lệnh: "; font-weight: 600; }
+  .order-table td:nth-child(3)::before { content: "Số lượng: "; font-weight: 600; }
+  .order-table td:nth-child(4)::before { content: "Số tiền: "; font-weight: 600; }
+  .order-table td:nth-child(5)::before { content: "Đơn giá: "; font-weight: 600; }
+  .order-table td:nth-child(6)::before { content: "Đối tác: "; font-weight: 600; }
+  .order-table td:nth-child(7)::before { content: "Trạng thái: "; font-weight: 600; }
+  .order-table td:nth-child(8)::before { content: "Thời gian: "; font-weight: 600; }
+
+  /* Các phần không cần label thì bỏ margin trên */
+  .order-id .id-link {
+    display: block;
+    margin-bottom: 4px;
+    color: #2563eb;
+  }
+
+  .chat-btn {
+    margin-top: 4px;
+  }
+}

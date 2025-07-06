@@ -1,0 +1,43 @@
+<div class="ads-selection">
+  <div class="navigation">
+    <div class="breadcrumb" (click)="goToPayment()">Giao dịch Nhanh</div>
+    <div class="breadcrumb" (click)="goToMethod()"> > Chọn phương thức thanh toán</div>
+    <div class="breadcrumb current"> > Chọn quảng cáo</div>
+  </div>
+
+  <div class="ads-container">
+    <div class="ads-list">
+        <h2>Chọn quảng cáo bạn muốn</h2>
+
+  <p class="countdown">
+    Danh sách này sẽ được làm mới sau <span class="green">00:{{ countdown < 10 ? '0' + countdown : countdown }}</span> giây
+  </p>
+      <div
+        *ngFor="let ad of ads; let i = index"
+        [class.selected]="selectedAdIndex === i"
+        class="ad-card"
+        (click)="selectAd(i)"
+      >
+        <div class="badge" *ngIf="ad.badge">{{ ad.badge }}</div>
+        <div class="price">{{ ad.price }} VND</div>
+        <div class="name">{{ ad.name }} </div>
+        <div class="info">Giao dịch {{ ad.trades }} • Hoàn tất {{ ad.rate }}% • ⭐ {{ ad.star }}%</div>
+        <span class="checkmark" *ngIf="selectedAdIndex === i">✔</span>
+      </div>
+
+      <div class="more-options">Bạn đang tìm kiếm thêm lựa chọn khác?</div>
+
+    <button class="confirm-button">Đặt lệnh</button>
+
+    </div>
+
+    <div class="preview">
+      <h3>Xem trước lệnh</h3>
+      <p><span class="label">Bạn thanh toán</span><span class="value">{{ payAmount }} VND</span></p>
+      <p><span class="label">Đơn giá</span><span class="value">1 USDT = {{ selectedAd?.price }} VND</span></p>
+      <p><span class="label">Mua bằng</span><span class="value bank">{{ bankMethod }}</span></p>
+      <p><span class="label">Bạn nhận</span><span class="value">{{ receiveAmount }} USDT</span></p>
+    </div>
+  </div>
+
+</div>

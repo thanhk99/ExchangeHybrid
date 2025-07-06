@@ -1,0 +1,85 @@
+
+<div class="step-container">
+  <!-- Header các bước -->
+  <div class="step-header">
+    <span class="step done">1. Đặt Giá & Loại</span>
+    <span class="step done">2. Tổng số lượng & PT thanh toán</span>
+    <span class="step active">3. Lưu ý & Phản hồi tự động</span>
+  </div>
+
+  <!-- Thông tin cảnh báo (dạng khối trắng, border) -->
+  <div class="info-box">
+    <p><strong>Vui lòng đảm bảo rằng bạn tuân thủ các quy tắc P2P:</strong></p>
+    <ul>
+      <li>1. Nếu bạn yêu cầu người mua cung cấp giấy tờ, bạn cần ghi rõ trong “Ghi chú”.</li>
+      <li>2. Không được áp dụng thêm bất kỳ khoản phí nào cho người mua.</li>
+    </ul>
+  </div>
+
+  <form (ngSubmit)="onSubmit()">
+    <!-- Thẻ điều khoản -->
+    <div class="form-group">
+      <label>Thẻ điều khoản (không bắt buộc)</label>
+      <select>
+        <option value="">Thêm thẻ</option>
+      </select>
+    </div>
+
+    <!-- Nhận xét -->
+    <div class="form-group">
+      <label>Nhận xét (không bắt buộc)</label>
+      <textarea rows="3" placeholder="Không đề cập đến các từ như: crypto, BTC, USDT, ETH..."></textarea>
+    </div>
+
+    <!-- Trả lời tự động -->
+    <div class="form-group">
+      <label>Trả lời tự động (không bắt buộc)</label>
+      <textarea rows="3" placeholder="Tin nhắn này sẽ được gửi tự động khi bắt đầu giao dịch."></textarea>
+    </div>
+
+    <!-- Hiển thị cho người dùng -->
+    <div class="form-group">
+      <label>Hiển thị cho người dùng tại</label>
+      <select>
+        <option>Tất cả khu vực</option>
+      </select>
+    </div>
+
+    <!-- Điều kiện đối tác -->
+    <div class="form-group">
+      <label>Điều kiện cho đối tác</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" /> Đã đăng ký trước <input type="number" min="0" placeholder="0"> ngày</label>
+        <label><input type="checkbox" /> Sở hữu tối thiểu <input type="number" min="0" placeholder="0.01"> BTC</label>
+      </div>
+    </div>
+
+    <!-- Trạng thái -->
+    <div class="form-group">
+      <label>Trạng thái</label>
+      <div class="radio-group">
+        <label><input type="radio" name="status" checked> Online</label>
+        <label><input type="radio" name="status"> Offline</label>
+        <label><input type="radio" name="status"> Riêng tư</label>
+      </div>
+    </div>
+
+    <!-- Nút điều hướng -->
+    <div class="form-actions">
+      <button type="button" (click)="goBack()" class="btn-outline">Trước</button>
+      <button type="submit" (click)="onSubmit()" class="btn-primary">Đăng</button>
+    </div>
+  </form>
+</div>
+
+<div class="modal-backdrop" *ngIf="showModal">
+  <div class="modal-box">
+    <h3>Phí ước tính</h3>
+    <p><strong>0.01 USDT</strong></p>
+
+    <div class="modal-actions">
+      <button class="btn-outline" (click)="closeModal()">Trước</button>
+      <button class="btn-primary" (click)="confirmSubmit()">Đăng</button>
+    </div>
+  </div>
+</div>

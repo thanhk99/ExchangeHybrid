@@ -1,0 +1,202 @@
+<app-nav-tabs [tabs]="buytabs"></app-nav-tabs>
+
+<div class="container">
+
+  <div class="form-section">
+
+    <h2>Đặt giá quảng cáo (1/3)</h2>
+
+    <div class="tab">
+      <button [class.active]="selectedTab === 'buy'" (click)="selectedTab = 'buy'">Mua</button>
+      <button [class.active]="selectedTab === 'sell'" (click)="selectedTab = 'sell'">Bán</button>
+    </div>
+
+    <div class="field-row horizontal">
+  <div class="field custom-dropdown">
+  <label>Tiền mã hóa</label>
+  <div class="dropdown-toggle" (click)="dropdownOpen = !dropdownOpen">
+    <img [src]="'assets/icons/' + selectedCoin.icon" width="20" />
+    <span class="symbol">{{ selectedCoin.symbol }}</span>
+    <small class="name">{{ selectedCoin.name }}</small>
+    <span class="arrow">&#9662;</span>
+  </div>
+
+  <div class="dropdown-menu" *ngIf="dropdownOpen">
+    <input type="text" [(ngModel)]="searchTerm" placeholder="Tìm kiếm" class="search-input" />
+
+    <div class="dropdown-item" *ngFor="let coin of filteredCoins" (click)="selectCoin(coin)">
+      <img [src]="'assets/icons/' + coin.icon" width="20" />
+      <span class="symbol">{{ coin.symbol }}</span>
+      <small class="name">{{ coin.name }}</small>
+    </div>
+  </div>
+</div>
+
+<div class="field custom-dropdown">
+  <label>Cho</label>
+  <div class="dropdown-toggle" (click)="fiatDropdownOpen = !fiatDropdownOpen">
+    <img [src]="'assets/flags/' + selectedFiat.icon" width="20" />
+    <span class="symbol">{{ selectedFiat.code }}</span>
+    <span class="arrow">&#9662;</span>
+  </div>
+
+  <div class="dropdown-menu" *ngIf="fiatDropdownOpen">
+    <input type="text" [(ngModel)]="searchFiat" placeholder="T.kiếm" class="search-input" />
+    
+    <div class="dropdown-item" *ngFor="let fiat of filteredFiats" (click)="selectFiat(fiat)">
+      <img [src]="'assets/flags/' + fiat.icon" width="20" />
+      <span class="symbol">{{ fiat.code }}</span>
+    </div>
+  </div>
+</div>
+</div>
+
+    <div class="field custom-dropdown">
+  <label>Loại giá</label>
+  <div class="dropdown-toggle" (click)="priceDropdownOpen = !priceDropdownOpen">
+    <span>{{ selectedPriceType.label }}</span>
+    <span class="arrow">&#9662;</span>
+  </div>
+
+  <div class="dropdown-menu" *ngIf="priceDropdownOpen">
+    <div
+      class="dropdown-item has-description"
+      *ngFor="let type of priceTypes"
+      (click)="selectPriceType(type)"
+      [class.selected]="type.label === selectedPriceType.label"
+    >
+      <div class="item-title">{{ type.label }}</div>
+      <div class="item-desc">{{ type.description }}</div>
+    </div>
+  </div>
+</div>
+
+    <!-- Đơn giá -->
+<div class="field input-with-unit">
+  <label>Đơn giá</label>
+  <div class="input-wrapper">
+    <input type="number"
+           placeholder="0"
+           [(ngModel)]="price"
+           [ngModelOptions]="{ standalone: true }" />
+    <span class="unit">VND</span>
+  </div>
+  <small class="note">
+    Giá của bạn khớp giá thị trường hiện tại<br />
+    Giá thị trường 26.095 VND<br />
+    Giá cao nhất hiện tại trên sàn giao dịch 26.422 VND
+  </small>
+</div>
+
+<!-- Số lượng -->
+<div class="field input-with-unit">
+  <label>Số lượng</label>
+  <div class="input-wrapper">
+    <input type="number"
+           placeholder="0"
+           [(ngModel)]="amount"
+           [ngModelOptions]="{ standalone: true }" />
+    <span class="unit">USDT</span>
+  </div>
+</div>
+
+<!-- hạn mức -->
+  <div class="field limit-range">
+  <label>
+    Hạn mức giao dịch đơn lẻ
+    <span class="info-icon" title="Khoảng giới hạn tối thiểu và tối đa cho từng lệnh">ⓘ</span>
+  </label>
+  <div class="limit-input-group">
+    <div class="limit-input">
+      <input type="number"
+             placeholder="Tối thiểu"
+             [(ngModel)]="minLimit"
+             [ngModelOptions]="{ standalone: true }" />
+      <span class="unit">VND</span>
+    </div>
+    <div class="range-divider">~</div>
+    <div class="limit-input">
+      <input type="number"
+             placeholder="Tối đa"
+             [(ngModel)]="maxLimit"
+             [ngModelOptions]="{ standalone: true }" />
+      <span class="unit">VND</span>
+    </div>
+  </div>
+</div>
+
+    <div class="field custom-dropdown">
+  <label>Thị trường</label>
+  <div class="dropdown-toggle" (click)="marketDropdownOpen = !marketDropdownOpen">
+    <span>{{ selectedMarket.label }}</span>
+    <span class="arrow">&#9662;</span>
+  </div>
+
+  <div class="dropdown-menu" *ngIf="marketDropdownOpen">
+    <div
+      class="dropdown-item has-description"
+      *ngFor="let option of marketOptions"
+      (click)="selectMarket(option)"
+      [class.selected]="option.label === selectedMarket.label"
+    >
+      <div class="item-title">{{ option.label }}</div>
+      <div class="item-desc">{{ option.description }}</div>
+    </div>
+  </div>
+</div>
+
+    <button
+  class="next-btn"
+  [disabled]="!isFormValid"
+  [ngClass]="{ 'active': isFormValid, 'disabled': !isFormValid }"
+  (click)="NextStepPage()"
+>
+  Tiếp theo
+</button>
+  </div>
+
+  <div class="preview-section">
+  <h3>Xem trước quảng cáo {{ selectedTab === 'sell' ? 'bán' : 'mua' }}</h3>
+
+  <div class="preview-info">
+    <p><strong>Tiền mã hóa</strong> <span>{{ selectedCrypto.symbol }} {{ selectedCrypto.name }}</span></p>
+
+    <p><strong>Loại giá</strong> <span>{{ selectedPriceType.label }}</span></p>
+
+    <p><strong>Đơn giá</strong>
+      <span>{{ price ? (price | number: '1.0-3') + ' VND' : '-- VND' }}</span>
+    </p>
+
+    <p><strong>Số lượng</strong>
+      <span>{{ amount  ? (amount + ' USDT') : '-- USDT' }}</span>
+    </p>
+
+    <p *ngIf="minLimit && maxLimit">
+  <strong>Hạn mức</strong>
+  <span>Tối thiểu {{ minLimit | number }} ~ Tối đa {{ maxLimit | number }} VND</span>
+</p>
+
+    <p><strong>Thị trường</strong> <span>{{ selectedMarket.label }}</span></p>
+
+    <p><strong>Tổng số tiền</strong>
+      <span>{{ price && amount ? (price * amount | number: '1.0-2') + ' VND' : '0,00 VND' }}</span>
+    </p>
+
+    <p><strong>Phương thức thanh toán</strong> <span>-</span></p>
+  </div>
+
+  <div class="terms">
+    <p><strong>Điều khoản giao dịch</strong></p>
+    <p>
+      Vui lòng đảm bảo rằng tài khoản nhận khớp với tên tài khoản OKX đã xác minh của bạn.
+      Bạn có thể liên hệ nếu gặp vấn đề.
+    </p>
+
+    <p><strong>Tin nhắn chào mừng</strong></p>
+    <p>Đừng ngần ngại trò chuyện nếu bạn có bất kỳ thắc mắc nào.</p>
+
+    <p><strong>Quy tắc giao dịch</strong></p>
+    <p>Thanh toán trong vòng 10 phút</p>
+  </div>
+</div>
+</div>
