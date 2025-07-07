@@ -1,13 +1,13 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { routes } from './app.routes';
 import { provideToastr } from 'ngx-toastr';
 import { provideAnimations } from '@angular/platform-browser/animations';
-
+import { AuthInterceptor } from './interceptors/auth-interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http'; 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes),
     provideAnimations(), // Bắt buộc cho Toastr
@@ -18,6 +18,15 @@ export const appConfig: ApplicationConfig = {
       closeButton: true,
       progressBar: true,
     }),
-    provideHttpClient()
+    provideHttpClient(),
+    provideAnimations(),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
+    provideHttpClient(
+      withInterceptorsFromDi() // <-- Thêm dòng này
+    ),
   ]
 };
