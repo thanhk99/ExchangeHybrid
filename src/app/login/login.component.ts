@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Auth } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,10 @@ export class LoginComponent {
   private inputLoginEmail!: HTMLInputElement;
   private inputLoginPassWord!: HTMLInputElement;
   private loginOtp!: HTMLInputElement;
-  constructor(private toasrt: ToastrService) {}
+  constructor(
+    private toasrt: ToastrService,
+    private authService : Auth
+  ) {}
   ngAfterViewInit() {
     this.inputLoginEmail = document.getElementById(
       'loginEmail'
@@ -68,6 +72,7 @@ export class LoginComponent {
       return;
     }
     this.currentLoginEmail = email;
+    this.authService.loginService(email,password);
     this.setActiveFormStep(2);
     this.toasrt.success(`Đã gửi mã OTP đến ${email}`, '', { timeOut: 3000 });
   }

@@ -2,7 +2,7 @@ import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-
+import { Auth } from '../services/auth.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -16,12 +16,13 @@ export class HeaderComponent {
   showMobileMenu: boolean = false;
 
   constructor(private router: Router,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private authService:Auth
   ) {}
 
   searchActive: boolean = false;
 
-  isLoggedIn: boolean = false;
+  isLoggedIn: boolean = true;
   showUserMenu = false;
 
 
@@ -224,6 +225,11 @@ onAssetMenuLeave() {
   this.hidweAssetMenuTimeout = setTimeout(() => {
     this.showAssetMenu = false;
   }, 500);
+}
+
+logout(){
+  console.log("OK")
+  this.authService.logout()
 }
 
 }
