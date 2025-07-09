@@ -26,7 +26,7 @@ export const appConfig: ApplicationConfig = {
       multi: true
     },
     provideHttpClient(
-      withInterceptorsFromDi() // <-- Thêm dòng này
+      withInterceptorsFromDi() 
     ),
   ]
 };

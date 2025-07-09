@@ -12,7 +12,6 @@ import { Auth } from '../services/auth.service';
 export class LoginComponent {
   @ViewChild('loginFormElement') loginFormElement!: ElementRef<HTMLDivElement>;
   @ViewChild('loginStep1') loginStep1!: ElementRef<HTMLDivElement>;
-  @ViewChild('loginStep2') loginStep2!: ElementRef<HTMLDivElement>;
   currentLoginEmail = '';
   private inputLoginEmail!: HTMLInputElement;
   private inputLoginPassWord!: HTMLInputElement;
@@ -40,18 +39,11 @@ export class LoginComponent {
   }
   private setActiveFormStep(step: number) {
     this.loginStep1.nativeElement.style.display = 'none';
-    this.loginStep2.nativeElement.style.display = 'none';
     if (step == 1) {
       this.loginStep1.nativeElement.classList.add('active');
       this.loginStep1.nativeElement.style.display = 'block';
       this.loginStep1.nativeElement.style.opacity = '1';
       this.loginFormElement.nativeElement.dataset[step] = '1';
-    }
-    if (step == 2) {
-      this.loginStep2.nativeElement.classList.add('active');
-      this.loginStep2.nativeElement.style.display = 'block';
-      this.loginStep2.nativeElement.style.opacity = '1';
-      this.loginFormElement.nativeElement.dataset[step] = '2';
     }
   }
   private handleSendOtp() {

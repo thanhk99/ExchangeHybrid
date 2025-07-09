@@ -34,13 +34,13 @@ export class Auth {
       }
     )
   }
-  refreshToken(): Observable<{ accessToken: string, refreshToken: string }> {
+  refreshToken(): Observable<{}> {
     const refreshToken = this.tokenService.getRefreshToken();
     const body = { 
       refreshToken: refreshToken
     };
     
-    return this.http.post<{ accessToken: string, refreshToken: string }>(
+    return this.http.post (
       environment.apiRefreshToken,
       body
     ).pipe(
@@ -66,5 +66,16 @@ export class Auth {
   // Kiểm tra đã đăng nhập chưa
   isAuthenticated(): boolean {
     return this.tokenService.hasTokens();
+  }
+
+  getUser(){
+    this.http.get(environment.apiGetUser).subscribe(
+      (res:any)=>{
+        console.log(res)
+      },
+      (err:any)=>{
+        console.log(err)
+      }
+    )
   }
 }

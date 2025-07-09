@@ -16,6 +16,6 @@ export const routes: Routes = [
   { path: 'assetpage', component: Assetpage },
   { path: 'funding-wallet', component: FundingWallet },
   { path: 'register', component: RegisterComponent },
-  { path: 'loginPage', component: LoginComponent },
+  { path: 'login', component: LoginComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

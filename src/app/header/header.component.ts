@@ -22,7 +22,7 @@ export class HeaderComponent {
 
   searchActive: boolean = false;
 
-  isLoggedIn: boolean = true;
+  isLoggedIn: boolean = false;
   showUserMenu = false;
 
 
@@ -124,7 +124,11 @@ menuItems: any[] = [];
         icon: this.sanitizer.bypassSecurityTrustHtml(sub.icon || '') as SafeHtml
       }))
     }));
-  
+    if(this.authService.isAuthenticated()){
+      this.isLoggedIn=true
+      this.getUser()
+    }
+   
   }
 
   getSanitizedIcon(icon: string): SafeHtml {
@@ -228,8 +232,11 @@ onAssetMenuLeave() {
 }
 
 logout(){
-  console.log("OK")
   this.authService.logout()
+}
+
+getUser(){
+  this.authService.getUser()
 }
 
 }

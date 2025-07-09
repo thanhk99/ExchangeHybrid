@@ -30,12 +30,11 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
       catchError(error => {
+        console.log(error.status)
         if (error instanceof HttpErrorResponse) {
           switch (error.status) {
-            case 401: // Unauthorized (Token hết hạn/không hợp lệ)
+            case 403: // Unauthorized (Token hết hạn/không hợp lệ)
               return this.handleUnauthorizedError(request, next);
-            case 403: // Forbidden (Không có quyền)
-              return this.handleForbiddenError(error);
             default:
               return throwError(() => error);
           }
@@ -80,10 +79,5 @@ export class AuthInterceptor implements HttpInterceptor {
         })
       );
     }
-  }
-
-  private handleForbiddenError(error: HttpErrorResponse): Observable<never> {
-    // Hiển thị thông báo không có quyền truy cập
-    return throwError(() => error);
-  }
+  } 
 }
