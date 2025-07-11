@@ -68,9 +68,9 @@
   </a>
 
   <div class="user-dropdown" *ngIf="showUserMenu">
-    <div class="user-info">
-      <div class="email">tri.com</div>
-      <div class="uid">UID: 88888888</div>
+    <div class="user-info" *ngIf="user">
+      <div class="email">{{ user.username }}</div>
+      <div class="uid">UID: {{ user.uid }}</div>
     </div>
     <hr />
     <ul>
@@ -85,7 +85,11 @@
       <li> Uỷ quyền của bên thứ ba</li>
     </ul>
     <hr />
-    <div class="logout" (click)="logout()">Đăng xuất</div>
+    <div class="logout" 
+          (click)="logout()" 
+          [style.pointer-events]="isLoggingOut ? 'none' : 'auto'" 
+          [style.opacity]="isLoggingOut ? '0.6' : '1'" >
+            Đăng xuất</div>
   </div> 
 </div>
 
@@ -95,8 +99,8 @@
 
      <ng-template #notLoggedIn>
       <ng-container *ngIf="!isMobile">
-        <a class="header-rightmore mr-2" href="#">Đăng nhập</a>
-        <a class="header-rightmore" href="#">Đăng ký</a>
+        <a class="header-rightmore mr-2" (click)="goToLogin()" >Đăng nhập</a>
+        <a class="header-rightmore"  (click)="goToRegister()">Đăng ký</a>
       </ng-container>
     </ng-template>
 
@@ -110,8 +114,8 @@
   <div class="close-btn" (click)="toggleMenu()">×</div>
 
   <ng-container *ngIf="!isLoggedIn && isMobile">
-    <a class="header-rightmore" href="#">Đăng ký</a>
-    <a class="header-rightmore" href="#">Đăng nhập</a>
+    <a class="header-rightmore" (click)="goToLogin()" >Đăng ký</a>
+    <a class="header-rightmore" (click)="goToRegister()">Đăng nhập</a>
   </ng-container>
 
   <ng-container *ngIf="isLoggedIn && isMobile">

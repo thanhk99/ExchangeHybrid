@@ -231,12 +231,37 @@ onAssetMenuLeave() {
   }, 500);
 }
 
+isLoggingOut = false;
+
 logout(){
+  if (this.isLoggingOut) return; 
+  this.isLoggingOut = true;
   this.authService.logout()
+
 }
 
-getUser(){
-  this.authService.getUser()
+user: any;
+
+getUser() {
+  this.authService.getUser().subscribe(
+    (res: any) => {
+      this.user = res;
+      console.log(res);
+    },
+    (err: any) => {
+      console.error('Lỗi khi lấy thông tin người dùng', err);
+    }
+  );
 }
+
+goToRegister() {
+  this.router.navigate(['/register']);
+}
+
+goToLogin() {
+  this.router.navigate(['/login']);
+}
+
+
 
 }

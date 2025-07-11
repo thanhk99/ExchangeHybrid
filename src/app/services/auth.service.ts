@@ -27,7 +27,9 @@ export class Auth {
     this.http.post(environment.apiLogin,body).subscribe(
       (res:any)=>{
         this.tokenService.setTokens(res.accessToken, res.refreshToken);
-        this.router.navigate(["/home"]) ; 
+       this.router.navigate(["/home"]).then(() => {
+        window.location.reload();
+      });
       },
       (err:any)=>{
         this.toast.error("Login fail","Error",{timeOut:3000})
@@ -63,19 +65,28 @@ export class Auth {
     )
   }
 
+//   logout(): Observable<any> {
+//   return this.http.post(environment.apiLogout, {}).pipe(
+//     tap(() => {
+//       this.tokenService.clearTokens();
+//     })
+//   );
+// }
+
   // Kiểm tra đã đăng nhập chưa
   isAuthenticated(): boolean {
     return this.tokenService.hasTokens();
   }
 
-  getUser(){
-    this.http.get(environment.apiGetUser).subscribe(
-      (res:any)=>{
-        console.log(res)
-      },
-      (err:any)=>{
-        console.log(err)
-      }
-    )
+  getUser(): Observable<any> {
+    return this.http.get(environment.apiGetUser);
+    // this.http.get(environment.apiGetUser).subscribe(
+    //   (res:any)=>{
+    //     console.log(res)
+    //   },
+    //   (err:any)=>{
+    //     console.log(err)
+    //   }
+    // )
   }
 }
