@@ -5,6 +5,8 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { DeviceManagement } from './device-management/device-management';
 import { Assetpage } from './assetpage/assetpage';
 import { FundingWallet } from './funding-wallet/funding-wallet';
+import { EarnComponent } from './earn/earn.component';
+import { SimpleEarnComponent } from './simple-earn/simple-earn.component';
 
 export const routes: Routes = [
     { path: '', component: HomepageComponent },
@@ -13,6 +15,9 @@ export const routes: Routes = [
     { path: 'device-management', component: DeviceManagement },
     { path: 'assetpage', component: Assetpage },
     { path: 'funding-wallet', component: FundingWallet },
+    { path: 'earn', component: EarnComponent },
+     { path: 'simple-earn', component: SimpleEarnComponent },
     { path: '**', redirectTo: '', pathMatch: 'full' },
+    
 ];
 
