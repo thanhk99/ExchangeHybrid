@@ -4,8 +4,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class TokenService {
-  private readonly ACCESS_TOKEN_KEY = 'access_token';
-  private readonly REFRESH_TOKEN_KEY = 'refresh_token';
+  private readonly ACCESS_TOKEN_KEY = 'a_tk';
+  private readonly REFRESH_TOKEN_KEY = 'rh_to';
 
   // Lưu token
   setTokens(accessToken: string, refreshToken: string): void {
