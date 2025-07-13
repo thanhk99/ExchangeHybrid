@@ -1,41 +1,39 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-// @Injectable({
-//   providedIn: 'root'
-// })
-  interface Product {
-    token: string;
-    aprRange: string;
-    tenure: string;
-    limit?: string;
-    icon?: string;
-  }
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment'; // Adjust the path as needed
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
 export class CoininfoService {
-  private apiUrl = 'api/v1/earn/coininfo';
+  private readonly COIN_INFO_KEY = 'coin_info';
 
   constructor(private http: HttpClient) {}
 
-
-  getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.apiUrl).pipe(
-      catchError(this.handleError)
-    );
+  // Lấy thông tin coin từ API
+  getCoinInfo(): Observable<any> {
+    return this.http.get<any>(environment.apiGetToken);
   }
 
-  private handleError(error: HttpErrorResponse) {
-    let errorMessage = 'An unknown error occurred!';
-    if (error.error instanceof ErrorEvent) {
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    console.error(errorMessage);
-    return throwError(() => new Error(errorMessage));
+  // Lưu thông tin coin vào localStorage
+  setCoinInfo(coinInfo: any): void {
+    localStorage.setItem(this.COIN_INFO_KEY, JSON.stringify(coinInfo));
   }
-}
 
-function getProducts() {
-  throw new Error('Function not implemented.');
+  // Lấy thông tin coin từ localStorage
+  getCoinInfoFromStorage(): any | null {
+    const coinInfo = localStorage.getItem(this.COIN_INFO_KEY);
+    return coinInfo ? JSON.parse(coinInfo) : null;
+  }
+
+  // Xóa thông tin coin
+  clearCoinInfo(): void {
+    localStorage.removeItem(this.COIN_INFO_KEY);
+  }
+
+  // Kiểm tra có thông tin coin không
+  hasCoinInfo(): boolean {
+    return !!this.getCoinInfoFromStorage();
+  }
 }

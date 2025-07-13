@@ -26,8 +26,6 @@
         <button class="lend-button">Cho vay ngay</button>
       </div>
     </div>
-    
-    
   </div>
   <div class="portfolio">
     <h3>Sản phẩm</h3>
@@ -54,46 +52,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td><img src="usdt.png" alt="USDT"> USDT</td>
-          <td>4.00%</td>
-          <td>Linh hoạt/Cố định</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td><img src="btc.png" alt="BTC"> BTC</td>
-          <td>2.50%</td>
-          <td>Linh hoạt/Cố định</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td><img src="eth.png" alt="ETH"> ETH</td>
-          <td>2.00%</td>
-          <td>Linh hoạt/Cố định</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td><img src="resolv.png" alt="RESOLV"> RESOLV</td>
-          <td>306.00%</td>
-          <td>Linh hoạt</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td><img src="soph.png" alt="SOPH"> SOPH</td>
-          <td>183.00%</td>
-          <td>Linh hoạt</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td><img src="1inch.png" alt="1INCH"> 1INCH</td>
-          <td>118.00%</td>
-          <td>Linh hoạt</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td><img src="mina.png" alt="MINA"> MINA</td>
-          <td>50.00%</td>
-          <td>Linh hoạt</td>
+        <tr *ngFor="let product of products">
+          <td><img [src]="product.icon" alt="{{product.name}}"> {{product.name}}</td>
+          <td>{{product.apr}}%</td>
+          <td>{{product.tenure}}</td>
           <td></td>
         </tr>
       </tbody>

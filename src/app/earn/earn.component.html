@@ -2,69 +2,61 @@
 <div class="earn-container">
   <div class="earn-header-illustration">
     <div class="earn-header">
-      <h2>Đề crypto sinh lời</h2>
-      <p>Khi đầu tư hàng ngày trên hơn 100 token bao gồm USDT, USDC và ETH.</p>
+      <h2>Để crypto sinh lời</h2>
+      <p>Kiếm thưởng hàng ngày trên hơn 100 token bao gồm USDT, USDC và ETH.</p>
     </div>
     <div class="earn-illustration">
-      <img src="coin.png" alt="Earn Illustration">
+      <img src="earn.png" alt="Earn Illustration">
     </div>
   </div>
+  <br>
   <div class="earn-content">
     <div class="earn-box">
-      <img src="usdt.png" alt="Earn Icon">
-      <div class="earn-details">
-        <h3>USDT</h3>
-        <p>ARP cho vay: 4.00%</p>
-        <button>Cho vay ngay</button>
+      <div class="earn-illustration-left">
+        <img src="usdt-illustration.png" alt="USDT Illustration">
       </div>
-    </div>
-    <div class="earn-box">
-      <img src="btc.png" alt="Earn Icon">
-      <div class="earn-details">
-        <h3>BTC</h3>
-        <p>ARP cho vay: 2.50%</p>
-        <button>Cho vay ngay</button>
-      </div>
-    </div>
-    <div class="earn-box">
-      <img src="eth.png" alt="Earn Icon">
-      <div class="earn-details">
-        <h3>ETH</h3>
-        <p>ARP cho vay: 2.00%</p>
-        <button>Cho vay ngay</button>
+      <div class="earn-details-right">
+        <div class="earn-token">
+          <img src="usdt.png" alt="USDT" class="token-icon">
+          <span>USDT</span>
+          <span class="product-type">Simple Earn Cố định</span>
+        </div>
+        <div class="earn-apr">APR cho vay <span class="apr-value">4.00%</span></div>
+        <p>Cho vay crypto của bạn để nhận thêm lợi nhuận trên nền tảng có độ tin cậy cao.</p>
+        <button class="lend-button">Cho vay ngay</button>
       </div>
     </div>
   </div>
   <div class="portfolio">
     <h3>Sản phẩm</h3>
     <div class="filter-section">
-      <select name="sort" id="sort">
-        <option value="a-z">Tên A-Z</option>
-        <option value="z-a">Tên Z-A</option>
-        <option value="hot">Thứ tự Hot</option>
-      </select>
-      <select name="tenure" id="tenure">
+      <select name="tenure" id="tenure" class="sort-box tenure-sort">
         <option value="all">Tất cả</option>
         <option value="flexible">Linh hoạt</option>
         <option value="fixed">Cố định</option>
       </select>
-      <input type="text" placeholder="Tìm kiếm tên hoặc mã">
+      <select name="sort" id="sort" class="sort-box name-sort">
+        <option value="a-z">Tên A-Z</option>
+        <option value="z-a">Tên Z-A</option>
+        <option value="hot">Thứ tự Hot</option>
+      </select>
+      <input type="text" placeholder="Tìm kiếm tên hoặc mã" class="search-box">
     </div>
     <table>
       <thead>
         <tr>
           <th>Token</th>
-          <th>APR thời trung</th>
+          <th>APR trung bình</th>
           <th>Thời hạn</th>
-          <th>Hạn định</th>
+          <th>Hành Động</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let product of products">
-          <td><img [src]="product.icon || 'default-icon.png'" alt="{{product.token}}"> {{product.token}}</td>
-          <td>{{product.aprRange}}</td>
+          <td><img [src]="product.icon" alt="{{product.name}}"> {{product.name}}</td>
+          <td>{{product.apr}}%</td>
           <td>{{product.tenure}}</td>
-          <td>{{product.limit || ''}}</td>
+          <td></td>
         </tr>
       </tbody>
     </table>

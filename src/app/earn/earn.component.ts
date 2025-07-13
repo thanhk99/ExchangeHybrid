@@ -12,7 +12,7 @@ import { NavTabs } from '../shared/nav-tabs/nav-tabs';
   imports: [CommonModule, FormsModule, RouterModule, NavTabs],
   standalone: true
 })
-export class EarnComponent implements OnInit{
+export class EarnComponent implements OnInit {
   earnTabs = [
     { label: 'Tổng quan', path: '/earn' },
     { label: 'Simple Earn', path: '/earn/simple-earn' },
@@ -29,9 +29,9 @@ export class EarnComponent implements OnInit{
   }
 
   loadProducts() {
-    this.coininfoService.getProducts().subscribe({
+    this.coininfoService.getCoinInfo().subscribe({
       next: (data) => {
-        this.products = data;
+        this.products = Array.isArray(data) ? data : [data]; // Ensure data is an array
       },
       error: (err) => {
         console.error('Failed to load products', err);

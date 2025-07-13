@@ -20,4 +20,22 @@ export class SimpleEarnComponent {
     { label: 'Đầu tư kép', path: '' },
     { label: 'On-chain Earn', path: '' },
   ];
+products: any[] = [];
+
+  constructor(private coininfoService: CoininfoService) {}
+
+  ngOnInit() {
+    this.loadProducts();
+  }
+
+  loadProducts() {
+    this.coininfoService.getCoinInfo().subscribe({
+      next: (data) => {
+        this.products = Array.isArray(data) ? data : [data];
+      },
+      error: (err) => {
+        console.error('Failed to load products', err);
+      }
+    });
+  }
 }

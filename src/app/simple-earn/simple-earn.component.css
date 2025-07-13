@@ -12,12 +12,15 @@
   overflow: hidden;
   padding: 20px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  text-align: center;
+  height: 400px;
 }
 
 .earn-header {
-  width: 60%;
+  width: auto;
+  margin-right: 20px;
 }
 
 .earn-header h2 {
@@ -25,6 +28,7 @@
   margin-bottom: 10px;
   font-family: 'Verdana', sans-serif;
   font-weight: bold;
+  text-align: left;
 }
 
 .earn-header p {
@@ -33,12 +37,14 @@
 }
 
 .earn-illustration {
-  text-align: right;
+  text-align: center;
 }
 
 .earn-illustration img {
   width: 400px;
   height: 250px;
+  display: block;
+  margin: 0 auto;
 }
 
 .tabs {
