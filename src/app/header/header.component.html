@@ -114,8 +114,8 @@
   <div class="close-btn" (click)="toggleMenu()">×</div>
 
   <ng-container *ngIf="!isLoggedIn && isMobile">
-    <a class="header-rightmore" (click)="goToLogin()" >Đăng ký</a>
-    <a class="header-rightmore" (click)="goToRegister()">Đăng nhập</a>
+    <a class="header-rightmore" (click)="goToLogin()" >Đăng nhập</a>
+    <a class="header-rightmore" (click)="goToRegister()">Đăng ký</a>
   </ng-container>
 
   <ng-container *ngIf="isLoggedIn && isMobile">

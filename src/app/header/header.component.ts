@@ -124,11 +124,19 @@ menuItems: any[] = [];
         icon: this.sanitizer.bypassSecurityTrustHtml(sub.icon || '') as SafeHtml
       }))
     }));
-    if(this.authService.isAuthenticated()){
-      this.isLoggedIn=true
-      this.getUser()
-    }
+    // if(this.authService.isAuthenticated()){
+    //   this.isLoggedIn=true
+    //   this.getUser()
+    // }
    
+    this.authService.isLoggedIn$.subscribe((loggedIn) => {
+    this.isLoggedIn = loggedIn;
+    if (loggedIn) {
+      this.getUser();
+    }
+  });
+
+
   }
 
   getSanitizedIcon(icon: string): SafeHtml {
