@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, tap, BehaviorSubject } from 'rxjs';
+import { Observable, tap, BehaviorSubject,of } from 'rxjs';
 import { TokenService } from './token.service';
 import { ToastrService } from 'ngx-toastr';
 import { DeviceService } from './device.service';
@@ -15,7 +15,7 @@ export class Auth {
 
   private isLoggedInSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public isLoggedIn$ = this.isLoggedInSubject.asObservable();
-
+  private staticOtp = '000000'; // otp mặc định
   constructor(
     private http : HttpClient ,
     private router : Router,
@@ -114,4 +114,58 @@ export class Auth {
     //   }
     // )
   }
+// send otp
+  sendOtp(email: string): Observable<any> {
+    return of({
+      success: true,
+      message: `Mã OTP đã được gửi đến ${email}`,
+      otp: this.staticOtp
+    }).pipe(
+      tap(() => {
+        this.toast.success(`Mã OTP đã được gửi đến ${email}`, 'Thành công', { timeOut: 3000 });
+      })
+    );
+  }
+  // verify otp
+  verifyOtp(otp: string): Observable<any> {
+    if (otp === this.staticOtp) {
+      return of({
+        success: true,
+        message: 'Xác thực OTP thành công'
+      });
+    } else {
+      return of({
+        success: false,
+        message: 'Mã OTP không hợp lệ'
+      });
+    }
+  }
+  signup(username: string, password: string, email: string, nation: string = 'vi-en'): Observable<any> {
+    const body = {
+      username,
+      password,
+      email,
+      nation
+    };
+    return this.http.post(environment.apiRegister, body).pipe(
+      tap((res: any) => {
+        if (res.success) {
+          this.toast.success(res.message, 'Thành công', { timeOut: 3000 });
+          // Lưu token nếu API trả về token (giả sử API trả về accessToken và refreshToken)
+          if (res.data.accessToken && res.data.refreshToken) {
+            this.tokenService.setTokens(res.data.accessToken, res.data.refreshToken);
+            this.isLoggedInSubject.next(true);
+          }
+        }
+      })
+    );
+  }
+
+
+
+
+
+
 }
+
+
