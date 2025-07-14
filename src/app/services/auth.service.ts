@@ -45,7 +45,6 @@ export class Auth {
           this.router.navigate(["/home"])
         }, 500);
        
-      //  .then(() => { window.location.reload();})
       ;
       },  
       (err:any)=>{
@@ -77,7 +76,7 @@ export class Auth {
     this.http.post(environment.apiLogout,body).subscribe(
       (res:any)=>{
         this.tokenService.clearTokens();
-        this.deviceService.setDeviceStorage(res.deviceInfo.deviceId);
+        this.deviceService.clearDeviceId();
         setTimeout(() => {
           this.isLoggedInSubject.next(false);
           this.router.navigate(['/login']);
