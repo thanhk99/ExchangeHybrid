@@ -39,7 +39,7 @@ export class Auth {
     this.http.post(environment.apiLogin,body).subscribe(
       (res:any)=>{
         this.tokenService.setTokens(res.accessToken, res.refreshToken);
-        this.deviceService.setDeviceStorage(res.deviceInfo.deviceId)
+        this.deviceService.setDeviceStorage(res.deviceInfo.deviceId);
        setTimeout(() => {
           this.isLoggedInSubject.next(true);
           this.router.navigate(["/home"])
@@ -77,7 +77,7 @@ export class Auth {
     this.http.post(environment.apiLogout,body).subscribe(
       (res:any)=>{
         this.tokenService.clearTokens();
-        this.deviceService.setDeviceStorage(res.deviceInfo.deviceId)
+        this.deviceService.setDeviceStorage(res.deviceInfo.deviceId);
         setTimeout(() => {
           this.isLoggedInSubject.next(false);
           this.router.navigate(['/login']);
@@ -90,13 +90,6 @@ export class Auth {
     )
   }
 
-//   logout(): Observable<any> {
-//   return this.http.post(environment.apiLogout, {}).pipe(
-//     tap(() => {
-//       this.tokenService.clearTokens();
-//     })
-//   );
-// }
 
   // Kiểm tra đã đăng nhập chưa
   isAuthenticated(): boolean {
