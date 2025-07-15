@@ -6,6 +6,7 @@ import { Observable, tap, BehaviorSubject,of } from 'rxjs';
 import { TokenService } from './token.service';
 import { ToastrService } from 'ngx-toastr';
 import { DeviceService } from './device.service';
+import { HttpHeaders } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
@@ -108,6 +109,7 @@ export class Auth {
   }
 // send otp
   sendOtp(email: string): Observable<any> {
+    console.log('Sending OTP to:', email); // debug log
     return of({
       success: true,
       message: `Mã OTP đã được gửi đến ${email}`,
@@ -120,6 +122,7 @@ export class Auth {
   }
   // verify otp
   verifyOtp(otp: string): Observable<any> {
+    console.log('Verifying OTP:', otp); // debug log
     if (otp === this.staticOtp) {
       return of({
         success: true,
@@ -132,32 +135,33 @@ export class Auth {
       });
     }
   }
-  signup(username: string, password: string, email: string, nation: string = 'vi-en'): Observable<any> {
+ //đăng kí
+registerService(email: string, password: string, username: string, nation: string = 'vi-en'): Observable<any> {
     const body = {
-      username,
-      password,
       email,
+      password,
+      username,
       nation
     };
     return this.http.post(environment.apiRegister, body).pipe(
-      tap((res: any) => {
-        if (res.success) {
-          this.toast.success(res.message, 'Thành công', { timeOut: 3000 });
-          // Lưu token nếu API trả về token (giả sử API trả về accessToken và refreshToken)
-          if (res.data.accessToken && res.data.refreshToken) {
-            this.tokenService.setTokens(res.data.accessToken, res.data.refreshToken);
-            this.isLoggedInSubject.next(true);
+      tap({
+        next: (res: any) => {
+          if (res.success) {
+            this.toast.success(res.message || 'Đăng ký thành công', 'Thành công', { timeOut: 3000 });
+            setTimeout(() => {
+              this.loginService(email, password);
+              this.isLoggedInSubject.next(true);
+              this.router.navigate(['/home']);
+            }, 500);
+          } else {
+            this.toast.error(res.message || 'Đăng ký thất bại', 'Lỗi', { timeOut: 3000 });
           }
+        },
+        error: (err: any) => {
+          const errorMessage = err.error?.message || (err.status === 409 ? 'Email hoặc tên người dùng đã tồn tại' : 'Có lỗi xảy ra khi đăng ký');
+          this.toast.error(errorMessage, 'Lỗi', { timeOut: 3000 });
         }
       })
     );
   }
-
-
-
-
-
-
 }
-
-

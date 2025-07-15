@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Auth } from '../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -15,13 +16,19 @@ export class RegisterComponent {
   @ViewChild('registerStep1') registerStep1!: ElementRef<HTMLDivElement>;
   @ViewChild('registerStep2') registerStep2!: ElementRef<HTMLDivElement>;
   @ViewChild('registerStep3') registerStep3!: ElementRef<HTMLDivElement>;
+  @ViewChild('registerStep4') registerStep4!: ElementRef<HTMLDivElement>;
 
   currentRegisterEmail = '';
   private registerEmail!: HTMLInputElement;
   private registerOtp!: HTMLInputElement;
   private registerPassword!: HTMLInputElement;
   private confirmPassword!: HTMLInputElement;
-  constructor(private toastr: ToastrService) {}
+  private registerUsername!:HTMLInputElement;
+  private registerNation!:HTMLInputElement;
+  isSubmitting = false;
+  constructor(private toastr: ToastrService,private authService:Auth) {
+
+  }
 
   ngAfterViewInit() {
     // Lấy các phần tử từ DOM
@@ -34,6 +41,13 @@ export class RegisterComponent {
     this.registerPassword = document.getElementById(
       'registerPassword'
     ) as HTMLInputElement;
+    this.registerUsername = document.getElementById(
+      'registerUsername'
+    ) as HTMLInputElement;
+     this.registerNation = document.getElementById(
+      'registerNation'
+    ) as HTMLInputElement;
+    
 
     // Thiết lập sự kiện
     this.setupEventListeners();
@@ -128,28 +142,45 @@ export class RegisterComponent {
   }
 
   private handleFormSubmit() {
-    const password = this.registerPassword.value;
+    if (this.isSubmitting) return;
+  const username = this.registerUsername.value.trim();
+  const password = this.registerPassword.value.trim();
+  const email = this.currentRegisterEmail;
+  const nation = this.registerNation.value;
 
-    // Kiểm tra mật khẩu
-    if (!this.isPasswordValid(password)) {
-      this.toastr.info(
-        'Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số, 1 ký tự đặc biệt và độ dài ≥8 ký tự',
-        'Chú ý',
-        { timeOut: 3000 }
-      );
-      return;
-    }
-
-    // Đăng ký thành công
-    this.toastr.success('Đăng ký thành công!', 'Thành công', { timeOut: 3000 });
-    this.resetForm();
+  if (!this.isPasswordValid(password)) {
+    this.toastr.error(
+      'Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số, 1 ký tự đặc biệt và độ dài ≥8 ký tự',
+      'Lỗi',
+      { timeOut: 3000 }
+    );
+    return;
   }
-
+this.isSubmitting = true;
+this.setActiveFormStep(4);
+ setTimeout(() => {
+      this.authService.registerService(email, password, username, nation).subscribe({
+        next: (res) => {
+          if (res.success) {
+            this.resetForm();
+          }
+        },
+        error: (err) => {
+          this.toastr.error(err.error?.message || 'Đăng ký thất bại', 'Lỗi', { timeOut: 3000 });
+          this.setActiveFormStep(3); // Go back to step 3 on error
+        },
+        complete: () => {
+          this.isSubmitting = false;
+        }
+      });
+    }, 4000); // 4-second delay
+  }
   private setActiveFormStep(step: number) {
     // Ẩn tất cả các bước
     this.registerStep1.nativeElement.style.display = 'none';
     this.registerStep2.nativeElement.style.display = 'none';
     this.registerStep3.nativeElement.style.display = 'none';
+    this.registerStep4.nativeElement.style.display = 'none';
 
     // Hiển thị bước được chọn
     if (step === 1) {
@@ -167,8 +198,13 @@ export class RegisterComponent {
       this.registerStep3.nativeElement.style.display = 'block';
       this.registerStep3.nativeElement.style.opacity = '1';
       this.registerFormElement.nativeElement.dataset['step'] = '3';
-    }
+    } else if (step === 4) {
+    this.registerStep4.nativeElement.classList.add('active');
+    this.registerStep4.nativeElement.style.display = 'block';
+    this.registerStep4.nativeElement.style.opacity = '1';
+    this.registerFormElement.nativeElement.dataset['step'] = '4';
   }
+}
 
   private isValidEmail(email: string): boolean {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -184,6 +220,7 @@ export class RegisterComponent {
   private resetForm() {
     this.registerFormElement.nativeElement.reset();
     this.currentRegisterEmail = '';
+    this.isSubmitting = false;
     this.setActiveFormStep(1);
   }
 }

@@ -18,22 +18,20 @@
       </p>
     </div>
   </div>
-  <!-- Form Đăng ký -->
   <div class="right-container">
     <div #registerForm id="registerForm" class="form-section">
       <form #registerFormElement id="registerFormElement" data-step="1">
-        <!-- Bước 1:Nhập email -->
+        <!-- Bước 1: Nhập email -->
         <div #registerStep1 id="registerStep1" class="form-step active">
           <div class="mb-4">
-            <label for="registerEmail" class="form-label"
-              ><h1 style="font-size: 2rem">Nhập email của bạn</h1>
+            <label for="registerEmail" class="form-label">
+              <h1 style="font-size: 2rem">Nhập email của bạn</h1>
               <h2 style="font-size: 1.5rem">
                 Đảm bảo email này có thể nhận mã xác minh.
-              </h2></label
-            >
+              </h2>
+            </label>
             <input
               type="email"
-              #registerEmail
               id="registerEmail"
               class="form-input"
               placeholder="Địa chỉ email"
@@ -42,20 +40,18 @@
           </div>
           <button
             type="button"
-            #sendOtpRegister
             id="sendOtpRegister"
             class="main-button"
           >
             Dùng thử OKX
           </button>
         </div>
-        <!-- Bước 2: Xac thực OTP -->
+        <!-- Bước 2: Xác thực OTP -->
         <div #registerStep2 id="registerStep2" class="form-step">
           <div class="mb-4">
             <label for="registerOtp" class="form-label">Mã OTP:</label>
             <input
               type="text"
-              #registerOtp
               id="registerOtp"
               class="form-input"
               placeholder="Nhập mã OTP"
@@ -64,7 +60,6 @@
           </div>
           <button
             type="button"
-            #resendRegisterOtp
             id="resendRegisterOtp"
             class="secondary-button"
           >
@@ -74,8 +69,18 @@
             Xác thực OTP
           </button>
         </div>
-        <!-- Bước 3: Nhập mật khẩu -->
+        <!-- Bước 3: Nhập thông tin đăng ký -->
         <div #registerStep3 id="registerStep3" class="form-step">
+          <div class="mb-4">
+            <label for="registerUsername" class="form-label">Tên người dùng</label>
+            <input
+              type="text"
+              id="registerUsername"
+              class="form-input"
+              placeholder="Tên người dùng"
+              required
+            />
+          </div>
           <div class="mb-4">
             <label for="registerPassword" class="form-label">Mật khẩu</label>
             <input
@@ -89,10 +94,31 @@
             />
             <p style="width: 100%; max-width: 18rem; font-size: 0.8rem">
               Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số, 1 ký tự
-              đặc biệt và độ dài ≥8 ký tự !
+              đặc biệt và độ dài ≥8 ký tự
             </p>
           </div>
+          <div class="mb-4">
+            <label for="registerNation" class="form-label">Quốc gia</label>
+            <select
+              id="registerNation"
+              class="form-input"
+              required
+            >
+              <option value="vi-en">Việt Nam</option>
+              <option value="us-en">United States</option>
+              <option value="uk-en">United Kingdom</option>
+              <option value="jp-ja">Japan</option>
+              <option value="cn-zh">China</option>
+            </select>
+          </div>
           <button type="submit" class="success-button">Đăng ký</button>
+        </div>
+        <!-- Bước 4: Loading -->
+        <div #registerStep4 id="registerStep4" class="form-step">
+          <div class="loading-container">
+            <div class="spinner"></div>
+            <p>Đang xử lý yêu cầu đăng ký...</p>
+          </div>
         </div>
       </form>
     </div>
