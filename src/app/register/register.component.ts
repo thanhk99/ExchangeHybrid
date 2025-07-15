@@ -158,22 +158,30 @@ export class RegisterComponent {
   }
 this.isSubmitting = true;
 this.setActiveFormStep(4);
- setTimeout(() => {
-      this.authService.registerService(email, password, username, nation).subscribe({
-        next: (res) => {
-          if (res.success) {
-            this.resetForm();
-          }
-        },
-        error: (err) => {
-          this.toastr.error(err.error?.message || 'Đăng ký thất bại', 'Lỗi', { timeOut: 3000 });
-          this.setActiveFormStep(3); // Go back to step 3 on error
-        },
-        complete: () => {
-          this.isSubmitting = false;
+let timeoutId: any;
+    const timeoutPromise = new Promise<void>((resolve) => {
+      timeoutId = setTimeout(() => {
+        resolve();
+      }, 4000);
+    });
+
+    this.authService.registerService(email, password, username, nation).subscribe({
+      next: (res) => {
+        clearTimeout(timeoutId); 
+        if (res.success) {
+          this.resetForm();
+          this.toastr.success('Đăng ký thành công!', 'Thành Công', { timeOut: 3000 });
         }
-      });
-    }, 4000); // 4-second delay
+      },
+      error: (err) => {
+        clearTimeout(timeoutId); 
+        this.toastr.error(err.error?.message || 'Đăng ký thất bại', 'Lỗi', { timeOut: 3000 });
+        this.setActiveFormStep(3); 
+      },
+      complete: () => {
+        this.isSubmitting = false;
+      },
+    });
   }
   private setActiveFormStep(step: number) {
     // Ẩn tất cả các bước
