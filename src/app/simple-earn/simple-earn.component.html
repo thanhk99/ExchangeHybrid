@@ -4,89 +4,103 @@
     <div class="earn-header">
       <h2>An tâm đầu tư sinh lời trên Simple Earn</h2>
       <p>An tâm lưu trữ tài sản của bạn với nền tảng bảo mật hàng đầu của chúng tôi, hưởng thêm lợi nhuận cực kì hấp dẫn.</p>
+      <button class="simple-earn-button" (click)="togglePopup()">Simple Earn là gì?</button>
     </div>
+    
     <div class="earn-illustration">
-      <img src="spe.png" alt="Earn Illustration">
+      <img src="https://www.okx.com/cdn/assets/imgs/245/1FA908047DE9683C.png" alt="Earn Illustration">
     </div>
   </div>
-  <br>
-  <div class="earn-content">
-    <div class="earn-box">
-      <div class="earn-illustration-left">
-        <img src="usdt-illustration.png" alt="USDT Illustration">
+  
+  <div class="simple-earn-popup" id="simpleEarnPopup" *ngIf="isPopupVisible" (click)="closePopup($event)">
+    <div class="popup-content">
+      <span class="close-popup" (click)="closePopup()">×</span>
+      <h3>Giới thiệu về Simple Earn</h3>
+      <div class="tab-container">
+        <ul class="tab-list parent-tabs">
+          <li *ngFor="let tab of simpleEarnTabs" (click)="toggleSubTabs(tab.label)" [class.active]="tab.isActive">
+            {{ tab.label }}
+          </li>
+        </ul>
+        <ul class="sub-tab-list" *ngIf="simpleEarnTabs[1].isActive">
+          <li *ngFor="let subTab of simpleEarnTabs[1].subTabs" (click)="selectSubTab(subTab, simpleEarnTabs[1])" [class.active]="activeSubTab === subTab.label">
+            {{ subTab.label }}
+          </li>
+        </ul>
+        <ul class="sub-tab-list" *ngIf="simpleEarnTabs[2].isActive">
+          <li *ngFor="let subTab of simpleEarnTabs[2].subTabs" (click)="selectSubTab(subTab, simpleEarnTabs[2])" [class.active]="activeSubTab === subTab.label">
+            {{ subTab.label }}
+          </li>
+        </ul>
       </div>
-      <div class="earn-details-right">
-        <div class="earn-token">
-          <img src="usdt.png" alt="USDT" class="token-icon">
-          <span>USDT</span>
-          <span class="product-type">Simple Earn Cố định</span>
-        </div>
-        <div class="earn-apr">APR cho vay <span class="apr-value">4.00%</span></div>
-        <p>Cho vay crypto của bạn để nhận thêm lợi nhuận trên nền tảng có độ tin cậy cao.</p>
-        <button class="lend-button">Cho vay ngay</button>
+      <div class="tab-content" [innerHTML]="selectedTabContent"></div>
       </div>
     </div>
   </div>
-  <div class="portfolio">
-    <h3>Sản phẩm</h3>
-    <div class="filter-section">
-      <select name="tenure" id="tenure" class="sort-box tenure-sort">
-        <option value="all">Tất cả</option>
-        <option value="flexible">Linh hoạt</option>
-        <option value="fixed">Cố định</option>
-      </select>
-      <select name="sort" id="sort" class="sort-box name-sort">
-        <option value="a-z">Tên A-Z</option>
-        <option value="z-a">Tên Z-A</option>
-        <option value="hot">Thứ tự Hot</option>
-      </select>
-      <input type="text" placeholder="Tìm kiếm tên hoặc mã" class="search-box">
+
+<br>
+<div class="earn-content">
+  <div class="earn-box">
+    <div class="earn-illustration-left">
+      <img src="https://www.okx.com/cdn/assets/imgs/2412/F2F8E4CB1DFDFC1B.png?x-oss-process=image/format,webp/ignore-error,1" alt="USDT Illustration">
     </div>
-    <table>
-      <thead>
-        <tr>
-          <th>Token</th>
-          <th>APR trung bình</th>
-          <th>Thời hạn</th>
-          <th>Hành Động</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let product of products">
-          <td><img [src]="product.icon" alt="{{product.name}}"> {{product.name}}</td>
-          <td>{{product.apr}}%</td>
-          <td>{{product.tenure}}</td>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
-    <button>Xem thêm</button>
+    <div class="earn-details-right">
+      <div class="earn-token">
+        <img src="usdt.png" alt="USDT" class="token-icon">
+        <span>USDT</span>
+        <span class="product-type">Simple Earn Cố định</span>
+      </div>
+      <div class="earn-apr">APR cho vay <span class="apr-value">4.00%</span></div>
+      <p>Cho vay crypto của bạn để nhận thêm lợi nhuận trên nền tảng có độ tin cậy cao.</p>
+      <button class="lend-button">Cho vay ngay</button>
+    </div>
   </div>
-  <div class="faq-section">
-    <h3>Câu hỏi thường gặp</h3>
-    <div class="faq-item">
-      <p>Earn là gì?</p>
-      <div class="faq-answer">
-        OKX Earn giúp bạn kiếm tiền lãi từ tài sản thông qua nhiều lựa chọn đầu tư. Các sản phẩm gồm Simple Earn, Vay và On-chain Earn.
-      </div>
+</div>
+<div class="portfolio">
+  <h3>Sản phẩm</h3>
+  <div class="filter-section">
+    <select name="tenure" id="tenure" class="sort-box tenure-sort">
+      <option value="all">Tất cả</option>
+      <option value="flexible">Linh hoạt</option>
+      <option value="fixed">Cố định</option>
+    </select>
+    <select name="sort" id="sort" class="sort-box name-sort">
+      <option value="a-z">Tên A-Z</option>
+      <option value="z-a">Tên Z-A</option>
+      <option value="hot">Thứ tự Hot</option>
+    </select>
+    <input type="text" placeholder="Tìm kiếm tên hoặc mã" class="search-box">
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Token</th>
+        <th>APR trung bình</th>
+        <th>Thời hạn</th>
+        <th>Hành Động</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td><img [src]="product.icon" alt="{{product.name}}"> {{product.name}}</td>
+        <td>{{product.apr}}%</td>
+        <td>{{product.tenure}}</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <button>Xem thêm</button>
+</div>
+<div class="explore-section">
+  <h2>Bạn muốn khám phá thêm?</h2>
+  <div class="explore-boxes">
+    <div class="explore-box">
+      <img src="dtkep.png" alt="Dầu tư kép">
+      <p>Dầu tư kép<br>Kiếm APR tiềm năng cao theo những xu hướng thị trường</p>
     </div>
-    <div class="faq-item">
-      <p>Lãi suất hàng năm (APR) là gì?</p>
-      <div class="faq-answer">
-        APR là tỷ lệ phần trăm lợi nhuận hàng năm bạn có thể nhận được từ đầu tư.
-      </div>
-    </div>
-    <div class="faq-item">
-      <p>Thời gian tính/phân phối lợi nhuận thu được là bao lâu?</p>
-      <div class="faq-answer">
-        Thời gian phụ thuộc vào sản phẩm bạn chọn, thường là hàng ngày hoặc hàng tuần.
-      </div>
-    </div>
-    <div class="faq-item">
-      <p>Rủi ro là gì?</p>
-      <div class="faq-answer">
-        Rủi ro bao gồm biến động thị trường và khả năng mất vốn nếu thị trường không thuận lợi.
-      </div>
+    <div class="explore-box">
+      <img src="onchain.png" alt="On-chain Earn">
+      <p>On-chain Earn<br>Kiếm lợi nhuận trên chuỗi blockchain</p>
     </div>
   </div>
 </div>

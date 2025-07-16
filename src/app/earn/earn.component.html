@@ -6,7 +6,7 @@
       <p>Kiếm thưởng hàng ngày trên hơn 100 token bao gồm USDT, USDC và ETH.</p>
     </div>
     <div class="earn-illustration">
-      <img src="earn.png" alt="Earn Illustration">
+      <img src="https://www.okx.com/cdn/assets/imgs/245/71343D1D582D1F61.png?x-oss-process=image/format,webp/ignore-error,1" alt="Earn Illustration">
     </div>
   </div>
   <br>
@@ -64,28 +64,13 @@
   </div>
   <div class="faq-section">
     <h3>Câu hỏi thường gặp</h3>
-    <div class="faq-item">
-      <p>Earn là gì?</p>
-      <div class="faq-answer">
-        OKX Earn giúp bạn kiếm tiền lãi từ tài sản thông qua nhiều lựa chọn đầu tư. Các sản phẩm gồm Simple Earn, Vay và On-chain Earn.
+    <div class="faq-item" *ngFor="let faq of faqs; let i = index" (click)="toggleFaq(i)">
+      <div class="faq-question">
+        <p>{{ faq.question }}</p>
+        <span class="faq-arrow">{{ faq.isOpen ? '▲' : '▼' }}</span>
       </div>
-    </div>
-    <div class="faq-item">
-      <p>Lãi suất hàng năm (APR) là gì?</p>
-      <div class="faq-answer">
-        APR là tỷ lệ phần trăm lợi nhuận hàng năm bạn có thể nhận được từ đầu tư.
-      </div>
-    </div>
-    <div class="faq-item">
-      <p>Thời gian tính/phân phối lợi nhuận thu được là bao lâu?</p>
-      <div class="faq-answer">
-        Thời gian phụ thuộc vào sản phẩm bạn chọn, thường là hàng ngày hoặc hàng tuần.
-      </div>
-    </div>
-    <div class="faq-item">
-      <p>Rủi ro là gì?</p>
-      <div class="faq-answer">
-        Rủi ro bao gồm biến động thị trường và khả năng mất vốn nếu thị trường không thuận lợi.
+      <div class="faq-answer" *ngIf="faq.isOpen">
+        {{ faq.answer }}
       </div>
     </div>
   </div>
