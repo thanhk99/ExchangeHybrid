@@ -9,4 +9,3 @@ export const environment = {
     apiRegister: `${Domain}/api/v1/auth/signup`,
     
 };
-
