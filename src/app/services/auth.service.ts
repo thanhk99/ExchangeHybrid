@@ -13,6 +13,7 @@ import { HttpHeaders } from '@angular/common/http';
 export class Auth {
 
   private csrfToken : string | null = null; 
+
   private isLoggedInSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public isLoggedIn$ = this.isLoggedInSubject.asObservable();
   private staticOtp = '000000'; // otp mặc định
@@ -81,12 +82,15 @@ export class Auth {
           this.isLoggedInSubject.next(false);
           this.router.navigate(['/login']);
           }, 500);
+        
       },
       (err:any)=>{
         console.log(err)
       }
     )
   }
+
+
   // Kiểm tra đã đăng nhập chưa
   isAuthenticated(): boolean {
     return this.tokenService.hasTokens();

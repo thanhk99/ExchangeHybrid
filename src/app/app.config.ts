@@ -4,7 +4,7 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { routes } from './app.routes';
 import { provideToastr } from 'ngx-toastr';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { AuthInterceptor } from './interceptors/auth-intercertor';
+import { AuthInterceptor } from './interceptors/auth-interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http'; 
 export const appConfig: ApplicationConfig = {
   providers: [

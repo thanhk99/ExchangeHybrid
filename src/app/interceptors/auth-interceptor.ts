@@ -22,15 +22,12 @@ export class AuthInterceptor implements HttpInterceptor {
   ) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Thêm access token vào header nếu có
+    // Thêm access token và ngrok header vào request
     const accessToken = this.tokenService.getAccessToken();
-    if (accessToken) {
-      request = this.addTokenToRequest(request, accessToken);
-    }
+    request = this.addHeadersToRequest(request, accessToken);
 
     return next.handle(request).pipe(
       catchError(error => {
-        console.log(error.status)
         if (error instanceof HttpErrorResponse) {
           switch (error.status) {
             case 403: // Unauthorized (Token hết hạn/không hợp lệ)
@@ -44,11 +41,17 @@ export class AuthInterceptor implements HttpInterceptor {
     );
   }
 
-  private addTokenToRequest(request: HttpRequest<any>, token: string): HttpRequest<any> {
+  private addHeadersToRequest(request: HttpRequest<any>, token: string | null): HttpRequest<any> {
+    const headers: { [name: string]: string | string[] } = {
+      'ngrok-skip-browser-warning': 'true'
+    };
+
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
     return request.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`
-      }
+      setHeaders: headers
     });
   }
 
@@ -62,7 +65,7 @@ export class AuthInterceptor implements HttpInterceptor {
           this.isRefreshing = false;
           this.tokenService.setTokens(tokens.accessToken, tokens.refreshToken);
           this.refreshTokenSubject.next(tokens.accessToken);
-          return next.handle(this.addTokenToRequest(request, tokens.accessToken));
+          return next.handle(this.addHeadersToRequest(request, tokens.accessToken));
         }),
         catchError((error) => {
           this.isRefreshing = false;
@@ -75,9 +78,9 @@ export class AuthInterceptor implements HttpInterceptor {
         filter(token => token !== null),
         take(1),
         switchMap(token => {
-          return next.handle(this.addTokenToRequest(request, token));
+          return next.handle(this.addHeadersToRequest(request, token));
         })
       );
     }
-  } 
+  }
 }
