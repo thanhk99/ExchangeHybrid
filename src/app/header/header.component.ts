@@ -2,7 +2,7 @@ import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-
+import { Auth } from '../services/auth.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -16,7 +16,8 @@ export class HeaderComponent {
   showMobileMenu: boolean = false;
 
   constructor(private router: Router,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private authService:Auth
   ) {}
 
   searchActive: boolean = false;
@@ -123,7 +124,19 @@ menuItems: any[] = [];
         icon: this.sanitizer.bypassSecurityTrustHtml(sub.icon || '') as SafeHtml
       }))
     }));
-  
+    // if(this.authService.isAuthenticated()){
+    //   this.isLoggedIn=true
+    //   this.getUser()
+    // }
+   
+    this.authService.isLoggedIn$.subscribe((loggedIn) => {
+    this.isLoggedIn = loggedIn;
+    if (loggedIn) {
+      this.getUser();
+    }
+  });
+
+
   }
 
   getSanitizedIcon(icon: string): SafeHtml {
@@ -225,5 +238,38 @@ onAssetMenuLeave() {
     this.showAssetMenu = false;
   }, 500);
 }
+
+isLoggingOut = false;
+
+logout(){
+  if (this.isLoggingOut) return; 
+  this.isLoggingOut = true;
+  this.authService.logout()
+
+}
+
+user: any;
+
+getUser() {
+  this.authService.getUser().subscribe(
+    (res: any) => {
+      this.user = res;
+      console.log(res);
+    },
+    (err: any) => {
+      console.error('Lỗi khi lấy thông tin người dùng', err);
+    }
+  );
+}
+
+goToRegister() {
+  this.router.navigate(['/register']);
+}
+
+goToLogin() {
+  this.router.navigate(['/login']);
+}
+
+
 
 }

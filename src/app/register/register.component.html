@@ -1,0 +1,126 @@
+<div class="container">
+  <div class="left-container">
+    <h2>An tâm giao dịch</h2>
+    <p>
+      Chúng tôi không lấy tiền của khách hàng để cho vay, việc này được xác minh
+      thông qua các cuộc kiểm toán Bằng chứng Dự trữ được công bố định kỳ.
+    </p>
+    <img
+      class="phone-img"
+      src="https://www.okx.com/cdn/assets/imgs/243/5AD5609D76BF42F4.png?x-oss-process=image/format,webp/resize,w_600,h_680"
+      alt="banner"
+    />
+    <div class="telegram-box">
+      <h3>Gia nhập nhóm Telegram của chúng tôi</h3>
+      <p>
+        Đặt câu hỏi, được giải đáp và trò chuyện với các nhà giao dịch khác để
+        cùng định hình tương lai của tiền mã hóa
+      </p>
+    </div>
+  </div>
+  <div class="right-container">
+    <div #registerForm id="registerForm" class="form-section">
+      <form #registerFormElement id="registerFormElement" data-step="1">
+        <!-- Bước 1: Nhập email -->
+        <div #registerStep1 id="registerStep1" class="form-step active">
+          <div class="mb-4">
+            <label for="registerEmail" class="form-label">
+              <h1 style="font-size: 2rem">Nhập email của bạn</h1>
+              <h2 style="font-size: 1.5rem">
+                Đảm bảo email này có thể nhận mã xác minh.
+              </h2>
+            </label>
+            <input
+              type="email"
+              id="registerEmail"
+              class="form-input"
+              placeholder="Địa chỉ email"
+              required
+            />
+          </div>
+          <button
+            type="button"
+            id="sendOtpRegister"
+            class="main-button"
+          >
+            Dùng thử OKX
+          </button>
+        </div>
+        <!-- Bước 2: Xác thực OTP -->
+        <div #registerStep2 id="registerStep2" class="form-step">
+          <div class="mb-4">
+            <label for="registerOtp" class="form-label">Mã OTP:</label>
+            <input
+              type="text"
+              id="registerOtp"
+              class="form-input"
+              placeholder="Nhập mã OTP"
+              required
+            />
+          </div>
+          <button
+            type="button"
+            id="resendRegisterOtp"
+            class="secondary-button"
+          >
+            Gửi lại OTP
+          </button>
+          <button type="button" id="verifyOtpRegister" class="main-button">
+            Xác thực OTP
+          </button>
+        </div>
+        <!-- Bước 3: Nhập thông tin đăng ký -->
+        <div #registerStep3 id="registerStep3" class="form-step">
+          <div class="mb-4">
+            <label for="registerUsername" class="form-label">Tên người dùng</label>
+            <input
+              type="text"
+              id="registerUsername"
+              class="form-input"
+              placeholder="Tên người dùng"
+              required
+            />
+          </div>
+          <div class="mb-4">
+            <label for="registerPassword" class="form-label">Mật khẩu</label>
+            <input
+              type="password"
+              id="registerPassword"
+              class="form-input"
+              placeholder="**********"
+              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+              title="Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số, 1 ký tự đặc biệt (@$!%*?&) và dài ≥8 ký tự"
+              required
+            />
+            <p style="width: 100%; max-width: 18rem; font-size: 0.8rem">
+              Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số, 1 ký tự
+              đặc biệt và độ dài ≥8 ký tự
+            </p>
+          </div>
+          <div class="mb-4">
+            <label for="registerNation" class="form-label">Quốc gia</label>
+            <select
+              id="registerNation"
+              class="form-input"
+              required
+            >
+              <option value="vi-en">Việt Nam</option>
+              <option value="us-en">United States</option>
+              <option value="uk-en">United Kingdom</option>
+              <option value="jp-ja">Japan</option>
+              <option value="cn-zh">China</option>
+            </select>
+          </div>
+          <button type="submit" class="success-button">Đăng ký</button>
+        </div>
+        <!-- Bước 4: Loading -->
+        <div #registerStep4 id="registerStep4" class="form-step">
+          <div class="loading-container">
+            <div class="spinner"></div>
+            <p>Đang xử lý yêu cầu đăng ký...</p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
