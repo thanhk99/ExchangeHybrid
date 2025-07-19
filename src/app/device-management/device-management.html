@@ -19,13 +19,13 @@
     </p>
   </div>
 
-  <!-- Bảng thiết bị -->
-  <div class="table-container">
+ <!-- Bảng thiết bị -->
+  <div class="table-container" *ngIf="devices.length > 0; else noDevices">
     <table>
       <thead>
         <tr>
           <th>Tên thiết bị</th>
-          <th>Thời gian hoạt động gần nhất</th>
+          <th>Loại thiết bị</th>
           <th>Lần đăng nhập cuối cùng</th>
           <th>Vị trí</th>
           <th>Địa chỉ IP</th>
@@ -35,19 +35,23 @@
       <tbody>
         <tr *ngFor="let device of devices">
           <td>
-            <strong>{{ device.name }}</strong>
-            <span class="os">({{ device.os }})</span>
-            <span *ngIf="device.isCurrent" class="current-label">Hiện tại</span>
+            <strong>{{ device.deviceName }}</strong>
+            <span class="browser">({{ device.browser }})</span>
+            <span *ngIf="device.deviceId === getCurrentDeviceId()" class="current-label">Hiện tại</span>
           </td>
-          <td>{{ device.lastActive }}</td>
-          <td>{{ device.lastLogin }}</td>
+          <td>{{ device.deviceType }}</td>
+          <td>{{ formatDate(device.lastLogin) }}</td>
           <td>{{ device.location }}</td>
-          <td>{{ device.ip }}</td>
+          <td>{{ device.ipAddress }}</td>
           <td>
-            <button class="logout-btn">Đăng xuất</button>
+            <button class="logout-btn" (click)="logoutDevice(device.deviceId)">Đăng xuất</button>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
+
+  <ng-template #noDevices>
+    <div class="no-data">Không có thiết bị nào được tìm thấy</div>
+  </ng-template>
 </div>

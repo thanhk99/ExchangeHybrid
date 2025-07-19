@@ -110,3 +110,107 @@ tbody tr:hover {
 .logout-btn:hover {
   text-decoration: underline;
 }
+
+@media (max-width: 1200px) {
+  .container {
+    padding: 16px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .description {
+    font-size: 14px;
+  }
+
+  .breadcrumb {
+    font-size: 12px;
+  }
+
+  .alert {
+    padding: 12px;
+  }
+
+  .alert-description {
+    font-size: 12px;
+  }
+
+  table {
+    font-size: 12px;
+  }
+
+  th, td {
+    padding: 10px 6px;
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 18px;
+  }
+
+  .description {
+    font-size: 13px;
+  }
+
+  .breadcrumb {
+    font-size: 11px;
+  }
+
+  .alert {
+    padding: 10px;
+  }
+
+  .alert-description {
+    font-size: 11px;
+  }
+
+  table {
+    font-size: 11px;
+  }
+
+  th, td {
+    padding: 8px 4px;
+  }
+
+  .current-label {
+    font-size: 10px;
+    padding: 2px 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 16px;
+  }
+
+  .description {
+    font-size: 12px;
+  }
+
+  .breadcrumb {
+    font-size: 10px;
+  }
+
+  .alert {
+    padding: 8px;
+  }
+
+  .alert-description {
+    font-size: 10px;
+  }
+
+  table {
+    font-size: 10px;
+  }
+
+  th, td {
+    padding: 6px 2px;
+  }
+
+  .current-label {
+    font-size: 9px;
+    padding: 2px 4px;
+  }
+}
