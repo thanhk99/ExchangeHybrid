@@ -141,42 +141,38 @@ export class RegisterComponent {
     }
   }
 
-  private handleFormSubmit() {
+   private handleFormSubmit() {
     if (this.isSubmitting) return;
-  const username = this.registerUsername.value.trim();
-  const password = this.registerPassword.value.trim();
-  const email = this.currentRegisterEmail;
-  const nation = this.registerNation.value;
 
-  if (!this.isPasswordValid(password)) {
-    this.toastr.error(
-      'Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số, 1 ký tự đặc biệt và độ dài ≥8 ký tự',
-      'Lỗi',
-      { timeOut: 3000 }
-    );
-    return;
-  }
-this.isSubmitting = true;
-this.setActiveFormStep(4);
-let timeoutId: any;
+    const username = this.registerUsername.value.trim();
+    const password = this.registerPassword.value.trim();
+    const email = this.currentRegisterEmail;
+    const nation = this.registerNation.value;
+
+    if (!this.isPasswordValid(password)) {
+      console.error('Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, 1 special character, and be at least 8 characters long');
+      return;
+    }
+
+    this.isSubmitting = true;
+    this.setActiveFormStep(4);
+    let timeoutId: any;
     const timeoutPromise = new Promise<void>((resolve) => {
-      timeoutId = setTimeout(() => {
-        resolve();
-      }, 4000);
-    });
+    timeoutId = setTimeout(() => {
+      resolve();
+    }, 1000); 
+  });
 
     this.authService.registerService(email, password, username, nation).subscribe({
       next: (res) => {
-        clearTimeout(timeoutId); 
+        clearTimeout(timeoutId);
         if (res.success) {
           this.resetForm();
-          this.toastr.success('Đăng ký thành công!', 'Thành Công', { timeOut: 3000 });
         }
       },
       error: (err) => {
-        clearTimeout(timeoutId); 
-        this.toastr.error(err.error?.message || 'Đăng ký thất bại', 'Lỗi', { timeOut: 3000 });
-        this.setActiveFormStep(3); 
+        clearTimeout(timeoutId);
+        this.setActiveFormStep(3);
       },
       complete: () => {
         this.isSubmitting = false;

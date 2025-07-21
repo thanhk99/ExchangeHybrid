@@ -142,19 +142,18 @@ registerService(email: string, password: string, username: string, nation: strin
       tap({
         next: (res: any) => {
           if (res.success) {
+            this.isLoggedInSubject.next(false);
             this.toast.success(res.message || 'Đăng ký thành công', 'Thành công', { timeOut: 3000 });
-            setTimeout(() => {
-              this.loginService(email, password);
-              this.isLoggedInSubject.next(true);
-              this.router.navigate(['/home']);
-            }, 500);
+            this.router.navigate(['/login']);
           } else {
-            this.toast.error(res.message || 'Đăng ký thất bại', 'Lỗi', { timeOut: 3000 });
+            console.error('Registration failed:', res.message || 'Unknown error');
+            this.toast.error('Đăng ký thất bại', 'Lỗi', { timeOut: 3000 });
           }
         },
         error: (err: any) => {
           const errorMessage = err.error?.message || (err.status === 409 ? 'Email hoặc tên người dùng đã tồn tại' : 'Có lỗi xảy ra khi đăng ký');
-          this.toast.error(errorMessage, 'Lỗi', { timeOut: 3000 });
+          console.error('Registration error:', errorMessage);
+          this.toast.error('Đăng ký thất bại', 'Lỗi', { timeOut: 3000 });
         }
       })
     );
