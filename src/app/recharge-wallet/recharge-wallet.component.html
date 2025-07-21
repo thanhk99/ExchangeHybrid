@@ -1,0 +1,144 @@
+<app-nav-tabs [tabs]="assetpagetabs"></app-nav-tabs>
+
+<div *ngIf="true" class="main-container">
+  <div class="top-section">
+    <div class="deposit-box">
+      <h2>Nạp tiền</h2>
+
+      <!-- Step 1 -->
+      <div class="step">
+        <div class="step-number active">1</div>
+        <div class="step-title active">Chọn tiền mã hóa</div>
+      </div>
+      <div class="step-content">
+        <button class="crypto-select" (click)="toggleFromDropdown()">
+          <ng-container *ngIf="selectedFromCoin; else placeholder">
+            <div class="coin-display">
+              <img [src]="selectedFromCoin.icon">
+              <span class="coin-symbol">{{ selectedFromCoin.symbol }}</span>
+            </div>
+          </ng-container>
+          <ng-template #placeholder>
+            Tìm kiếm tiền mã hóa
+          </ng-template>
+          <span class="arrow">▾</span>
+        </button>
+        <div class="quick-coins">
+          <button class="coin" *ngFor="let coin of coinList" (click)="selectFromCoin(coin)">
+            <img [src]="coin.icon" width="16" />
+            {{ coin.symbol }}
+          </button>
+        </div>
+        <div class="dropdown" *ngIf="showFromDropdown">
+          <input class="dropdown-search" type="text" placeholder="Tìm kiếm" [(ngModel)]="searchFromQuery" />
+          <div class="dropdown-section">
+            <div *ngFor="let coin of filteredFromCoins()" class="dropdown-item" (click)="selectFromCoin(coin)">
+              <img [src]="coin.icon" width="20" /> {{ coin.symbol }} <span class="name">{{ coin.name }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step">
+        <div class="step-number" [class.active]="step >= 2" [class.completed]="step > 2">2</div>
+        <div class="step-title" [class.active]="step >= 2">Chọn mạng lưới</div>
+      </div>
+      <div class="step-content">
+        <button class="network-select" [disabled]="step < 2" (click)="toggleToDropdown()">
+          {{ selectedToNetwork?.name || 'Chọn mạng lưới' }}
+          <span class="arrow">▾</span>
+        </button>
+        <div class="network-dropdown" *ngIf="showToDropdown">
+          <div class="network-hint">
+            <strong><span class="icon">!</span> Không rõ nên chọn mạng lưới nào?</strong>
+            <small>Chọn mạng phù hợp với nền tảng gửi tiền của bạn.</small>
+            <a href="#">Tìm hiểu thêm</a>
+          </div>
+          <div class="network-item" *ngFor="let net of networkList" (click)="selectToCoin(net)">
+            <img [src]="net.icon" alt="icon" class="network-icon" />
+            <div class="network-info">
+              <div class="network-name">{{ net.name }}</div>
+              <div class="network-desc">
+                Số tiền nạp tối thiểu: {{ net.min }}<br />
+                Ước tính sẽ đến sau {{ net.eta }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step">
+        <div class="step-number" [class.active]="step >= 3" [class.completed]="step > 3">3</div>
+        <div class="step-title" [class.active]="step >= 3">Chi tiết nạp tiền</div>
+      </div>
+      <div class="step-content" *ngIf="step >= 3">
+        <div class="deposit-details-box">
+          <img src="assets/icons/qr-sample.png" class="qr-img" alt="QR Code" />
+          <div class="address-info">
+            <div class="address-label">Địa chỉ nạp <span>›</span></div>
+            <div class="wallet-address">
+              0x9572049d2c37ee298d73c9db2dcd15ebcc2c810b
+              <button class="copy-btn">Sao chép</button>
+            </div>
+          </div>
+        </div>
+        <div class="transaction-info">
+          <div class="info-row">
+            <div class="label">Nạp tối thiểu <span class="tooltip">ⓘ</span></div>
+            <div class="value">0,01 USDT</div>
+          </div>
+          <div class="info-row">
+            <div class="label">Tài khoản nạp vào</div>
+            <div class="value">Tài khoản Funding <span class="arrow">▾</span></div>
+          </div>
+          <div class="info-row">
+            <div class="label">Thời gian nhận tiền nạp vào</div>
+            <div class="value">~7 phút</div>
+          </div>
+          <div class="info-row">
+            <div class="label">Thời gian cho phép rút</div>
+            <div class="value">~20 phút</div>
+          </div>
+          <div class="info-row">
+            <div class="label">Thông tin hợp đồng</div>
+            <div class="value">Kết thúc bằng 831ec7 <span class="arrow">›</span></div>
+          </div>
+        </div>
+      </div>
+      <button (click)="goBack()" class="back-btn">Quay lại</button>
+    </div>
+    <div class="faq-box">
+      <div class="faq-header"><h3>Câu hỏi thường gặp</h3></div>
+      <div class="faq-content">
+        <ul>
+          <li>Làm sao để nạp tiền?</li>
+          <li>Tại sao tiền tôi nạp vào vẫn chưa xuất hiện trong tài khoản OKX?</li>
+          <li>Làm sao để tìm được địa chỉ nạp tiền và tag/memo?</li>
+          <li>Làm cách nào để kiểm tra tiến trình nạp tiền?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-section">
+    <div class="bottom-header">
+      <div class="left-title">Tất cả khoản nạp</div>
+      <div class="right-link">Xem lịch sử ›</div>
+    </div>
+    <div class="table-header">
+      <div>Thời gian</div>
+      <div>Địa chỉ nạp tiền</div>
+      <div>Token</div>
+      <div>Số lượng</div>
+      <div>Tiến độ</div>
+      <div>Trạng thái</div>
+    </div>
+    <div class="empty-box">
+      <img src="https://cdn-icons-png.flaticon.com/512/11703/11703016.png" alt="no data" width="64" />
+      <p class="no-data">Không tìm thấy hồ sơ</p>
+      <p>Bắt đầu giao dịch đầu tiên của bạn</p>
+    </div>
+  </div>
+</div>

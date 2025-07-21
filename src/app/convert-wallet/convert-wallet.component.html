@@ -1,0 +1,126 @@
+<app-nav-tabs [tabs]="assetpagetabs"></app-nav-tabs>
+
+<div *ngIf="true" class="main-container">
+  <div class="top-section">
+    <div class="deposit-box">
+      <h2>Chuyển đổi</h2>
+
+      <!-- Step 1 -->
+      <div class="step">
+        <div class="step-number active">1</div>
+        <div class="step-title active">Chọn tiền từ</div>
+      </div>
+      <div class="step-content">
+        <div class="crypto-select" (click)="toggleFromDropdown()">
+          <div class="coin-display" *ngIf="selectedFromCoin">
+            <img [src]="selectedFromCoin.img" alt="{{ selectedFromCoin.name }}" />
+            <span class="coin-name">{{ selectedFromCoin.name }}</span>
+          </div>
+          <div class="placeholder" *ngIf="!selectedFromCoin">Chọn coin</div>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="dropdown" *ngIf="showFromDropdown">
+          <input type="text" class="dropdown-search" [(ngModel)]="searchFromQuery" placeholder="Tìm kiếm..." />
+          <div class="dropdown-section" *ngIf="filteredFromCoins().length > 0">Tài sản của bạn</div>
+          <div class="dropdown-item" *ngFor="let coin of filteredFromCoins()" (click)="selectFromCoin(coin)">
+            <img [src]="coin.img" alt="{{ coin.name }}" />
+            <span class="symbol">{{ coin.symbol }}</span>
+            <span class="name">{{ coin.name }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step">
+        <div class="step-number" [class.active]="step >= 2" [class.completed]="step > 2">2</div>
+        <div class="step-title" [class.active]="step >= 2">Chọn tiền đến</div>
+      </div>
+      <div class="step-content">
+        <button class="crypto-select" [disabled]="step < 2" (click)="toggleToDropdown()">
+          <ng-container *ngIf="selectedToCoin; else placeholderTo">
+            <div class="coin-display">
+              <img [src]="selectedToCoin.img">
+              <span class="coin-symbol">{{ selectedToCoin.symbol }}</span>
+            </div>
+          </ng-container>
+          <ng-template #placeholderTo>
+            Chọn tiền đến
+          </ng-template>
+          <span class="arrow">▾</span>
+        </button>
+        <div class="dropdown" *ngIf="showToDropdown">
+          <input class="dropdown-search" type="text" placeholder="Tìm kiếm" [(ngModel)]="searchToQuery" />
+          <div class="dropdown-section">
+            <div *ngFor="let coin of filteredToCoins()" class="dropdown-item" (click)="selectToCoin(coin)">
+              <img [src]="coin.img" width="20" /> {{ coin.symbol }} <span class="name">{{ coin.name }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step">
+        <div class="step-number" [class.active]="step >= 3" [class.completed]="step > 3">3</div>
+        <div class="step-title" [class.active]="step >= 3">Chi tiết chuyển đổi</div>
+      </div>
+      <div class="step-content" *ngIf="step >= 3">
+        <div class="deposit-details-box">
+          <div class="address-info">
+            <div class="address-label">Số lượng từ</div>
+            <div class="wallet-address">
+              <input type="number" [(ngModel)]="amountFrom" placeholder="Nhập số lượng" class="amount-input" min="0" />
+              <span *ngIf="selectedFromCoin"> {{ selectedFromCoin.symbol }}</span>
+            </div>
+          </div>
+          <div class="address-info">
+            <div class="address-label">Số lượng đến</div>
+            <div class="wallet-address">
+              {{ calculatedAmountTo || '0' }} {{ selectedToCoin?.symbol || '' }}
+            </div>
+          </div>
+        </div>
+        <div class="transaction-info">
+          <div class="info-row">
+            <div class="label">Tỷ giá</div>
+            <div class="value">1 {{ selectedFromCoin?.symbol || 'USDT' }} = {{ exchangeRate || '0.0002' }} {{ selectedToCoin?.symbol || 'BTC' }}</div>
+          </div>
+          <div class="info-row">
+            <div class="label">Thời gian hoàn tất</div>
+            <div class="value">~5 phút</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="faq-box">
+      <div class="faq-header"><h3>Câu hỏi thường gặp</h3></div>
+      <div class="faq-content">
+        <ul>
+          <li>Làm sao để chuyển đổi tiền?</li>
+          <li>Tại sao chuyển đổi của tôi chưa hoàn tất?</li>
+          <li>Làm sao để kiểm tra tỷ giá?</li>
+          <li>Phí chuyển đổi là bao nhiêu?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-section">
+    <div class="bottom-header">
+      <div class="left-title">Tất cả chuyển đổi</div>
+      <div class="right-link">Xem lịch sử ›</div>
+    </div>
+    <div class="table-header">
+      <div>Thời gian</div>
+      <div>Tiền từ</div>
+      <div>Tiền đến</div>
+      <div>Số lượng</div>
+      <div>Tiến độ</div>
+      <div>Trạng thái</div>
+    </div>
+    <div class="empty-box">
+      <img src="https://cdn-icons-png.flaticon.com/512/11703/11703016.png" alt="no data" width="64" />
+      <p class="no-data">Không tìm thấy hồ sơ</p>
+      <p>Bắt đầu chuyển đổi đầu tiên của bạn</p>
+    </div>
+  </div>
+</div>

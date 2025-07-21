@@ -1,0 +1,127 @@
+<app-nav-tabs [tabs]="assetpagetabs"></app-nav-tabs>
+
+<div *ngIf="true" class="main-container">
+  <div class="top-section">
+    <div class="deposit-box">
+      <h2>Chuyển tiền</h2>
+
+      <!-- Step 1 -->
+      <div class="step">
+        <div class="step-number active">1</div>
+        <div class="step-title active">Chọn tài khoản từ</div>
+      </div>
+      <div class="step-content">
+        <button class="crypto-select" (click)="toggleFromDropdown()">
+          <ng-container *ngIf="selectedFromAccount; else placeholder">
+            <div class="coin-display">
+              <img [src]="selectedFromAccount.img">
+              <span class="coin-symbol">{{ selectedFromAccount.name }}</span>
+            </div>
+          </ng-container>
+          <ng-template #placeholder>
+            Chọn tài khoản từ
+          </ng-template>
+          <span class="arrow">▾</span>
+        </button>
+        <div class="dropdown" *ngIf="showFromDropdown">
+          <input class="dropdown-search" type="text" placeholder="Tìm kiếm" [(ngModel)]="searchFromQuery" />
+          <div class="dropdown-section">
+            <div *ngFor="let account of filteredFromAccounts()" class="dropdown-item" (click)="selectFromAccount(account)">
+              <img [src]="account.img" width="20" /> {{ account.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step">
+        <div class="step-number" [class.active]="step >= 2" [class.completed]="step > 2">2</div>
+        <div class="step-title" [class.active]="step >= 2">Chọn tài khoản đến</div>
+      </div>
+      <div class="step-content">
+        <button class="crypto-select" [disabled]="step < 2" (click)="toggleToDropdown()">
+          <ng-container *ngIf="selectedToAccount; else placeholderTo">
+            <div class="coin-display">
+              <img [src]="selectedToAccount.img">
+              <span class="coin-symbol">{{ selectedToAccount.name }}</span>
+            </div>
+          </ng-container>
+          <ng-template #placeholderTo>
+            Chọn tài khoản đến
+          </ng-template>
+          <span class="arrow">▾</span>
+        </button>
+        <div class="dropdown" *ngIf="showToDropdown">
+          <input class="dropdown-search" type="text" placeholder="Tìm kiếm" [(ngModel)]="searchToQuery" />
+          <div class="dropdown-section">
+            <div *ngFor="let account of filteredToAccounts()" class="dropdown-item" (click)="selectToAccount(account)">
+              <img [src]="account.img" width="20" /> {{ account.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step">
+        <div class="step-number" [class.active]="step >= 3" [class.completed]="step > 3">3</div>
+        <div class="step-title" [class.active]="step >= 3">Chi tiết chuyển tiền</div>
+      </div>
+      <div class="step-content" *ngIf="step >= 3">
+        <div class="deposit-details-box">
+          <div class="address-info">
+            <div class="address-label">Số lượng</div>
+            <div class="wallet-address">
+                <input type="number" [(ngModel)]="amountFrom" placeholder="Nhập số lượng" class="amount-input" min="0" />
+            </div>
+          </div>
+        </div>
+        <div class="transaction-info">
+          <div class="info-row">
+            <div class="label">Tài khoản từ</div>
+            <div class="value">Ví Funding</div>
+          </div>
+          <div class="info-row">
+            <div class="label">Tài khoản đến</div>
+            <div class="value">Ví Giao dịch</div>
+          </div>
+          <div class="info-row">
+            <div class="label">Thời gian hoàn tất</div>
+            <div class="value">~5 phút</div>
+          </div>
+        </div>
+      </div>
+      <button (click)="goBack()" class="back-btn">Quay lại</button>
+    </div>
+    <div class="faq-box">
+      <div class="faq-header"><h3>Câu hỏi thường gặp</h3></div>
+      <div class="faq-content">
+        <ul>
+          <li>Làm sao để chuyển tiền?</li>
+          <li>Tại sao chuyển tiền của tôi chưa hoàn tất?</li>
+          <li>Làm sao để kiểm tra trạng thái chuyển tiền?</li>
+          <li>Phí chuyển tiền là bao nhiêu?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-section">
+    <div class="bottom-header">
+      <div class="left-title">Tất cả chuyển tiền</div>
+      <div class="right-link">Xem lịch sử ›</div>
+    </div>
+    <div class="table-header">
+      <div>Thời gian</div>
+      <div>Tài khoản từ</div>
+      <div>Tài khoản đến</div>
+      <div>Số lượng</div>
+      <div>Tiến độ</div>
+      <div>Trạng thái</div>
+    </div>
+    <div class="empty-box">
+      <img src="https://cdn-icons-png.flaticon.com/512/11703/11703016.png" alt="no data" width="64" />
+      <p class="no-data">Không tìm thấy hồ sơ</p>
+      <p>Bắt đầu chuyển tiền đầu tiên của bạn</p>
+    </div>
+  </div>
+</div>

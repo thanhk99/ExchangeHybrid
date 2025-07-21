@@ -12,10 +12,6 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./funding-wallet.css']
 })
 export class FundingWallet {
-  constructor(private router: Router
-  ) {
-  }
-
   assetpagetabs = [
     { label: 'Tổng quan', path: '/assetpage' },
     { label: 'Ví Funding', path: '/funding-wallet' },
@@ -28,101 +24,45 @@ export class FundingWallet {
     { label: 'Báo cáo PoR', path: '' },
   ];
 
-  step = 1;
-
-  showDropdown = false;
-  selectedCoin: any = null;
-  searchQuery = '';
-
-  showNetworkDropdown = false;
-  selectedNetwork: any = null;
-
-  coinList = [
-    { symbol: 'USDT', name: 'Tether', icon: '' },
-    { symbol: 'BTC', name: 'Bitcoin', icon: '' },
-    { symbol: 'ETH', name: 'Ethereum', icon: '' },
-    { symbol: 'PI', name: 'Pi Network', icon: '' }
-  ];
-
-   networkList = [
+  hasData = true;
+  isHidden = false;
+  totalValue = '0,00';
+  hasDataAsset = false;
+  fundingHistory = [
     {
-      name: 'Tron(TRC20)',
-      min: '0.01 USDT',
-      eta: '1 phút',
-      icon: ''
+      description: 'Rút tiền USDC',
+      amount: -100.909494,
+      token: 'USDC',
+      time: '14:30',
+      date: '22/06/2025'
     },
     {
-      name: 'Ethereum',
-      min: '0.01 USDT',
-      eta: '7 phút',
-      icon: ''
-    },
-    {
-      name: 'X Layer',
-      min: '0.01 USDT',
-      eta: '1 phút',
-      icon: ''
+      description: 'Nạp tiền USDT',
+      amount: 100.96,
+      token: 'USDT',
+      time: '14:20',
+      date: '22/06/2025'
     }
   ];
 
-  // Toggle coin dropdown
-  toggleDropdown() {
-    this.showDropdown = !this.showDropdown;
-  }
-
-  // Toggle network dropdown
-  toggleNetworkDropdown() {
-    if (this.step < 2) return;
-    this.showNetworkDropdown = !this.showNetworkDropdown;
-  }
-
-  // Chọn coin → chuyển sang bước 2
-  selectCoin(coin: any) {
-    this.selectedCoin = coin;
-    this.showDropdown = false;
-    this.step = 2;
-  }
-
-  // Chọn mạng → chuyển sang bước 3
-  selectNetwork(network: any) {
-    this.selectedNetwork = network;
-    this.showNetworkDropdown = false;
-    this.step = 3;
-  }
-
-  // Lọc coin theo ô tìm kiếm
-  filteredCoins() {
-    return this.coinList.filter(c =>
-      c.symbol.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-      c.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-    );
-  }
-
-  hasData: boolean = true; 
-   isHidden = false;
-  totalValue = '0,00';
+  constructor(private router: Router) {}
 
   toggleHidden() {
     this.isHidden = !this.isHidden;
   }
 
-   fundingHistory = [
-  {
-    description: 'Rút tiền USDC',
-    amount: -100.909494,
-    token: 'USDC',
-    time: '14:30',
-    date: '22/06/2025'
-  },
-  {
-    description: 'Nạp tiền USDT',
-    amount: 100.96,
-    token: 'USDT',
-    time: '14:20',
-    date: '22/06/2025'
+  navigateToRecharge() {
+    this.router.navigate(['/funding-wallet/recharge']);
   }
-];
+  navigateToConvert() {
+    this.router.navigate(['/funding-wallet/convert']);
+  }
 
- hasDataAsset = false;
+  navigateToWithdrawal() {
+    this.router.navigate(['/funding-wallet/withdrawal']); 
+  }
 
+  navigateToTransfer() {
+    this.router.navigate(['/funding-wallet/transfer']); 
+  }
 }
