@@ -19,7 +19,6 @@
 .deposit-box {
   width: 60%;
   background: #fff;
-  /* border: 1px solid #eee; */
   padding: 20px;
   border-radius: 8px;
   display: flex;
@@ -111,24 +110,24 @@
 .coin-display {
   display: flex;
   align-items: center;
-  white-space: nowrap; /* Ensure single line */
-  gap: 8px; /* Space between icon and text */
-  max-width: 80%; /* Prevent overflow within the button */
+  white-space: nowrap;
+  gap: 8px;
+  max-width: 80%;
 }
 
 .coin-display img {
-  width: 20px; /* Small icon size */
+  width: 20px;
   height: 20px;
   border-radius: 50%;
 }
 
-.coin-display .coin-name {
-  font-size: clamp(12px, 2.5vw, 16px); /* Responsive size with min/max limits */
+.coin-display .coin-symbol {
+  font-size: clamp(12px, 2.5vw, 16px);
   color: #333;
   font-weight: 500;
-  overflow: hidden; /* Handle long names */
-  text-overflow: ellipsis; /* Add ellipsis for overflow */
-  white-space: nowrap; /* Keep text on one line */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Placeholder state */
@@ -195,6 +194,11 @@
   font-weight: 500;
 }
 
+.dropdown.show,
+.network-dropdown.show {
+  display: block;
+}
+
 /* Item trong dropdown */
 .dropdown-item {
   padding: 8px 20px;
@@ -239,14 +243,65 @@
 }
 
 /********************/
+.amount-input-container {
+  margin-bottom: 12px;
+}
+
 .amount-input {
   border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 4px 8px;
+  border-radius: 8px;
+  padding: 10px 12px;
   font-size: 14px;
-  width: 100px;
-  margin-right: 8px;
+  width: 200px;
+  background-color: #f8f8f8;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
+
+.amount-input:focus {
+  outline: none;
+  border-color: #333;
+  background-color: #fff;
+}
+
+.amount-input::-webkit-inner-spin-button,
+.amount-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.amount-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.summary-box {
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  padding: 12px;
+  margin: 12px 0;
+  border: 1px solid #eee;
+}
+
+.summary-content {
+  display: flex;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.summary-label {
+  font-weight: 500;
+  color: #666;
+}
+
+.summary-value {
+  font-weight: 600;
+  color: #333;
+}
+
 .wallet-address {
   font-weight: bold;
   display: flex;
@@ -254,6 +309,7 @@
   gap: 12px;
   word-break: break-all;
 }
+
 .wallet-address input {
   max-width: 120px; 
 }
@@ -371,14 +427,6 @@
   margin-bottom: 4px;
 }
 
-.wallet-address {
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  word-break: break-all;
-}
-
 .copy-btn {
   padding: 6px 12px;
   font-size: 13px;
@@ -426,12 +474,6 @@
   font-size: 12px;
   margin-left: 4px;
 }
-.back-btn{
-    
-    width: 100px;
-    height: 50px;
-    border-radius: 10px;
-}
 
 /*******************************************/
 .bottom-section {
@@ -478,13 +520,12 @@
 
 .no-data {
   font-weight: bold;
-  margin-top: 10px;
+  margin: 10px;
 }
 
 /*****************************có dữ liệu********************/
 .dashboard-container {
   display: flex;
-  /* align-items: center; */
   justify-content: center;
   height: 100%;
   font-family: 'inter', sans-serif;
@@ -583,60 +624,60 @@
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
   border: 1px solid #e0e0e0;
   height: 60%;
+}
 
-  h4 {
-    font-size: 18px;
-    font-weight: 600;
-    text-align: left;
-    margin-bottom: 20px;
-    margin-top: 0;
-  }
+.assets-section h4 {
+  font-size: 18px;
+  font-weight: 600;
+  text-align: left;
+  margin-bottom: 20px;
+  margin-top: 0;
+}
 
-  .empty-asset {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 40px 20px;
+.assets-section .empty-asset {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+}
 
-    .asset-icon {
-      width: 64px;
-      height: 64px;
-      margin-bottom: 16px;
+.assets-section .empty-asset .asset-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 16px;
+}
 
-      svg {
-        width: 100%;
-        height: 100%;
-        display: block;
-      }
-    }
+.assets-section .empty-asset .asset-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
 
-    .title {
-      font-size: 16px;
-      font-weight: 500;
-      margin-bottom: 8px;
-    }
+.assets-section .empty-asset .title {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
 
-    .description {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 20px;
-      max-width: 300px;
-      text-align: center;
-    }
+.assets-section .empty-asset .description {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+  max-width: 300px;
+  text-align: center;
+}
 
-    .deposit-button {
-      padding: 8px 16px;
-      border: 1px solid #ccc;
-      border-radius: 20px;
-      background-color: #fff;
-      cursor: pointer;
-      transition: background-color 0.2s;
+.assets-section .empty-asset .deposit-button {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
 
-      &:hover {
-        background-color: #f0f0f0;
-      }
-    }
-  }
+.assets-section .empty-asset .deposit-button:hover {
+  background-color: #f0f0f0;
 }
 
 /* RIGHT SIDE */
@@ -816,7 +857,7 @@
 
   .faq-box {
     width: 100%;
-    order: 3; /* Đưa xuống cuối */
+    order: 3;
   }
 }
 

@@ -11,21 +11,26 @@
         <div class="step-title active">Chọn tiền từ</div>
       </div>
       <div class="step-content">
-        <div class="crypto-select" (click)="toggleFromDropdown()">
-          <div class="coin-display" *ngIf="selectedFromCoin">
-            <img [src]="selectedFromCoin.img" alt="{{ selectedFromCoin.name }}" />
-            <span class="coin-name">{{ selectedFromCoin.name }}</span>
-          </div>
-          <div class="placeholder" *ngIf="!selectedFromCoin">Chọn coin</div>
-          <span class="arrow">▼</span>
-        </div>
-        <div class="dropdown" *ngIf="showFromDropdown">
-          <input type="text" class="dropdown-search" [(ngModel)]="searchFromQuery" placeholder="Tìm kiếm..." />
-          <div class="dropdown-section" *ngIf="filteredFromCoins().length > 0">Tài sản của bạn</div>
-          <div class="dropdown-item" *ngFor="let coin of filteredFromCoins()" (click)="selectFromCoin(coin)">
-            <img [src]="coin.img" alt="{{ coin.name }}" />
-            <span class="symbol">{{ coin.symbol }}</span>
-            <span class="name">{{ coin.name }}</span>
+        <div class="dropdown-container" #fromDropdownContainer>
+          <button class="crypto-select" (click)="toggleFromDropdown()" tabindex="0">
+            <ng-container *ngIf="selectedFromCoin; else placeholder">
+              <div class="coin-display">
+                <img [src]="selectedFromCoin.img">
+                <span class="coin-symbol">{{ selectedFromCoin.symbol }}</span>
+              </div>
+            </ng-container>
+            <ng-template #placeholder>
+              Chọn tiền từ
+            </ng-template>
+            <span class="arrow">▾</span>
+          </button>
+          <div class="dropdown" *ngIf="showFromDropdown">
+            <input class="dropdown-search" type="text" placeholder="Tìm kiếm" [(ngModel)]="searchFromQuery" />
+            <div class="dropdown-section">
+              <div *ngFor="let coin of filteredFromCoins()" class="dropdown-item" (click)="selectFromCoin(coin)">
+                <img [src]="coin.img" width="20" /> {{ coin.symbol }} <span class="name">{{ coin.name }}</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -36,23 +41,25 @@
         <div class="step-title" [class.active]="step >= 2">Chọn tiền đến</div>
       </div>
       <div class="step-content">
-        <button class="crypto-select" [disabled]="step < 2" (click)="toggleToDropdown()">
-          <ng-container *ngIf="selectedToCoin; else placeholderTo">
-            <div class="coin-display">
-              <img [src]="selectedToCoin.img">
-              <span class="coin-symbol">{{ selectedToCoin.symbol }}</span>
-            </div>
-          </ng-container>
-          <ng-template #placeholderTo>
-            Chọn tiền đến
-          </ng-template>
-          <span class="arrow">▾</span>
-        </button>
-        <div class="dropdown" *ngIf="showToDropdown">
-          <input class="dropdown-search" type="text" placeholder="Tìm kiếm" [(ngModel)]="searchToQuery" />
-          <div class="dropdown-section">
-            <div *ngFor="let coin of filteredToCoins()" class="dropdown-item" (click)="selectToCoin(coin)">
-              <img [src]="coin.img" width="20" /> {{ coin.symbol }} <span class="name">{{ coin.name }}</span>
+        <div class="dropdown-container" #toDropdownContainer>
+          <button class="crypto-select" [disabled]="step < 2" (click)="toggleToDropdown()" tabindex="0">
+            <ng-container *ngIf="selectedToCoin; else placeholderTo">
+              <div class="coin-display">
+                <img [src]="selectedToCoin.img">
+                <span class="coin-symbol">{{ selectedToCoin.symbol }}</span>
+              </div>
+            </ng-container>
+            <ng-template #placeholderTo>
+              Chọn tiền đến
+            </ng-template>
+            <span class="arrow">▾</span>
+          </button>
+          <div class="dropdown" *ngIf="showToDropdown">
+            <input class="dropdown-search" type="text" placeholder="Tìm kiếm" [(ngModel)]="searchToQuery" />
+            <div class="dropdown-section">
+              <div *ngFor="let coin of filteredToCoins()" class="dropdown-item" (click)="selectToCoin(coin)">
+                <img [src]="coin.img" width="20" /> {{ coin.symbol }} <span class="name">{{ coin.name }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -64,29 +71,40 @@
         <div class="step-title" [class.active]="step >= 3">Chi tiết chuyển đổi</div>
       </div>
       <div class="step-content" *ngIf="step >= 3">
-        <div class="deposit-details-box">
-          <div class="address-info">
-            <div class="address-label">Số lượng từ</div>
-            <div class="wallet-address">
-              <input type="number" [(ngModel)]="amountFrom" placeholder="Nhập số lượng" class="amount-input" min="0" />
-              <span *ngIf="selectedFromCoin"> {{ selectedFromCoin.symbol }}</span>
-            </div>
-          </div>
-          <div class="address-info">
-            <div class="address-label">Số lượng đến</div>
-            <div class="wallet-address">
-              {{ calculatedAmountTo || '0' }} {{ selectedToCoin?.symbol || '' }}
-            </div>
+        <div class="amount-input-container">
+          <label>Số lượng từ</label>
+          <div class="amount-wrapper">
+            <input type="number" class="amount-input" [(ngModel)]="amountFrom" placeholder="Nhập số lượng" min="0" (input)="calculateAmountTo()" />
+            <span class="coin-symbol">{{ selectedFromCoin?.symbol || '' }}</span>
           </div>
         </div>
-        <div class="transaction-info">
-          <div class="info-row">
-            <div class="label">Tỷ giá</div>
-            <div class="value">1 {{ selectedFromCoin?.symbol || 'USDT' }} = {{ exchangeRate || '0.0002' }} {{ selectedToCoin?.symbol || 'BTC' }}</div>
+        <div class="summary-box" *ngIf="selectedFromCoin && selectedToCoin && amountFrom">
+          <div class="summary-content">
+            <span class="summary-label">Tóm tắt:</span>
+            <span class="summary-value">{{ amountFrom }} {{ selectedFromCoin?.symbol }} → {{ calculatedAmountTo || '0' }} {{ selectedToCoin?.symbol }}</span>
           </div>
-          <div class="info-row">
-            <div class="label">Thời gian hoàn tất</div>
-            <div class="value">~5 phút</div>
+        </div>
+        <div class="deposit-details-box" *ngIf="selectedFromCoin && selectedToCoin && amountFrom">
+          <div class="address-info">
+            <div class="address-label">Thông tin chuyển đổi</div>
+            <div class="transaction-info">
+              <div class="info-row">
+                <div class="label">Tiền từ</div>
+                <div class="value">{{ selectedFromCoin?.symbol }}</div>
+              </div>
+              <div class="info-row">
+                <div class="label">Tiền đến</div>
+                <div class="value">{{ selectedToCoin?.symbol }}</div>
+              </div>
+              <div class="info-row">
+                <div class="label">Tỷ giá</div>
+                <div class="value">1 {{ selectedFromCoin?.symbol || 'USDT' }} = {{ exchangeRate || '0.0002' }} {{ selectedToCoin?.symbol || 'BTC' }}</div>
+              </div>
+              <div class="info-row">
+                <div class="label">Thời gian hoàn tất</div>
+                <div class="value">~5 phút</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

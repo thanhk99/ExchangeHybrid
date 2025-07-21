@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { NavTabs } from '../shared/nav-tabs/nav-tabs';
@@ -12,6 +12,9 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./withdrawal-wallet.component.css']
 })
 export class WithdrawalWalletComponent {
+  @ViewChild('fromDropdownContainer') fromDropdownContainer!: ElementRef;
+  @ViewChild('toDropdownContainer') toDropdownContainer!: ElementRef;
+
   assetpagetabs = [
     { label: 'Tổng quan', path: '/assetpage' },
     { label: 'Ví Funding', path: '/funding-wallet' },
@@ -25,7 +28,7 @@ export class WithdrawalWalletComponent {
   ];
 
   step = 1;
-
+  amount: number | null = null;
   showFromDropdown = false;
   showToDropdown = false;
   selectedFromCoin: any = null;
@@ -42,7 +45,7 @@ export class WithdrawalWalletComponent {
 
   networkList = [
     { name: 'Tron(TRC20)', min: '0.01 USDT', eta: '1 phút', icon: 'trc20.png' },
-    { name: 'Ethereum', min: '0.01 USDT', eta: '7 phút', icon: 'eth.png' },
+    { name: 'Ethereum', min: '0.01 USDT', eta: '7 phút', icon: ' view raweth.png' },
     { name: 'X Layer', min: '0.01 USDT', eta: '1 phút', icon: 'xlayer.png' }
   ];
 
@@ -50,13 +53,13 @@ export class WithdrawalWalletComponent {
 
   toggleFromDropdown() {
     this.showFromDropdown = !this.showFromDropdown;
-    this.showToDropdown = false; // Close the other dropdown
+    this.showToDropdown = false; 
   }
 
   toggleToDropdown() {
     if (this.step < 2) return;
     this.showToDropdown = !this.showToDropdown;
-    this.showFromDropdown = false; // Close the other dropdown
+    this.showFromDropdown = false; 
   }
 
   selectFromCoin(coin: any) {
@@ -69,6 +72,19 @@ export class WithdrawalWalletComponent {
     this.selectedToNetwork = network;
     this.showToDropdown = false;
     this.step = 3;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const fromDropdown = this.fromDropdownContainer?.nativeElement;
+    const toDropdown = this.toDropdownContainer?.nativeElement;
+
+    if (fromDropdown && !fromDropdown.contains(event.target)) {
+      this.showFromDropdown = false;
+    }
+    if (toDropdown && !toDropdown.contains(event.target)) {
+      this.showToDropdown = false;
+    }
   }
 
   filteredFromCoins() {
@@ -85,9 +101,5 @@ export class WithdrawalWalletComponent {
       n.min.toLowerCase().includes(this.searchToQuery.toLowerCase()) ||
       n.eta.toLowerCase().includes(this.searchToQuery.toLowerCase())
     );
-  }
-
-  goBack() {
-    this.router.navigate(['/funding-wallet']);
   }
 }

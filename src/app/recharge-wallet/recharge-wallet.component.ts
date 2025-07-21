@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule,Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { NavTabs } from '../shared/nav-tabs/nav-tabs';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -13,7 +13,9 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./recharge-wallet.component.css']
 })
 export class RechargeWalletComponent {
- 
+  @ViewChild('fromDropdownContainer') fromDropdownContainer!: ElementRef;
+  @ViewChild('toDropdownContainer') toDropdownContainer!: ElementRef;
+
   assetpagetabs = [
     { label: 'Tổng quan', path: '/assetpage' },
     { label: 'Ví Funding', path: '/funding-wallet' },
@@ -27,13 +29,13 @@ export class RechargeWalletComponent {
   ];
 
   step = 1;
-
-  showFromDropdown = false; 
+  amount: number | null = null;
+  showFromDropdown = false;
+  showToDropdown = false;
   selectedFromCoin: any = null;
-  searchFromQuery = ''; 
-  showToDropdown = false; 
-  selectedToNetwork: any = null; 
-  searchToQuery = ''; 
+  selectedToNetwork: any = null;
+  searchFromQuery = '';
+  searchToQuery = '';
 
   coinList = [
     { symbol: 'USDT', name: 'Tether', icon: 'usdt.png' },
@@ -48,17 +50,17 @@ export class RechargeWalletComponent {
     { name: 'X Layer', min: '0.01 USDT', eta: '1 phút', icon: 'xlayer.png' }
   ];
 
-   constructor(private router: Router) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
-  toggleFromDropdown() { 
+  toggleFromDropdown() {
     this.showFromDropdown = !this.showFromDropdown;
-    this.showToDropdown = false; 
+    this.showToDropdown = false;
   }
 
   toggleToDropdown() {
     if (this.step < 2) return;
     this.showToDropdown = !this.showToDropdown;
-    this.showFromDropdown = false; 
+    this.showFromDropdown = false;
   }
 
   selectFromCoin(coin: any) {
@@ -73,7 +75,20 @@ export class RechargeWalletComponent {
     this.step = 3;
   }
 
-  filteredFromCoins() { 
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const fromDropdown = this.fromDropdownContainer?.nativeElement;
+    const toDropdown = this.toDropdownContainer?.nativeElement;
+
+    if (fromDropdown && !fromDropdown.contains(event.target)) {
+      this.showFromDropdown = false;
+    }
+    if (toDropdown && !toDropdown.contains(event.target)) {
+      this.showToDropdown = false;
+    }
+  }
+
+  filteredFromCoins() {
     return this.coinList.filter(c =>
       c.symbol.toLowerCase().includes(this.searchFromQuery.toLowerCase()) ||
       c.name.toLowerCase().includes(this.searchFromQuery.toLowerCase()) ||
@@ -81,15 +96,11 @@ export class RechargeWalletComponent {
     );
   }
 
-  filteredToCoins() { 
+  filteredToCoins() {
     return this.networkList.filter(n =>
       n.name.toLowerCase().includes(this.searchToQuery.toLowerCase()) ||
       n.min.toLowerCase().includes(this.searchToQuery.toLowerCase()) ||
       n.eta.toLowerCase().includes(this.searchToQuery.toLowerCase())
     );
-  }
-
-  goBack() {
-    this.router.navigate(['/funding-wallet']);
   }
 }
