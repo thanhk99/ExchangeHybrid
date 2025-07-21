@@ -92,7 +92,55 @@
   position: relative;
   width: 70%;
 }
+.amount-coin-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
+.dropdown-container.compact {
+  width: 150px;
+}
+
+.crypto-select.compact {
+  padding: 8px;
+  font-size: 14px;
+}
+
+.crypto-select.compact .coin-display img {
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+}
+
+.coin-info {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.coin-info .info-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.coin-info input[type="checkbox"] {
+  margin: 0;
+}
+
+.coin-info label {
+  color: #333;
+}
+
+.exchange-rate {
+  margin: 12px 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
 /* Button chọn coin */
 .crypto-select {
   width: 100%;
@@ -886,4 +934,13 @@
   .right-container {
     width: 30%;
   }
+}
+
+.btn-cd {
+  padding: 8px 16px;
+  border-radius: 15px;
+  border: none;
+  background-color: black;
+  color: white;
+  cursor: pointer;
 }

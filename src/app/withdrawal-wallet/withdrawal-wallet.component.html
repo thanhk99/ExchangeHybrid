@@ -38,27 +38,105 @@
       <!-- Step 2 -->
       <div class="step">
         <div class="step-number" [class.active]="step >= 2" [class.completed]="step > 2">2</div>
-        <div class="step-title" [class.active]="step >= 2">Chọn mạng lưới</div>
+        <div class="step-title" [class.active]="step >= 2">Chọn phương thức</div>
       </div>
-      <div class="step-content">
-        <div class="dropdown-container" #toDropdownContainer>
-          <button class="network-select" [disabled]="step < 2" (click)="toggleToDropdown()" tabindex="0">
-            {{ selectedToNetwork?.name || 'Chọn mạng lưới' }}
-            <span class="arrow">▾</span>
-          </button>
-          <div class="network-dropdown" *ngIf="showToDropdown">
-            <div class="network-hint">
-              <strong><span class="icon">!</span> Không rõ nên chọn mạng lưới nào?</strong>
-              <small>Chọn mạng phù hợp với nền tảng rút tiền của bạn.</small>
-              <a href="#">Tìm hiểu thêm</a>
+      <div class="step-content" *ngIf="step >= 2">
+        <!-- Withdrawal Type Selection -->
+        <div class="withdrawal-type-selection" style="margin-bottom: 20px;">
+          <label [class.selected]="withdrawalType === 'onchain'" (click)="selectWithdrawalType('onchain')">Rút tiền on-chain</label>
+          <label [class.selected]="withdrawalType === 'insystem'" (click)="selectWithdrawalType('insystem')">Rút trong hệ thống</label>
+        </div>
+
+        <!-- Step 2.1: Rút tiền on-chain -->
+        <div class="onchain-section" *ngIf="withdrawalType === 'onchain'">
+          <div class="step-subtitle">Rút tiền on-chain</div>
+          <div class="dropdown-container" #toDropdownContainer>
+            <button class="network-select" [disabled]="step < 2" (click)="toggleToDropdown()" tabindex="0">
+              {{ selectedToNetwork?.name || 'Chọn mạng lưới' }}
+              <span class="arrow">▾</span>
+            </button>
+            <div class="network-dropdown" *ngIf="showToDropdown">
+              <div class="network-hint">
+                <strong><span class="icon">!</span> Không rõ nên chọn mạng lưới nào?</strong>
+                <small>Chọn mạng phù hợp với nền tảng rút tiền của bạn.</small>
+                <a href="#">Tìm hiểu thêm</a>
+              </div>
+              <div class="network-item" *ngFor="let net of filteredToCoins()" (click)="selectToCoin(net)">
+                <img [src]="net.icon" alt="icon" class="network-icon" />
+                <div class="network-info">
+                  <div class="network-name">{{ net.name }}</div>
+                  <div class="network-desc">
+                    Số tiền rút tối thiểu: {{ net.min }}<br />
+                    Ước tính sẽ đến sau {{ net.eta }}
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="network-item" *ngFor="let net of filteredToCoins()" (click)="selectToCoin(net)">
-              <img [src]="net.icon" alt="icon" class="network-icon" />
-              <div class="network-info">
-                <div class="network-name">{{ net.name }}</div>
-                <div class="network-desc">
-                  Số tiền rút tối thiểu: {{ net.min }}<br />
-                  Ước tính sẽ đến sau {{ net.eta }}
+          </div>
+        </div>
+
+        <!-- Step 2.2: Rút trong hệ thống -->
+        <div class="in-system-section" *ngIf="withdrawalType === 'insystem'">
+          <div class="step-subtitle">Rút trong hệ thống</div>
+          <div class="system-details">
+            <!-- Contact Method Selection -->
+            <div class="contact-method-selection" style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+              <label [class.selected]="contactMethod === 'phone'" (click)="onContactMethodChange(); contactMethod = 'phone'">Số điện thoại</label>
+              <label [class.selected]="contactMethod === 'email'" (click)="onContactMethodChange(); contactMethod = 'email'">Email</label>
+              <label [class.selected]="contactMethod === 'uid'" (click)="onContactMethodChange(); contactMethod = 'uid'">UID</label>
+              <label [class.selected]="contactMethod === 'subaccount'" (click)="onContactMethodChange(); contactMethod = 'subaccount'">Tài khoản phụ</label>
+              <a href="#" style="color: #000; text-decoration: none; font-size: 14px;">Quản lý sổ địa chỉ</a>
+            </div>
+
+            <!-- Dynamic Input Field -->
+            <div class="input-group" *ngIf="contactMethod === 'phone'">
+              <input type="tel" class="amount-input" [(ngModel)]="contactValue" placeholder="Nhập số điện thoại" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" />
+            </div>
+            <div class="input-group" *ngIf="contactMethod === 'email'">
+              <input type="email" class="amount-input" [(ngModel)]="contactValue" placeholder="skibidichubby@gmail.com" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" />
+            </div>
+            <div class="input-group" *ngIf="contactMethod === 'uid'">
+              <input type="text" class="amount-input" [(ngModel)]="contactValue" placeholder="Nhập UID" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" />
+            </div>
+            <div class="input-group" *ngIf="contactMethod === 'subaccount'">
+              <input type="text" class="amount-input" [(ngModel)]="contactValue" placeholder="Nhập tài khoản phụ" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" />
+            </div>
+
+            <!-- Step 3 displayed immediately after contact method selection -->
+            <div class="step-content" *ngIf="contactMethod && withdrawalType === 'insystem'">
+              <div class="step">
+                <div class="step-number" [class.active]="true">3</div>
+                <div class="step-title" [class.active]="true">Chi tiết rút tiền</div>
+              </div>
+              <div class="amount-input-container" *ngIf="selectedFromCoin">
+                <br>
+                <div class="amount-wrapper">
+                  <input type="number" class="amount-input" [(ngModel)]="amount" placeholder="Nhập số lượng" />
+                  <span class="coin-symbol">{{ selectedFromCoin?.symbol || '' }}</span>
+                </div>
+              </div>
+              <div class="summary-box" *ngIf="contactValue && amount">
+                <div class="summary-content">
+                  <span class="summary-label">Số tiền rút:</span>
+                  <span class="summary-value">{{ amount }} {{ selectedFromCoin?.symbol }} qua hệ thống</span>
+                </div>
+                <div class="summary-content">
+                  <span class="summary-label">Địa chỉ nhận:</span>
+                  <span class="summary-value">{{ contactValue }}</span>
+                </div>
+              </div>
+              <div class="transaction-info">
+                <div class="info-row">
+                  <div class="label">Rút tối thiểu</div>
+                  <div class="value">0,01 USDT</div>
+                </div>
+                <div class="info-row">
+                  <div class="label">Thời gian nhận tiền</div>
+                  <div class="value">~1 phút</div>
+                </div>
+                <div class="info-row">
+                  <div class="label">Phí rút tiền</div>
+                  <div class="value">0,00 USDT</div>
                 </div>
               </div>
             </div>
@@ -66,26 +144,26 @@
         </div>
       </div>
 
-      <!-- Step 3 -->
-      <div class="step">
+      <!-- Original Step 3 (hidden when in-system) -->
+      <div class="step" *ngIf="withdrawalType !== 'insystem'">
         <div class="step-number" [class.active]="step >= 3" [class.completed]="step > 3">3</div>
         <div class="step-title" [class.active]="step >= 3">Chi tiết rút tiền</div>
       </div>
-      <div class="step-content" *ngIf="step >= 3">
-        <div class="amount-input-container">
+      <div class="step-content" *ngIf="step >= 3 && withdrawalType !== 'insystem'">
+        <div class="amount-input-container" *ngIf="withdrawalType === 'onchain' && selectedFromCoin">
           <label>Số lượng</label>
           <div class="amount-wrapper">
             <input type="number" class="amount-input" [(ngModel)]="amount" placeholder="Nhập số lượng" />
             <span class="coin-symbol">{{ selectedFromCoin?.symbol || '' }}</span>
           </div>
         </div>
-        <div class="summary-box" *ngIf="selectedFromCoin && selectedToNetwork && amount">
+        <div class="summary-box" *ngIf="withdrawalType === 'onchain' && selectedFromCoin && selectedToNetwork && amount">
           <div class="summary-content">
             <span class="summary-label">Số tiền rút:</span>
             <span class="summary-value">{{ amount }} {{ selectedFromCoin?.symbol }} trên mạng {{ selectedToNetwork?.name }}</span>
           </div>
         </div>
-        <div class="deposit-details-box" *ngIf="selectedFromCoin && selectedToNetwork && amount">
+        <div class="deposit-details-box" *ngIf="withdrawalType === 'onchain' && selectedFromCoin && selectedToNetwork && amount">
           <div class="address-info">
             <div class="address-label">Địa chỉ rút</div>
             <div class="wallet-address">
@@ -94,7 +172,7 @@
             </div>
           </div>
         </div>
-        <div class="transaction-info">
+        <div class="transaction-info" *ngIf="withdrawalType === 'onchain'">
           <div class="info-row">
             <div class="label">Rút tối thiểu</div>
             <div class="value">0,01 USDT</div>
@@ -109,6 +187,7 @@
           </div>
         </div>
       </div>
+      <button class="btn" (click)="proceedToStep3()" [disabled]="!canProceedToStep3()">Tiếp tục</button>
     </div>
     <div class="faq-box">
       <div class="faq-header"><h3>Câu hỏi thường gặp</h3></div>

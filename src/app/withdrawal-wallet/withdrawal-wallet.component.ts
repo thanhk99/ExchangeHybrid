@@ -26,8 +26,11 @@ export class WithdrawalWalletComponent {
     { label: 'Sao kê tài khoản', path: '' },
     { label: 'Báo cáo PoR', path: '' },
   ];
-
-  step = 1;
+    withdrawalType: 'onchain' | 'insystem' = 'onchain';
+  contactMethod: 'phone' | 'email' | 'uid' | 'subaccount' = 'email';
+  contactValue: string = '';
+  step: number = 1;
+  isPhoneValid: boolean = false;
   amount: number | null = null;
   showFromDropdown = false;
   showToDropdown = false;
@@ -35,6 +38,10 @@ export class WithdrawalWalletComponent {
   selectedToNetwork: any = null;
   searchFromQuery = '';
   searchToQuery = '';
+  systemEmail: string = '';
+  systemUID: string = '';
+  systemBalance: string = '';
+
 
   coinList = [
     { symbol: 'USDT', name: 'Tether', img: 'usdt.png' },
@@ -45,7 +52,7 @@ export class WithdrawalWalletComponent {
 
   networkList = [
     { name: 'Tron(TRC20)', min: '0.01 USDT', eta: '1 phút', icon: 'trc20.png' },
-    { name: 'Ethereum', min: '0.01 USDT', eta: '7 phút', icon: ' view raweth.png' },
+    { name: 'Ethereum', min: '0.01 USDT', eta: '7 phút', icon: 'eth.png' },
     { name: 'X Layer', min: '0.01 USDT', eta: '1 phút', icon: 'xlayer.png' }
   ];
 
@@ -57,7 +64,7 @@ export class WithdrawalWalletComponent {
   }
 
   toggleToDropdown() {
-    if (this.step < 2) return;
+    if (this.step < 2 || this.withdrawalType !== 'onchain') return;
     this.showToDropdown = !this.showToDropdown;
     this.showFromDropdown = false; 
   }
@@ -73,6 +80,8 @@ export class WithdrawalWalletComponent {
     this.showToDropdown = false;
     this.step = 3;
   }
+
+
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
@@ -101,5 +110,46 @@ export class WithdrawalWalletComponent {
       n.min.toLowerCase().includes(this.searchToQuery.toLowerCase()) ||
       n.eta.toLowerCase().includes(this.searchToQuery.toLowerCase())
     );
+  }
+
+  validatePhoneNumber() {
+    if (this.contactMethod === 'phone' && this.contactValue) {
+      const phoneRegex = /^\d{10}$/; 
+      this.isPhoneValid = phoneRegex.test(this.contactValue);
+    } else {
+      this.isPhoneValid = false;
+    }
+  }
+
+ onContactMethodChange() {
+    this.contactValue = '';
+    this.amount = null; 
+  }
+
+  canProceedToStep3(): boolean {
+    if (this.withdrawalType === 'onchain') {
+      return !!this.selectedFromCoin && !!this.selectedToNetwork && !!this.amount;
+    } else if (this.withdrawalType === 'insystem') {
+      return !!this.selectedFromCoin && !!this.contactMethod && !!this.contactValue && !!this.amount;
+    }
+    return false;
+  }
+
+  proceedToStep3() {
+    if (this.canProceedToStep3()) {
+      this.step = 3;
+    }
+  }
+
+  selectWithdrawalType(type: 'onchain' | 'insystem') {
+    this.withdrawalType = type;
+    this.contactMethod = 'email'; 
+    this.amount = null;
+    if (type === 'insystem') {
+      this.selectedToNetwork = null;
+      this.step = 2; 
+    } else {
+      this.step = 2; 
+    }
   }
 }

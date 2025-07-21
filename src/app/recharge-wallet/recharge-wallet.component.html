@@ -79,11 +79,6 @@
       </div>
       <div class="step-content" *ngIf="step >= 3">
         <div class="amount-input-container">
-          <label>Số lượng</label>
-          <div class="amount-wrapper">
-            <input type="number" class="amount-input" [(ngModel)]="amount" placeholder="Nhập số lượng" />
-            <span class="coin-symbol">{{ selectedFromCoin?.symbol || '' }}</span>
-          </div>
         </div>
         <div class="summary-box" *ngIf="selectedFromCoin && selectedToNetwork && amount">
           <div class="summary-content">
