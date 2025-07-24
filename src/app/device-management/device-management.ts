@@ -10,6 +10,7 @@ import { NavTabs } from '../shared/nav-tabs/nav-tabs';
   templateUrl: './device-management.html',
   styleUrl: './device-management.css'
 })
+
 export class DeviceManagement {
   profiletabs = [
     { label: 'Thông tin', path: '/profile' },
