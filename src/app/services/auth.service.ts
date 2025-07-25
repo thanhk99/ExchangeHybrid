@@ -158,4 +158,13 @@ registerService(email: string, password: string, username: string, nation: strin
       })
     );
   }
+  existMail(email: string): Observable<any> {
+    return this.http.post(environment.apiexistMail, { email }).pipe(
+      tap({
+        error: (err: any) => {
+          console.error('Lỗi Kiểm Tra Email', err);
+        }
+      })
+    );
+  }
 }
