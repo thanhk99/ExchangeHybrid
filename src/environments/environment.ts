@@ -8,5 +8,6 @@ export const environment = {
     apiGetUser: `${Domain}/api/v1/user/getProfile`,
     apiRegister: `${Domain}/api/v1/auth/signup`,
     apilistDevice: `${Domain}/api/v1/device/listDevice`,
+    apiexistMail: `${Domain}/api/v1/auth/existEmail`,
     
 };

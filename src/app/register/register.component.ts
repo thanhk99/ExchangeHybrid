@@ -103,12 +103,21 @@ export class RegisterComponent {
     }
 
     this.currentRegisterEmail = email;
-    this.setActiveFormStep(2);
-    this.toastr.success(`Mã OTP đã được gửi đến ${email}`, 'Thành Công', {
-      timeOut: 3000,
+    this.authService.existMail(email).subscribe({
+      next: (res: any) => {
+        if (res.message === 'success') {
+          this.authService.sendOtp(email).subscribe(() => {
+            this.setActiveFormStep(2);
+          });
+        } else {
+          this.toastr.error('Email đã tồn tại!', 'Lỗi', { timeOut: 3000 });
+        }
+      },
+      error: () => {
+        this.toastr.error('Có lỗi xảy ra khi kiểm tra email', 'Lỗi', { timeOut: 3000 });
+      },
     });
   }
-
   private handleVerifyOtp() {
     const otp = this.registerOtp.value.trim();
 
@@ -214,6 +223,7 @@ export class RegisterComponent {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
   }
+  
 
   private isPasswordValid(password: string): boolean {
     const passwordRegex =
