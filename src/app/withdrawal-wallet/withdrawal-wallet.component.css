@@ -116,6 +116,7 @@
 
 .in-system-section .input-group {
   margin-bottom: 15px;
+  padding: 0.5rem; /* Added padding for better spacing */
 }
 
 .in-system-section .input-group label {
@@ -516,17 +517,21 @@
 .withdrawal-type-selection label,
 .contact-method-selection label {
   cursor: pointer;
-  margin: 0 10px;
-  padding: 5px 10px;
+  margin: 0 0.625rem; /* Changed to rem for consistent sizing */
+  padding: 0.3125rem 0.625rem; /* Changed to rem for consistent sizing */
   border-radius: 4px;
   transition: all 0.3s ease;
 }
 
-.withdrawal-type-selection label.selected,
-.contact-method-selection label.selected {
+.withdrawal-type-selection label.selected {
   font-weight: bold;
   color: #333;
   background-color: #f0f0f0;
+}
+
+.contact-method-selection label.selected {
+  text-decoration: underline; /* Changed to underline only */
+  color: #333;
 }
 
 .withdrawal-type-selection label:not(.selected),
@@ -540,15 +545,15 @@
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 10px;
-  flex-wrap: nowrap; 
+  gap: 0.625rem; /* Changed to rem for consistent sizing */
+  flex-wrap: nowrap;
 }
 
 .contact-method-selection a {
   color: #000;
   text-decoration: none;
-  font-size: 14px;
-  margin-left: 10px;
+  font-size: 0.875rem; /* Changed to rem for consistent sizing */
+  margin-left: 0.625rem; /* Changed to rem for consistent sizing */
 }
 
 .contact-method-selection a:hover {

@@ -1,5 +1,4 @@
 <app-nav-tabs [tabs]="assetpagetabs"></app-nav-tabs>
-
 <div class="main-container">
   <div class="top-section">
     <div class="deposit-box">
@@ -12,27 +11,29 @@
       </div>
       <div class="step-content">
         <div class="amount-coin-container">
-          <div class="amount-input-container">
-            <input type="number" class="amount-input" [(ngModel)]="amountFrom" placeholder="Nhập số lượng" min="0" (input)="calculateAmountTo()" />
-          </div>
-          <div class="dropdown-container compact" #fromDropdownContainer>
-            <button class="crypto-select compact" (click)="toggleFromDropdown()" tabindex="0">
-              <ng-container *ngIf="selectedFromCoin; else placeholder">
-                <div class="coin-display">
-                  <img [src]="selectedFromCoin.img" width="20">
-                  <span class="coin-symbol">{{ selectedFromCoin.symbol }}</span>
-                </div>
-              </ng-container>
-              <ng-template #placeholder>
-                Chọn coin
-              </ng-template>
-              <span class="arrow">▾</span>
-            </button>
-            <div class="dropdown" *ngIf="showFromDropdown">
-              <input class="dropdown-search" type="text" placeholder="Tìm kiếm" [(ngModel)]="searchFromQuery" />
-              <div class="dropdown-section">
-                <div *ngFor="let coin of filteredFromCoins()" class="dropdown-item" (click)="selectFromCoin(coin)">
-                  <img [src]="coin.img" width="20" /> {{ coin.symbol }} <span class="name">{{ coin.name }}</span>
+          <div class="input-dropdown-box">
+            <div class="amount-input-container" [attr.data-symbol]="selectedFromCoin?.symbol || ''">
+              <input type="number" class="amount-input" [(ngModel)]="amountFrom" placeholder="Nhập số lượng" min="0" (input)="calculateAmountTo()" />
+            </div>
+            <div class="dropdown-container compact" #fromDropdownContainer>
+              <button class="crypto-select compact" (click)="toggleFromDropdown()" tabindex="0">
+                <ng-container *ngIf="selectedFromCoin; else placeholder">
+                  <div class="coin-display">
+                    <img [src]="selectedFromCoin.img" width="16" height="16">
+                    <span class="coin-symbol">{{ selectedFromCoin.symbol }}</span>
+                  </div>
+                </ng-container>
+                <ng-template #placeholder>
+                  Chọn coin
+                </ng-template>
+                <span class="arrow">▾</span>
+              </button>
+              <div class="dropdown" *ngIf="showFromDropdown">
+                <input class="dropdown-search" type="text" placeholder="Tìm kiếm" [(ngModel)]="searchFromQuery" />
+                <div class="dropdown-section">
+                  <div *ngFor="let coin of filteredFromCoins()" class="dropdown-item" (click)="selectFromCoin(coin)">
+                    <img [src]="coin.img" width="20" /> {{ coin.symbol }} <span class="name">{{ coin.name }}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -62,27 +63,29 @@
       </div>
       <div class="step-content">
         <div class="amount-coin-container">
-          <div class="amount-input-container">
-            <input type="number" class="amount-input" [ngModel]="calculatedAmountTo" placeholder="Số lượng nhận" readonly />
-          </div>
-          <div class="dropdown-container compact" #toDropdownContainer>
-            <button class="crypto-select compact" [disabled]="step < 2" (click)="toggleToDropdown()" tabindex="0">
-              <ng-container *ngIf="selectedToCoin; else placeholderTo">
-                <div class="coin-display">
-                  <img [src]="selectedToCoin.img" width="20">
-                  <span class="coin-symbol">{{ selectedToCoin.symbol }}</span>
-                </div>
-              </ng-container>
-              <ng-template #placeholderTo>
-                Chọn coin
-              </ng-template>
-              <span class="arrow">▾</span>
-            </button>
-            <div class="dropdown" *ngIf="showToDropdown">
-              <input class="dropdown-search" type="text" placeholder="Tìm kiếm" [(ngModel)]="searchToQuery" />
-              <div class="dropdown-section">
-                <div *ngFor="let coin of filteredToCoins()" class="dropdown-item" (click)="selectToCoin(coin)">
-                  <img [src]="coin.img" width="20" /> {{ coin.symbol }} <span class="name">{{ coin.name }}</span>
+          <div class="input-dropdown-box">
+            <div class="amount-input-container" [attr.data-symbol]="selectedToCoin?.symbol || ''">
+              <input type="number" class="amount-input" [(ngModel)]="amountTo" placeholder="Nhập số lượng" min="0" (input)="calculateAmountFrom()" />
+            </div>
+            <div class="dropdown-container compact" #toDropdownContainer>
+              <button class="crypto-select compact" [disabled]="step < 2" (click)="toggleToDropdown()" tabindex="0">
+                <ng-container *ngIf="selectedToCoin; else placeholderTo">
+                  <div class="coin-display">
+                    <img [src]="selectedToCoin.img" width="16" height="16">
+                    <span class="coin-symbol">{{ selectedToCoin.symbol }}</span>
+                  </div>
+                </ng-container>
+                <ng-template #placeholderTo>
+                  Chọn coin
+                </ng-template>
+                <span class="arrow">▾</span>
+              </button>
+              <div class="dropdown" *ngIf="showToDropdown">
+                <input class="dropdown-search" type="text" placeholder="Tìm kiếm" [(ngModel)]="searchToQuery" />
+                <div class="dropdown-section">
+                  <div *ngFor="let coin of filteredToCoins()" class="dropdown-item" (click)="selectToCoin(coin)">
+                    <img [src]="coin.img" width="20" /> {{ coin.symbol }} <span class="name">{{ coin.name }}</span>
+                  </div>
                 </div>
               </div>
             </div>

@@ -92,25 +92,60 @@
   position: relative;
   width: 70%;
 }
+
 .amount-coin-container {
   display: flex;
   align-items: center;
   gap: 10px;
+  height: 48px;
+  box-sizing: border-box;
+}
+
+.input-dropdown-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  height: 48px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .dropdown-container.compact {
   width: 150px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
 }
 
 .crypto-select.compact {
-  padding: 8px;
   font-size: 14px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border: none;
+  border-radius: 0 10px 10px 0;
+  background-color: transparent;
+  box-sizing: border-box;
+  line-height: 1;
+}
+
+.crypto-select.compact .coin-display {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .crypto-select.compact .coin-display img {
   width: 16px;
   height: 16px;
   margin-right: 5px;
+  vertical-align: middle;
 }
 
 .coin-info {
@@ -141,7 +176,7 @@
   font-weight: 500;
   color: #333;
 }
-/* Button chọn coin */
+
 .crypto-select {
   width: 100%;
   padding: 12px;
@@ -153,6 +188,7 @@
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  box-sizing: border-box;
 }
 
 .coin-display {
@@ -178,13 +214,11 @@
   white-space: nowrap;
 }
 
-/* Placeholder state */
 .crypto-select .placeholder {
   font-size: 14px;
   color: #888;
 }
 
-/* Coin nhanh */
 .quick-coins {
   display: flex;
   flex-wrap: wrap;
@@ -209,7 +243,6 @@
   height: 16px;
 }
 
-/* Dropdown */
 .dropdown {
   position: absolute;
   top: 110%;
@@ -247,7 +280,6 @@
   display: block;
 }
 
-/* Item trong dropdown */
 .dropdown-item {
   padding: 8px 20px;
   cursor: pointer;
@@ -290,34 +322,66 @@
   margin-top: 12px;
 }
 
-/********************/
 .amount-input-container {
-  margin-bottom: 12px;
+  position: relative;
+  flex: 1;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .amount-input {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 10px 12px;
-  font-size: 14px;
-  width: 200px;
-  background-color: #f8f8f8;
-  transition: border-color 0.2s;
+  border: none;
+  border-radius: 10px 0 0 10px;
+  padding: 0;
+  font-size: 16px;
+  width: 100%;
+  background-color: transparent;
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+  color: #333;
+  box-shadow: none;
   -webkit-appearance: none;
   -moz-appearance: textfield;
   appearance: textfield;
+  height: 100%;
+  box-sizing: border-box;
+  line-height: 48px;
+  text-indent: 12px;
 }
 
 .amount-input:focus {
   outline: none;
-  border-color: #333;
-  background-color: #fff;
+  border-color: transparent;
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.amount-input:hover {
+  border-color: transparent;
+  background-color: transparent;
+}
+
+.amount-input::placeholder {
+  color: #999;
+  font-size: 14px;
 }
 
 .amount-input::-webkit-inner-spin-button,
 .amount-input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.amount-input-container::after {
+  content: attr(data-symbol);
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+  pointer-events: none;
 }
 
 .amount-wrapper {
@@ -359,10 +423,9 @@
 }
 
 .wallet-address input {
-  max-width: 120px; 
+  max-width: 120px;
 }
 
-/* Dropdown mạng */
 .network-dropdown {
   position: absolute;
   top: 110%;
@@ -375,7 +438,6 @@
   padding: 10px 0;
 }
 
-/* Box gợi ý nên chọn mạng nào */
 .network-hint {
   padding: 12px 16px;
   background-color: #f8f8f8;
@@ -415,7 +477,6 @@
   cursor: pointer;
 }
 
-/* Item từng mạng */
 .network-item {
   display: flex;
   align-items: center;
@@ -483,12 +544,11 @@
   border-radius: 6px;
   border: none;
   cursor: pointer;
-  white-space: nowrap; 
-  min-width: 70px; 
-  flex-shrink: 0; 
+  white-space: nowrap;
+  min-width: 70px;
+  flex-shrink: 0;
 }
 
-/* Giao dịch chi tiết */
 .transaction-info {
   margin-top: 10px;
 }
@@ -523,7 +583,6 @@
   margin-left: 4px;
 }
 
-/*******************************************/
 .bottom-section {
   background: #fff;
   border: 1px solid #eee;
@@ -571,303 +630,6 @@
   margin: 10px;
 }
 
-/*****************************có dữ liệu********************/
-.dashboard-container {
-  display: flex;
-  justify-content: center;
-  height: 100%;
-  font-family: 'inter', sans-serif;
-  width: 100%;
-  gap: 10%;
-  margin-top: 1%;
-  margin-bottom: 1%;
-}
-
-/* LEFT SIDE */
-.left-container {
-  width: 40%;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.summary-section {
-  background-color: white;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e0e0e0;
-}
-
-.summary-section h3 {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.total-value {
-  font-size: 32px;
-  font-weight: bold;
-  margin: 10px 0 4px;
-}
-
-.pnl-today {
-  color: gray;
-  font-size: 14px;
-}
-
-.green {
-  color: green;
-  font-weight: 500;
-}
-
-.action-buttons {
-  display: flex;
-  gap: 10px;
-  margin-top: 16px;
-}
-
-.btn {
-  padding: 8px 16px;
-  border-radius: 15px;
-  border: none;
-  background-color: black;
-  color: white;
-  cursor: pointer;
-}
-
-.btn.light {
-  background-color: white;
-  color: black;
-  border: 1px solid #ccc;
-}
-
-.total-value-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.sumary-header {
-  display: flex;
-}
-
-.eye-icon {
-  cursor: pointer;
-  margin-left: 10px;
-  display: flex;
-  align-items: center;
-}
-
-.eye-icon svg {
-  width: 20px;
-  height: 20px;
-}
-
-/* ASSET SECTION */
-.assets-section {
-  background-color: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e0e0e0;
-  height: 60%;
-}
-
-.assets-section h4 {
-  font-size: 18px;
-  font-weight: 600;
-  text-align: left;
-  margin-bottom: 20px;
-  margin-top: 0;
-}
-
-.assets-section .empty-asset {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px 20px;
-}
-
-.assets-section .empty-asset .asset-icon {
-  width: 64px;
-  height: 64px;
-  margin-bottom: 16px;
-}
-
-.assets-section .empty-asset .asset-icon svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.assets-section .empty-asset .title {
-  font-size: 16px;
-  font-weight: 500;
-  margin-bottom: 8px;
-}
-
-.assets-section .empty-asset .description {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 20px;
-  max-width: 300px;
-  text-align: center;
-}
-
-.assets-section .empty-asset .deposit-button {
-  padding: 8px 16px;
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  background-color: #fff;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.assets-section .empty-asset .deposit-button:hover {
-  background-color: #f0f0f0;
-}
-
-/* RIGHT SIDE */
-.right-container {
-  width: 25%;
-  min-width: 300px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.content-above {
-  height: 12%;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.content-above h1 {
-  font-size: 18px;
-}
-
-.content-above .arrow {
-  font-size: 30px;
-}
-
-.content-above button {
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  background-color: white;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  width: 100%;
-  justify-content: space-between;
-}
-
-/****/
-.history-section {
-  background-color: white;
-  padding: 16px 20px;
-  border-radius: 12px;
-  border: 1px solid #ccc;
-}
-
-.history-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.history-header h4 {
-  font-size: 16px;
-  margin: 0;
-}
-
-.see-more {
-  font-size: 14px;
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.see-more:hover {
-  text-decoration: underline;
-}
-
-.history-section ul {
-  list-style: none;
-  padding-left: 0;
-  margin: 0;
-}
-
-.history-section li {
-  padding: 12px 0;
-  border-bottom: 1px solid #ccc;
-}
-
-.history-section li:last-child {
-  border-bottom: none;
-}
-
-.history-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.history-desc {
-  color: #333;
-  font-size: 14px;
-  font-weight: 500;
-  display: block;
-}
-
-.timestamp {
-  font-size: 12px;
-  color: #888;
-  margin-top: 4px;
-}
-
-.history-amount {
-  font-size: 14px;
-  white-space: nowrap;
-}
-
-.history-amount.positive {
-  color: green;
-}
-
-.history-amount.negative {
-  color: red;
-}
-
-/***/
-.more {
-  text-align: center;
-  margin-top: 12px;
-}
-
-.more .arrow {
-  font-size: 30px;
-  color: black;
-  cursor: pointer;
-}
-
-.dropdown-btn {
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  background-color: white;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/*************************************************/
-
-/********* res ko dl **********/
 @media screen and (min-width: 780px) and (max-width: 1280px) {
   .top-section {
     width: 100% !important;
@@ -906,33 +668,6 @@
   .faq-box {
     width: 100%;
     order: 3;
-  }
-}
-
-/***************res có dl****************/
-@media (max-width: 900px) {
-  .dashboard-container {
-    flex-direction: column;
-    gap: 24px;
-    padding: 0 5%;
-  }
-
-  .left-container,
-  .right-container {
-    width: 90%;
-  }
-
-  .content-above button {
-    width: 100%;
-  }
-}
-
-@media (min-width: 950px) and (max-width: 1280px) {
-  .left-container {
-    width: 45%;
-  }
-  .right-container {
-    width: 30%;
   }
 }
 

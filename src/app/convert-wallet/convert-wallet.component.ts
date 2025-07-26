@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { NavTabs } from '../shared/nav-tabs/nav-tabs';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-convert-wallet',
@@ -35,8 +36,8 @@ export class ConvertWalletComponent {
   searchFromQuery: string = '';
   searchToQuery: string = '';
   amountFrom: number | null = null;
+  amountTo: number | null = null;
   exchangeRate: number = 0.0002;
-  calculatedAmountTo: number | null = null;
 
   coins = [
     { symbol: 'USDT', name: 'Tether', img: 'usdt.png' },
@@ -45,7 +46,7 @@ export class ConvertWalletComponent {
     { symbol: 'PI', name: 'Pi Network', img: 'pi.png' }
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private toastr: ToastrService) {}
 
   toggleFromDropdown() {
     this.showFromDropdown = !this.showFromDropdown;
@@ -59,6 +60,10 @@ export class ConvertWalletComponent {
   }
 
   selectFromCoin(coin: any) {
+    if (this.selectedToCoin && this.selectedToCoin.symbol === coin.symbol) {
+      this.toastr.error('Không thể chọn hai coin giống nhau', 'Lỗi');
+      return;
+    }
     this.selectedFromCoin = coin;
     this.showFromDropdown = false;
     if (!this.selectedToCoin) this.step = 2;
@@ -66,6 +71,10 @@ export class ConvertWalletComponent {
   }
 
   selectToCoin(coin: any) {
+    if (this.selectedFromCoin && this.selectedFromCoin.symbol === coin.symbol) {
+      this.toastr.error('Không thể chọn hai coin giống nhau', 'Lỗi');
+      return;
+    }
     this.selectedToCoin = coin;
     this.showToDropdown = false;
     if (this.selectedFromCoin) this.step = 3;
@@ -103,9 +112,17 @@ export class ConvertWalletComponent {
 
   calculateAmountTo() {
     if (this.selectedFromCoin && this.selectedToCoin && this.amountFrom && this.amountFrom > 0) {
-      this.calculatedAmountTo = this.amountFrom * this.exchangeRate;
+      this.amountTo = this.amountFrom * this.exchangeRate;
     } else {
-      this.calculatedAmountTo = null;
+      this.amountTo = null;
+    }
+  }
+
+  calculateAmountFrom() {
+    if (this.selectedFromCoin && this.selectedToCoin && this.amountTo && this.amountTo > 0) {
+      this.amountFrom = this.amountTo / this.exchangeRate;
+    } else {
+      this.amountFrom = null;
     }
   }
 }
