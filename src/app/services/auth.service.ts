@@ -41,14 +41,15 @@ export class Auth {
     map((res: any) => {
       this.tokenService.setTokens(res.accessToken, res.refreshToken);
       this.deviceService.setDeviceStorage(res.deviceInfo.deviceId);
-      setTimeout(() => {
-        this.isLoggedInSubject.next(true);
-        this.router.navigate(["/home"]);
-      }, 500);
-      return res; 
+      // setTimeout(() => {
+      //   this.isLoggedInSubject.next(true);
+      //   this.router.navigate(["/home"]);
+      // }, 500);
+      // return res; 
+      this.isLoggedInSubject.next(true);
     }),
     catchError((err: any) => {
-      this.toast.error("Login fail", "Error", { timeOut: 3000 });
+      // this.toast.error("Login fail", "Error", { timeOut: 3000 });
       return throwError(() => err); 
     })
   );

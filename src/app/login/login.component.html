@@ -47,7 +47,7 @@
               required
             />
           </div>
-          <button type="button" class="main-button" id="sendOtpBtn" #sendOtpBtn>
+          <button type="button" class="main-button" id="sendOtpBtn" #sendOtpBtn (click)="onButtonClick()" [disabled]="isToastActive || isLoading">
             Tiếp tục Đăng nhập
           </button>
         </div>

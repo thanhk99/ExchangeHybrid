@@ -1,9 +1,9 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Auth } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -19,10 +19,13 @@ export class LoginComponent {
   private loginOtp!: HTMLInputElement;
   constructor(
     private toasrt: ToastrService,
-    private authService : Auth
+    private authService : Auth,
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) {}
 
   isLoading = false;
+  isToastActive = false;
 
   ngAfterViewInit() {
     this.inputLoginEmail = document.getElementById(
@@ -50,7 +53,14 @@ export class LoginComponent {
       this.loginFormElement.nativeElement.dataset[step] = '1';
     }
   }
+
+  public onButtonClick() {
+    this.handleSendOtp();
+}
+
   private handleSendOtp() {
+    if (this.isToastActive || this.isLoading) return;
+
     const email = this.inputLoginEmail.value.trim();
     const password = this.inputLoginPassWord.value.trim();
     if (!email) {
@@ -73,14 +83,36 @@ export class LoginComponent {
       next: (res) => {
         this.isLoading = false;
         this.toasrt.success(`Đăng nhập thành công`);
+        this.router.navigate(['/home']);
       },
       error: (err) => {
         this.isLoading = false;
         // console.error('Login failed:', err);
+        this.toasrt.error('Đăng nhập thất bại');
+        this.cd.detectChanges();
       }
     });
-
   }
+
+private showToast(
+  message: string, 
+  title: string, 
+  type: 'error' | 'success' = 'error',
+  onHiddenCallback?: () => void
+) {
+  this.isToastActive = true;
+  
+  const toast = type === 'error' 
+    ? this.toasrt.error(message, title, { timeOut: 3000 })
+    : this.toasrt.success(message, title, { timeOut: 3000 });
+
+  toast.onHidden.subscribe(() => {
+    this.isToastActive = false;
+    onHiddenCallback?.();
+    this.cd.detectChanges();
+  });
+}
+
   private verifyOtpLogin() {
     const otp = this.loginOtp.value.trim();
     if (!otp) {
