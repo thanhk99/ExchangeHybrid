@@ -24,46 +24,67 @@
       </div>
 
       <!-- Trường 1 -->
-      <div class="form-group">
-        <label>{{ activeTab === 'buy' ? 'Bạn thanh toán' : 'Bạn bán' }}</label>
-        <div class="input-group">
+      <div class="form-field">
+        <div class="input-area">
+          <label>{{ activeTab === 'buy' ? 'Bạn thanh toán' : 'Bạn bán' }}</label>
           <input type="number" [ngModel]="amountPay" (ngModelChange)="onAmountPayChange($event)" placeholder="0"
             name="amountPay" />
+        </div>
+        <div class="currency-selector">
           <div class="custom-dropdown" (click)="toggleDropdown(1); $event.stopPropagation()">
-            <img [src]="selectedPay.icon" class="currency-icon" *ngIf="selectedPay.icon" /> {{ selectedPay.code }}
-            <span>▾</span>
+            <img [src]="selectedPay.icon" class="currency-icon" *ngIf="selectedPay.icon" />
+            <strong>{{ selectedPay.code }}</strong>
+            <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+            </svg>
           </div>
           <div class="dropdown-list" *ngIf="dropdownOpen1">
+            <div class="search-box">
+              <input type="text" #search1 [value]="searchTerm1" (input)="onSearch(1, search1.value)"
+                placeholder="Tìm kiếm..." (click)="$event.stopPropagation()" />
+            </div>
             <div class="dropdown-item" *ngFor="let c of getPayList()" (click)="selectCurrency(1, c)">
               <img [src]="c.icon" class="currency-icon" *ngIf="c.icon" /> {{ c.code }}
             </div>
           </div>
         </div>
-        <small style="color:#777" *ngIf="activeTab === 'buy'">{{ transactionLimit.min | number }} - {{
-          transactionLimit.max | number }} VND</small>
-        <small style="color:#777" *ngIf="activeTab === 'sell'">Khả dụng {{ availableBalance | number:'1.2-2' }} {{
-          selectedPay.code }}</small>
       </div>
+      <small class="field-info" *ngIf="activeTab === 'buy'">{{ transactionLimit.min | number }} - {{
+        transactionLimit.max | number }} VND</small>
+      <small class="field-info" *ngIf="activeTab === 'sell'">Khả dụng {{ availableBalance | number:'1.2-2' }} {{
+        selectedPay.code }}</small>
+
 
       <!-- Trường 2 -->
-      <div class="form-group">
-        <label>Bạn nhận</label>
-        <div class="input-group">
+      <div class="form-field">
+        <div class="input-area">
+          <label>Bạn nhận</label>
           <input type="number" [ngModel]="amountReceive" (ngModelChange)="onAmountReceiveChange($event)" placeholder="0"
             name="amountReceive" />
+        </div>
+        <div class="currency-selector">
           <div class="custom-dropdown" (click)="toggleDropdown(2); $event.stopPropagation()">
-            <img [src]="selectedReceive.icon" class="currency-icon" *ngIf="selectedReceive.icon" /> {{
-            selectedReceive.code }} <span>▾</span>
+            <img [src]="selectedReceive.icon" class="currency-icon" *ngIf="selectedReceive.icon" />
+            <strong>{{ selectedReceive.code }}</strong>
+            <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+            </svg>
           </div>
           <div class="dropdown-list" *ngIf="dropdownOpen2">
+            <div class="search-box">
+              <input type="text" #search2 [value]="searchTerm2" (input)="onSearch(2, search2.value)"
+                placeholder="Tìm kiếm..." (click)="$event.stopPropagation()" />
+            </div>
             <div class="dropdown-item" *ngFor="let c of getReceiveList()" (click)="selectCurrency(2, c)">
               <img [src]="c.icon" class="currency-icon" *ngIf="c.icon" /> {{ c.code }}
             </div>
           </div>
         </div>
-        <small style="color:#777" *ngIf="activeTab === 'sell'">130.000 - 2.600.000.000 VND</small>
-        <small style="color:white" *ngIf="activeTab === 'buy'">.</small>
       </div>
+      <small class="field-info" *ngIf="activeTab === 'sell'">130.000 - 2.600.000.000 VND</small>
+      <small class="field-info" *ngIf="activeTab === 'buy'">&nbsp;</small>
 
 
       <div class="rate">

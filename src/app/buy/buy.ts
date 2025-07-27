@@ -19,6 +19,8 @@ export class Buy implements OnInit {
   onDocumentClick() {
     this.dropdownOpen1 = false;
     this.dropdownOpen2 = false;
+    this.searchTerm1 = '';
+    this.searchTerm2 = '';
   }
 
   buytabs = [
@@ -36,24 +38,37 @@ export class Buy implements OnInit {
   dropdownOpen1 = false; // cho ô 1
   dropdownOpen2 = false; // cho ô 2
 
-  fiatCurrencies = [
-    { code: 'VND', icon: '/coin.png' },
-    { code: 'USD', icon: '/coin.png' },
-    { code: 'AED', icon: '/coin.png' },
-    { code: 'ARS', icon: '/coin.png' }
-  ];
+  // Mapping from currency code to country code
+  currencyToCountryCode: { [key: string]: string } = {
+    'VND': 'VN',
+    'USD': 'US',
+    'AED': 'AE',
+    'ARS': 'AR',
+    'ALL': 'AL',
+    'AMD': 'AM',
+    'ANG': 'AN',
+    // Add more mappings as needed
+  };
+
+  fiatCurrencies = Object.keys(this.currencyToCountryCode).map(code => ({
+    code: code,
+    icon: this.getFlagIcon(this.currencyToCountryCode[code])
+  }));
 
   cryptoCurrencies = [
-    { code: 'USDT', icon: '/coin.png' },
-    { code: 'USDC', icon: '/coin.png' },
-    { code: 'BTC', icon: '/coin.png' },
-    { code: 'ETH', icon: '/coin.png' },
-    { code: 'TON', icon: '/coin.png' }
+    { code: 'USDT', icon: 'usdt.png' },
+    { code: 'USDC', icon: 'usdc.png' },
+    { code: 'BTC', icon: 'btc.png' },
+    { code: 'ETH', icon: 'eth.png' },
+    { code: 'TON', icon: 'ton.png' }
   ];
 
   // Giá trị hiện tại
-  selectedPay = { code: 'VND', icon: '/coin.png' };
-  selectedReceive = { code: 'USDT', icon: '/coin.png' };
+  selectedPay = { code: 'VND', icon: this.getFlagIcon('VN') };
+  selectedReceive = { code: 'USDT', icon: 'usdt.png' };
+
+  searchTerm1: string = '';
+  searchTerm2: string = '';
 
   amountPay: number | null = null;
   amountReceive: number | null = null;
@@ -106,15 +121,17 @@ export class Buy implements OnInit {
     this.activeTab = tab;
 
     if (tab === 'buy') {
-      this.selectedPay = { code: 'VND', icon: '' };
-      this.selectedReceive = { code: 'USDT', icon: '' };
+      this.selectedPay = { code: 'VND', icon: this.getFlagIcon('VN') };
+      this.selectedReceive = { code: 'USDT', icon: 'usdt.png' };
     } else {
-      this.selectedPay = { code: 'USDT', icon: '' };
-      this.selectedReceive = { code: 'VND', icon: '' };
+      this.selectedPay = { code: 'USDT', icon: 'usdt.png' };
+      this.selectedReceive = { code: 'VND', icon: this.getFlagIcon('VN') };
     }
 
     this.amountPay = null;
     this.amountReceive = null;
+    this.searchTerm1 = '';
+    this.searchTerm2 = '';
 
     this.updateFormValidity();
   }
@@ -133,14 +150,36 @@ export class Buy implements OnInit {
     if (which === 1) this.selectedPay = currency;
     else this.selectedReceive = currency;
     this.dropdownOpen1 = this.dropdownOpen2 = false;
+    this.searchTerm1 = '';
+    this.searchTerm2 = '';
+  }
+
+  getFlagIcon(countryCode: string) {
+    return `https://flagsapi.com/${countryCode}/flat/64.png`;
   }
 
   getPayList() {
-    return this.activeTab === 'buy' ? this.fiatCurrencies : this.cryptoCurrencies;
+    const list = this.activeTab === 'buy' ? this.fiatCurrencies : this.cryptoCurrencies;
+    if (!this.searchTerm1) {
+      return list;
+    }
+    return list.filter(c => c.code.toLowerCase().includes(this.searchTerm1.toLowerCase()));
   }
 
   getReceiveList() {
-    return this.activeTab === 'buy' ? this.cryptoCurrencies : this.fiatCurrencies;
+    const list = this.activeTab === 'buy' ? this.cryptoCurrencies : this.fiatCurrencies;
+    if (!this.searchTerm2) {
+      return list;
+    }
+    return list.filter(c => c.code.toLowerCase().includes(this.searchTerm2.toLowerCase()));
+  }
+
+  onSearch(which: number, value: string) {
+    if (which === 1) {
+      this.searchTerm1 = value;
+    } else {
+      this.searchTerm2 = value;
+    }
   }
 
   onAmountPayChange(value: string) {
