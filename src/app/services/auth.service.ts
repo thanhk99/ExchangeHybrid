@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, tap, BehaviorSubject,of } from 'rxjs';
+import { Observable, tap, BehaviorSubject,of,throwError } from 'rxjs';
 import { TokenService } from './token.service';
+import { catchError, map } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { DeviceService } from './device.service';
 @Injectable({
@@ -30,27 +31,30 @@ export class Auth {
     return !!this.tokenService.getAccessToken();
   }
 
-  loginService(email:any,password:any){
-    const body={
-      email:email,
-      password:password
-    }
-    this.http.post(environment.apiLogin,body).subscribe(
-      (res:any)=>{
-        this.tokenService.setTokens(res.accessToken, res.refreshToken);
-        this.deviceService.setDeviceStorage(res.deviceInfo.deviceId);
-       setTimeout(() => {
-          this.isLoggedInSubject.next(true);
-          this.router.navigate(["/home"])
-        }, 500);
-       
-      ;
-      },  
-      (err:any)=>{
-        this.toast.error("Login fail","Error",{timeOut:3000})
-      }
-    )
-  }
+  loginService(email: any, password: any): Observable<any> {
+  const body = {
+    email: email,
+    password: password
+  };
+
+  return this.http.post(environment.apiLogin, body).pipe(
+    map((res: any) => {
+      this.isLoggedInSubject.next(true);
+      this.tokenService.setTokens(res.accessToken, res.refreshToken);
+      this.deviceService.setDeviceStorage(res.deviceInfo.deviceId);
+      // setTimeout(() => {
+      //   this.isLoggedInSubject.next(true);
+      //   this.router.navigate(["/home"]);
+      // }, 500);
+      // return res; 
+      this.isLoggedInSubject.next(true);
+    }),
+    catchError((err: any) => {
+      // this.toast.error("Login fail", "Error", { timeOut: 3000 });
+      return throwError(() => err); 
+    })
+  );
+}
   refreshToken(): Observable<{}> {
     const refreshToken = this.tokenService.getRefreshToken();
     const body = { 

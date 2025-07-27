@@ -164,6 +164,14 @@
   float: right;
 }
 
+.arrow svg {
+  width: 12px; 
+  height: 12px;
+  display: inline-block;
+  vertical-align: middle;
+  fill: #fff; 
+}
+
 .arrow.open {
   transform: rotate(180deg); 
 }
