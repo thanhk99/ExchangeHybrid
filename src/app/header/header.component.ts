@@ -195,7 +195,7 @@ menuItems: any[] = [];
   }
 
   toggleMenu() {
-  console.log('Toggling menu, showMobileMenu:', !this.showMobileMenu);
+  // console.log('Toggling menu, showMobileMenu:', !this.showMobileMenu);
   this.showMobileMenu = !this.showMobileMenu;
   if (!this.showMobileMenu) {
     this.activeDropdown = null;
@@ -254,10 +254,10 @@ getUser() {
   this.authService.getUser().subscribe(
     (res: any) => {
       this.user = res;
-      console.log(res);
+      // console.log(res);
     },
     (err: any) => {
-      console.error('Lỗi khi lấy thông tin người dùng', err);
+      // console.error('Lỗi khi lấy thông tin người dùng', err);
     }
   );
 }

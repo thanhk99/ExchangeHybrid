@@ -2,12 +2,13 @@ import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Auth } from '../services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
-  standalone: false,
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
+  imports: [CommonModule],
 })
 export class LoginComponent {
   @ViewChild('loginFormElement') loginFormElement!: ElementRef<HTMLDivElement>;
@@ -20,6 +21,9 @@ export class LoginComponent {
     private toasrt: ToastrService,
     private authService : Auth
   ) {}
+
+  isLoading = false;
+
   ngAfterViewInit() {
     this.inputLoginEmail = document.getElementById(
       'loginEmail'
@@ -64,9 +68,18 @@ export class LoginComponent {
       return;
     }
     this.currentLoginEmail = email;
-    this.authService.loginService(email,password);
-    this.setActiveFormStep(2);
-    this.toasrt.success(`Đã gửi mã OTP đến ${email}`, '', { timeOut: 3000 });
+    this.isLoading = true;
+    this.authService.loginService(email, password).subscribe({
+      next: (res) => {
+        this.isLoading = false;
+        this.toasrt.success(`Đăng nhập thành công`);
+      },
+      error: (err) => {
+        this.isLoading = false;
+        // console.error('Login failed:', err);
+      }
+    });
+
   }
   private verifyOtpLogin() {
     const otp = this.loginOtp.value.trim();
