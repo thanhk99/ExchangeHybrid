@@ -1,0 +1,153 @@
+<header class="header">
+  <div class="logo">
+    <a class="header-logo" href="">
+      <img src="iconnobg.png" alt="Logo" height="30">
+    </a>
+  </div>
+  <div class="header-left">
+    <div class="dropdown-wrapper" *ngFor="let item of menuItems" [ngClass]="{'active': activeDropdown === item.label || (isMobile && showMobileMenu)}">
+      <div class="dropdown" [ngClass]="{'active': activeDropdown === item.label}"
+           (mouseenter)="onMouseEnter(item.label)" (mouseleave)="onMouseLeave()"
+           (click)="toggleDropdown(item.label)" *ngIf="!isMobile || (isMobile && showMobileMenu)">
+
+        <a class="header-leftmore">
+  <span class="label-arrow-wrapper">
+    {{ item.label }}
+    <span class="arrow" [class.open]="activeDropdown === item.label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#ffffff" d="M297.4 470.6C309.9 483.1 330.2 483.1 342.7 470.6L534.7 278.6C547.2 266.1 547.2 245.8 534.7 233.3C522.2 220.8 501.9 220.8 489.4 233.3L320 402.7L150.6 233.4C138.1 220.9 117.8 220.9 105.3 233.4C92.8 245.9 92.8 266.2 105.3 278.7L297.3 470.7z"/></svg></span>
+  </span>
+</a>
+
+        <div class="dropdown-content" *ngIf="activeDropdown === item.label">
+  <div class="dropdown-item" *ngFor="let subItem of item.subItems">
+     <div class="icon-wrapper" [innerHTML]="subItem.icon"></div>
+    <div class="dropdown-text">
+      <div class="dropdown-title">{{ subItem.title }}</div>
+      <div class="dropdown-desc">{{ subItem.desc }}</div>
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="header-right">
+    <form class="find">
+      <input class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
+    </form>
+
+    <ng-container *ngIf="isLoggedIn; else notLoggedIn">
+    <div class="asset-dropdown-wrapper"
+     (mouseenter)="onAssetMenuEnter()"
+     (mouseleave)="onAssetMenuLeave()">
+
+  <a class="header-rightmore" >
+  <span class="label-arrow-wrapper" (click)="goToAsset()">
+    Tài sản
+    <span class="arrow" [class.open]="showAssetMenu"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#ffffff" d="M297.4 470.6C309.9 483.1 330.2 483.1 342.7 470.6L534.7 278.6C547.2 266.1 547.2 245.8 534.7 233.3C522.2 220.8 501.9 220.8 489.4 233.3L320 402.7L150.6 233.4C138.1 220.9 117.8 220.9 105.3 233.4C92.8 245.9 92.8 266.2 105.3 278.7L297.3 470.7z"/></svg></span>
+  </span>
+</a>
+
+  <div class="asset-dropdown" *ngIf="showAssetMenu">
+    <a (click)="goToAsset()">Tài sản của tôi</a>
+    <a href="#">Nạp tiền</a>
+    <a href="#">Rút tiền</a>
+    <a href="#">Chuyển tiền</a>
+    <a href="#">Phân tích</a>
+    <a href="#">Trung tâm lệnh</a>
+    <a href="#">Phí giao dịch của tôi</a>
+    <a href="#">Báo cáo PoR</a>
+  </div>
+</div>
+
+    <div class="headerright-icon">
+      <div class="user-menu-wrapper"
+     (mouseenter)="onUserMenuEnter()"
+     (mouseleave)="onUserMenuLeave()">
+  <a class="user-icon" (click)="goToProfile()">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#ffffff" d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464l349.5 0c-8.9-63.3-63.3-112-129-112l-91.4 0c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304l91.4 0C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7L29.7 512C13.3 512 0 498.7 0 482.3z"/></svg>
+  </a>
+
+  <div class="user-dropdown" *ngIf="showUserMenu">
+    <div class="user-info" *ngIf="user">
+      <div class="email">{{ user.username }}</div>
+      <div class="uid">UID: {{ user.uid }}</div>
+    </div>
+    <hr />
+    <ul>
+      <li (click)="goToProfile()"> Tổng quan</li>
+      <li> Thông tin</li>
+      <li> Cài đặt bảo mật</li>
+      <li> Xác minh</li>
+      <li> Quốc gia/Khu vực</li>
+      <li> Tuỳ chọn</li>
+      <li> Tài khoản phụ</li>
+      <li> API</li>
+      <li> Uỷ quyền của bên thứ ba</li>
+    </ul>
+    <hr />
+    <div class="logout" 
+          (click)="logout()" 
+          [style.pointer-events]="isLoggingOut ? 'none' : 'auto'" 
+          [style.opacity]="isLoggingOut ? '0.6' : '1'" >
+            Đăng xuất</div>
+  </div> 
+</div>
+
+      <a><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#ffffff" d="M224 0c-17.7 0-32 14.3-32 32l0 19.2C119 66 64 130.6 64 208l0 25.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416l400 0c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4l0-25.4c0-77.4-55-142-128-156.8L256 32c0-17.7-14.3-32-32-32zm0 96c61.9 0 112 50.1 112 112l0 25.4c0 47.9 13.9 94.6 39.7 134.6L72.3 368C98.1 328 112 281.3 112 233.4l0-25.4c0-61.9 50.1-112 112-112zm64 352l-64 0-64 0c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z"/></svg></a>
+    </div>
+    </ng-container>
+
+     <ng-template #notLoggedIn>
+      <ng-container *ngIf="!isMobile">
+        <a class="header-rightmore mr-2" (click)="goToLogin()" >Đăng nhập</a>
+        <a class="header-rightmore"  (click)="goToRegister()">Đăng ký</a>
+      </ng-container>
+    </ng-template>
+
+    <button class="hamburger-menu" (click)="toggleMenu()" *ngIf="isMobile">
+      <span>☰</span>
+    </button>
+  </div>
+
+  <!-- Mobile Sidebar Menu -->
+<div class="mobile-sidebar" [ngClass]="{'active': showMobileMenu}" *ngIf="isMobile">
+  <div class="close-btn" (click)="toggleMenu()">×</div>
+
+  <ng-container *ngIf="!isLoggedIn && isMobile">
+    <a class="header-rightmore" (click)="goToLogin()" >Đăng nhập</a>
+    <a class="header-rightmore" (click)="goToRegister()">Đăng ký</a>
+  </ng-container>
+
+  <ng-container *ngIf="isLoggedIn && isMobile">
+  <div class="mobile-dropdown-header" (click)="toggleDropdown('Tài sản')">
+    Tài sản
+    <span class="arrow" [class.open]="activeDropdown === 'Tài sản'"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#ffffff" d="M297.4 470.6C309.9 483.1 330.2 483.1 342.7 470.6L534.7 278.6C547.2 266.1 547.2 245.8 534.7 233.3C522.2 220.8 501.9 220.8 489.4 233.3L320 402.7L150.6 233.4C138.1 220.9 117.8 220.9 105.3 233.4C92.8 245.9 92.8 266.2 105.3 278.7L297.3 470.7z"/></svg></span>
+  </div>
+  <div class="mobile-dropdown-content" *ngIf="activeDropdown === 'Tài sản'">
+    <a href="#">Tài sản của tôi</a>
+    <a href="#">Nạp tiền</a>
+    <a href="#">Rút tiền</a>
+    <a href="#">Chuyển tiền</a>
+    <a href="#">Phân tích</a>
+    <a href="#">Trung tâm lệnh</a>
+    <a href="#">Phí giao dịch của tôi</a>
+    <a href="#">Báo cáo PoR</a>
+  </div>
+</ng-container>
+
+  <div *ngFor="let item of menuItems">
+    <div class="mobile-dropdown-header" (click)="toggleDropdown(item.label)">
+      {{ item.label }}
+      <span class="arrow" [class.open]="activeDropdown === item.label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#ffffff" d="M297.4 470.6C309.9 483.1 330.2 483.1 342.7 470.6L534.7 278.6C547.2 266.1 547.2 245.8 534.7 233.3C522.2 220.8 501.9 220.8 489.4 233.3L320 402.7L150.6 233.4C138.1 220.9 117.8 220.9 105.3 233.4C92.8 245.9 92.8 266.2 105.3 278.7L297.3 470.7z"/></svg></span>
+    </div>
+    <div class="mobile-dropdown-content" *ngIf="activeDropdown === item.label">
+      <div class="dropdown-item" *ngFor="let subItem of item.subItems">
+  <i [class]="subItem.icon"></i>
+  <div class="dropdown-text">
+    <div class="dropdown-title">{{ subItem.title }}</div>
+  </div>
+</div>
+    </div>
+  </div>
+</div>
+</header>

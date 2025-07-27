@@ -1,0 +1,57 @@
+<app-nav-tabs [tabs]="profiletabs"></app-nav-tabs>
+<div class="container">
+  <div class="breadcrumb">
+    <span class="breadcrumb-bold">Trung tâm bảo mật</span> &gt; <span>Quản lý thiết bị</span>
+  </div>
+
+  <h2 class="title">Quản lý thiết bị</h2>
+  <p class="description">
+    Quản lý quyền truy cập vào tài khoản bằng cách xem các thiết bị đăng nhập gần đây và thông tin đăng nhập.
+  </p>
+
+  <!-- Cảnh báo -->
+  <div class="alert">
+    <p class="alert-title">
+      <span class="alert-icon">⚠️</span> Luôn cảnh giác với bất kỳ hoạt động lạ nào
+    </p>
+    <p class="alert-description">
+      Nếu bạn phát hiện bất kỳ điều gì, hãy thay đổi mật khẩu để đăng xuất tất cả thiết bị được liên kết và bảo mật tài khoản của bạn.
+    </p>
+  </div>
+
+ <!-- Bảng thiết bị -->
+  <div class="table-container" *ngIf="devices.length > 0; else noDevices">
+    <table>
+      <thead>
+        <tr>
+          <th>Tên thiết bị</th>
+          <th>Loại thiết bị</th>
+          <th>Lần đăng nhập cuối cùng</th>
+          <th>Vị trí</th>
+          <th>Địa chỉ IP</th>
+          <th>Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let device of devices">
+          <td>
+            <strong>{{ device.deviceName }}</strong>
+            <span class="browser">({{ device.browser }})</span>
+            <span *ngIf="device.deviceId === getCurrentDeviceId()" class="current-label">Hiện tại</span>
+          </td>
+          <td>{{ device.deviceType }}</td>
+          <td>{{ formatDate(device.lastLogin) }}</td>
+          <td>{{ device.location }}</td>
+          <td>{{ device.ipAddress }}</td>
+          <td>
+            <button class="logout-btn" (click)="logoutDevice(device.deviceId)">Đăng xuất</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #noDevices>
+    <div class="no-data">Không có thiết bị nào được tìm thấy</div>
+  </ng-template>
+</div>

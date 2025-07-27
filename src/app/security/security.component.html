@@ -1,0 +1,255 @@
+<app-nav-tabs [tabs]="profiletabs"></app-nav-tabs>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<div class="security-container">
+  <h2>Trung tâm bảo mật</h2>
+
+  <!-- Thông báo bảo mật -->
+  <div class="security-alert">
+    <div class="alert-icon">⚠️</div>
+    <div>
+      <div class="alert-title">Mục bảo mật chờ xử lý</div>
+      <div class="alert-desc">Bảo vệ tài khoản bằng cách bật các tính năng bảo mật được đề xuất.</div>
+    </div>
+  </div>
+
+  <!-- Danh sách bảo mật -->
+  <div class="security-item" *ngFor="let item of securityItems">
+    <div class="item-icon">{{ item.icon }}</div>
+    <div class="item-content">
+      <div class="item-title">
+        {{ item.title }}
+        <span *ngIf="item.recommended" class="recommended-badge">Được đề xuất</span>
+      </div>
+      <div class="item-desc">{{ item.desc }}</div>
+    </div>
+    <button class="setup-btn" (click)="setupItem(item)">Thiết lập</button>
+  </div>
+
+  <!--Mật khẩu cấp 2-->
+  <div class="modal-overlay" *ngIf="showPasswordSection">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2>Trung tâm bảo mật > Mật khẩu cấp 2</h2>
+        <button (click)="showPasswordSection = false">×</button>
+      </div>
+
+      <div class="modal-body">
+        <h3>Thiết lập mật khẩu cấp 2</h3>
+
+        <div class="form-group">
+          <label for="passwordLevel2">Mật khẩu cấp 2 (6 chữ số)</label>
+          <div class="password-input">
+            <input [type]="showPassword ? 'text' : 'password'" id="passwordLevel2" [(ngModel)]="password" maxlength="6"
+              placeholder="Nhập 6 số" (keypress)="onlyNumberKey($event)" />
+            <span class="toggle-password" (click)="togglePasswordVisibility()">
+              <i class="fas" [ngClass]="{'fa-eye': !showPassword, 'fa-eye-slash': showPassword}"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPasswordLevel2">Xác nhận mật khẩu</label>
+          <div class="password-input">
+            <input [type]="showConfirmPassword ? 'text' : 'password'" id="confirmPasswordLevel2"
+              [(ngModel)]="confirmPassword" maxlength="6" placeholder="Xác nhận 6 số"
+              (keypress)="onlyNumberKey($event)" />
+            <span class="toggle-password" (click)="toggleConfirmPasswordVisibility()">
+              <i class="fas" [ngClass]="{'fa-eye': !showConfirmPassword, 'fa-eye-slash': showConfirmPassword}"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button class="submit-btn" (click)="save()">Xác nhận</button>
+          <button class="cancel-btn" (click)="showPasswordSection = false">Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mã chống lừa đảo -->
+  <div class="modal-overlay" *ngIf="showAntiPhishingModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2>Trung tâm bảo mật > Mã chống lừa đảo</h2>
+        <button (click)="showAntiPhishingModal = false">×</button>
+      </div>
+
+      <div class="modal-body">
+        <h3>Tạo mã của bạn</h3>
+        <p>Tìm hiểu thêm</p>
+
+        <div class="form-group">
+          <label>Mã chống lừa đảo</label>
+          <div class="code-input-group">
+            <input type="text" [(ngModel)]="antiPhishingCode" placeholder="Nhập mã mà chỉ bạn có thể nhận ra">
+          </div>
+
+          <div class="requirements">
+            <div [class.valid]="(antiPhishingCode.length || 0) >= 1 && (antiPhishingCode.length || 0) <= 20">
+              ✓ 1 - 20 ký tự
+            </div>
+            <div [class.valid]="isValidCodeFormat(antiPhishingCode)">
+              ✓ Chỉ chứa chữ cái và chữ số (A-Z, a-z, 0-9)
+            </div>
+          </div>
+        </div>
+
+        <button class="submit-btn" [disabled]="!isValidCode(antiPhishingCode)" (click)="saveAntiPhishingCode()">
+          Gửi
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Modal đặt mật khẩu đăng nhập -->
+
+  <div class="modal-overlay" *ngIf="showPasswordModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2>Trung tâm bảo mật > Đặt mật khẩu đăng nhập</h2>
+        <button (click)="showPasswordModal = false">×</button>
+      </div>
+
+      <div class="modal-body">
+        <h3>Đặt mật khẩu đăng nhập</h3>
+
+        <div class="form-group">
+          <label>Mật khẩu mới</label>
+          <div class="password-input">
+            <input [type]="shownewPassword ? 'text' : 'password'" [(ngModel)]="newPassword"
+              placeholder="Vui lòng nhập mật khẩu mới" />
+            <span class="toggle-password" (click)="toggleNewPasswordVisibility()">
+              <i class="fas" [ngClass]="{'fa-eye': !shownewPassword, 'fa-eye-slash': shownewPassword}"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Xác nhận mật khẩu mới</label>
+          <div class="password-input">
+            <input [type]="showConfirmPassword ? 'text' : 'password'" [(ngModel)]="confirmPassword"
+              placeholder="Vui lòng nhập mật khẩu mới" />
+            <span class="toggle-password" (click)="toggleConfirmPasswordVisibility()">
+              <i class="fas" [ngClass]="{'fa-eye': !showConfirmPassword, 'fa-eye-slash': showConfirmPassword}"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="verification-section">
+          <h4>Xác thực qua email</h4>
+          <div class="code-input">
+            <input type="text" [(ngModel)]="smsCode" placeholder="Nhập mã" />
+            <button (click)="sendSMSCode()">Gửi mã</button>
+          </div>
+        </div>
+
+        <button class="submit-btn" [disabled]="!isValidPassword()" (click)="updatePassword()">
+          Xác nhận
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phương thức xác thực -->
+
+  <h3>Phương thức xác thực</h3>
+
+
+  <div class="auth-method">
+    <div class="method-info">
+      <div class="method-title">Xác thực qua email</div>
+      <div class="method-desc">Nhận mã xác thực qua email</div>
+    </div>
+    <div class="method-action">
+      <span class="masked-info">{{ maskEmail(user.email) }}</span>
+      <button class="change-btn" (click)="openEmailModal()">Thay đổi</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal thay đổi email -->
+<div class="modal-overlay" *ngIf="showEmailModal">
+  <div class="modal-container">
+    <h1>Thay đổi email</h1>
+
+    <div class="security-notice">
+      <input type="checkbox" id="email-security-checkbox" checked disabled>
+      <label for="email-security-checkbox">
+        Để bảo vệ tài khoản, bạn sẽ không thể rút tiền hoặc sử dụng giao dịch P2P để bán tiền mã hóa
+        trong 24 giờ sau khi bạn đặt lại hoặc thay đổi email tài khoản của mình.
+      </label>
+    </div>
+
+    <div class="form-section">
+      <h2>Địa chỉ email mới</h2>
+      <div class="code-input-group">
+        <input type="email" [(ngModel)]="newEmail" placeholder="Nhập địa chỉ email mới">
+      </div>
+    </div>
+
+    <div class="verification-section">
+      <h2>Xác thực qua email mới</h2>
+      <div class="code-input-group">
+        <input type="text" [(ngModel)]="newEmailCode" placeholder="Nhập mã">
+        <button class="send-code-btn" (click)="sendNewEmailCode()">Gửi mã</button>
+      </div>
+
+      <h2>Xác thực qua email hiện tại</h2>
+      <div class="code-input-group">
+        <input type="text" [(ngModel)]="currentEmailCode" placeholder="Nhập mã">
+        <button class="send-code-btn" (click)="sendCurrentEmailCode()">Gửi mã</button>
+      </div>
+
+      <!-- <h2>Xác thực qua điện thoại</h2>
+      <div class="code-input-group">
+        <input type="text" [(ngModel)]="phoneCode" placeholder="Nhập mã">
+        <button class="send-code-btn" (click)="sendPhoneVerificationCode()">Gửi mã</button>
+      </div> -->
+    </div>
+
+    <div class="no-auth-section">
+      <h2 style="cursor: pointer;">Không có phương thức xác thực?</h2>
+      <button class="confirm-btn" (click)="confirmEmailChange()">Xác nhận</button>
+    </div>
+
+    <div class="modal-actions">
+      <button class="cancel-btn" (click)="closeModal()">Hủy</button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <h2>Bảo mật tài khoản</h2>
+
+  <div class="section">
+    <h3>Quản lý</h3>
+    <div class="option">
+      <span>📝</span> Quản lý thiết bị
+      <span class="link" (click)="goToDevice()">Quản lý</span>
+    </div>
+    <div class="option">
+      <span>🔒</span> Quản lý xác minh hai yếu tố
+      <span class="link">Quản lý</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Quyền giao dịch</h3>
+    <div class="option">
+      <span>📋</span> Thiệt lập cấp độ quyền giao dịch chi bản
+      <span class="link">Tắt/Bật</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Quản lý tài khoản</h3>
+    <div class="option">
+      <span>💳</span> Đổi bảng tài khoản bị băng đong. Để mở khóa tài khoản, hãy bảo đảm bạn đã đăng nhập tài khoản
+      <span class="link">></span>
+    </div>
+    <div class="option">
+      <span>🔐</span> Động tài khoản
+      <span class="link">></span>
+    </div>
+  </div>
+</div>
