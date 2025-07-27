@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NavTabs } from '../shared/nav-tabs/nav-tabs';
+import { ApiService } from '../services/api.service';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { NavTabs } from '../shared/nav-tabs/nav-tabs';
   templateUrl: './my-transaction.html',
   styleUrl: './my-transaction.css'
 })
-export class MyTransaction {
+export class MyTransaction implements OnInit {
 
   buytabs = [
     { label: 'Giao dịch nhanh', path: '/buy' },
@@ -21,12 +22,17 @@ export class MyTransaction {
     { label: 'Lệnh của tôi', path: '/my-transaction' },
     { label: 'Hồ sơ của tôi', path: '/my-profile' },
     { label: 'Thêm', path: '' },
-    
+
   ];
 
   tab: 'pending' | 'completed' = 'pending';
 
   openDropdown: 'status' | 'order' | null = null;
+
+  @HostListener('document:click')
+  onDocumentClick() {
+    this.openDropdown = null;
+  }
 
   selectedStatus = '';
   selectedOrder = '';
@@ -34,17 +40,41 @@ export class MyTransaction {
   endDate = '2025-07-04';
   searchTerm = '';
 
-  orders = []; // Dữ liệu thực sẽ lấy từ API
+  allOrders: any[] = [];
+  filteredOrders: any[] = [];
+  completedOrders: any[] = [];
 
- 
+  constructor(private apiService: ApiService) { }
 
-  constructor() {
-    // this.filterOrders();
+  ngOnInit(): void {
+    this.loadTransactions();
+  }
+
+  loadTransactions() {
+    this.apiService.getMyTransactions().subscribe(data => {
+      this.allOrders = data.map(this.mapOrderData);
+      this.filterOrders();
+    });
+  }
+
+  mapOrderData(order: any) {
+    // This function should map the raw API response to the format the template expects
+    return {
+      id: order.id,
+      type: order.fromUser === 'CURRENT_USER_ID' ? 'Bán' : 'Mua', // This logic needs to be adjusted
+      amount: order.coinAmount,
+      totalPrice: order.fiatAmount,
+      price: order.price,
+      partner: order.fromUser === 'CURRENT_USER_ID' ? order.toUser : order.fromUser, // Adjust as needed
+      status: order.status, // e.g., PENDING, COMPLETED, CANCLE
+      time: new Date(order.createdAt).toLocaleString('vi-VN'),
+      remainingTime: '09:50' // Placeholder
+    };
   }
 
   setTab(tab: 'pending' | 'completed') {
     this.tab = tab;
-    // this.filterOrders();
+    this.filterOrders();
   }
 
   toggleDropdown(type: 'status' | 'order') {
@@ -73,8 +103,43 @@ export class MyTransaction {
   }
 
   filterOrders() {
-    // Tạm thời không có dữ liệu → trả về mảng rỗng
-    this.filteredOrders = [];
+    let orders = [...this.allOrders];
+
+    // Filter by main tab (pending vs completed)
+    if (this.tab === 'pending') {
+      // Assuming 'PENDING' is the status for pending orders
+      orders = orders.filter(o => o.status === 'PENDING');
+    } else {
+      // Assuming 'COMPLETED' and 'CANCLE' are completed statuses
+      orders = orders.filter(o => o.status === 'COMPLETED' || o.status === 'CANCLE');
+    }
+
+    // Apply other filters
+    if (this.selectedStatus) {
+      // This needs mapping from Vietnamese status to backend status
+      // For now, we'll assume a direct match which might not work
+      orders = orders.filter(o => o.status.toLowerCase() === this.selectedStatus.toLowerCase());
+    }
+
+    if (this.selectedOrder) { // "Mua" or "Bán"
+      orders = orders.filter(o => o.type === this.selectedOrder);
+    }
+
+    if (this.searchTerm) {
+      const term = this.searchTerm.toLowerCase();
+      orders = orders.filter(o => o.partner.toLowerCase().includes(term) || o.id.toString().includes(term));
+    }
+
+    // Date filtering would go here if needed
+
+    // Assign to the correct array for the view
+    if (this.tab === 'pending') {
+      this.filteredOrders = orders;
+      this.completedOrders = [];
+    } else {
+      this.completedOrders = orders;
+      this.filteredOrders = [];
+    }
   }
 
   reportUser() {
@@ -85,121 +150,20 @@ export class MyTransaction {
     alert('Đã xuất báo cáo');
   }
 
-  completedOrders = [
-  {
-    id: '250630132051631',
-    type: 'Mua',
-    amount: 5.00,
-    totalPrice: 132000,
-    price: 26360,
-    partner: 'NamMôADiĐàPhật 🪷',
-    status: 'Đã huỷ',
-    time: '12:20:52 30/06/2025'
-  },
-  {
-    id: '250627224434535',
-    type: 'Mua',
-    amount: 5.03,
-    totalPrice: 133333,
-    price: 26470,
-    partner: 'Lexus570 💎',
-    status: 'Đã huỷ',
-    time: '21:44:34 27/06/2025'
-  },
-  {
-    id: '250627224434535',
-    type: 'Mua',
-    amount: 5.03,
-    totalPrice: 133333,
-    price: 26470,
-    partner: 'Lexus570 💎',
-    status: 'Đã huỷ',
-    time: '21:44:34 27/06/2025'
-  },
-  {
-    id: '250627224434535',
-    type: 'Mua',
-    amount: 5.03,
-    totalPrice: 133333,
-    price: 26470,
-    partner: 'Lexus570 💎',
-    status: 'Đã huỷ',
-    time: '21:44:34 27/06/2025'
-  },
-  {
-    id: '250627224434535',
-    type: 'Mua',
-    amount: 5.03,
-    totalPrice: 133333,
-    price: 26470,
-    partner: 'Lexus570 💎',
-    status: 'Đã huỷ',
-    time: '21:44:34 27/06/2025'
-  }
-];
-
-
   hasCompletedData(): boolean {
-  return this.tab === 'completed' && this.completedOrders.length > 0;
-}
-
-noCompletedData(): boolean {
-  return this.tab === 'completed' && this.completedOrders.length === 0;
-}
-
-filteredOrders = [
-  {
-    id: '250704234500484',
-    type: 'Mua',
-    amount: 5.00,
-    totalPrice: 132000,
-    price: 26360,
-    partner: 'NamMôADiĐàPhật 🪷',
-    status: 'Đang chờ thanh toán',
-    remainingTime: '09:50',
-    time: '22:45:00 04/07/2025'
-  },
-  {
-    id: '250704234500484',
-    type: 'Mua',
-    amount: 5.00,
-    totalPrice: 132000,
-    price: 26360,
-    partner: 'NamMôADiĐàPhật 🪷',
-    status: 'Đang chờ thanh toán',
-    remainingTime: '09:50',
-    time: '22:45:00 04/07/2025'
-  },
-  {
-    id: '250704234500484',
-    type: 'Mua',
-    amount: 5.00,
-    totalPrice: 132000,
-    price: 26360,
-    partner: 'NamMôADiĐàPhật 🪷',
-    status: 'Đang chờ thanh toán',
-    remainingTime: '09:50',
-    time: '22:45:00 04/07/2025'
-  },
-  {
-    id: '250704234500484',
-    type: 'Mua',
-    amount: 5.00,
-    totalPrice: 132000,
-    price: 26360,
-    partner: 'NamMôADiĐàPhật 🪷',
-    status: 'Đang chờ thanh toán',
-    remainingTime: '09:50',
-    time: '22:45:00 04/07/2025'
+    return this.tab === 'completed' && this.completedOrders.length > 0;
   }
-];
 
-hasPendingOrders(): boolean {
-  return this.tab === 'pending' && this.filteredOrders.length > 0;
-}
+  noCompletedData(): boolean {
+    return this.tab === 'completed' && this.completedOrders.length === 0;
+  }
 
-noPendingOrders(): boolean {
-  return this.tab === 'pending' && this.filteredOrders.length === 0;
-}
+  hasPendingOrders(): boolean {
+    return this.tab === 'pending' && this.filteredOrders.length > 0;
+  }
+
+  noPendingOrders(): boolean {
+    return this.tab === 'pending' && this.filteredOrders.length === 0;
+  }
 
 }

@@ -4,124 +4,120 @@
 
   <div class="exchange-container">
 
-  <div class="left-info">
-    <h1>
-  Giao dịch Nhanh<br />
-  P2P<br />
-  {{ activeTab === 'buy' ? 'Mua USDT bằng' : 'Bán USDT lấy' }}<br />
-  VND
-</h1>
-<p>
-  Giao dịch Nhanh P2P tìm giá {{ activeTab === 'buy' ? 'mua' : 'bán' }} USDT tốt nhất cho bạn
-  trong số những lựa chọn hiện có trên thị trường P2P.
-</p>
-  </div>
-
-  <div class="right-form">
-  <div class="tab-header">
-  <div class="tab" [class.active]="activeTab === 'buy'" (click)="switchTab('buy')">Mua</div>
-  <div class="tab" [class.active]="activeTab === 'sell'" (click)="switchTab('sell')">Bán</div>
-</div>
-
- <!-- Trường 1 -->
-<div class="form-group">
-  <label>{{ activeTab === 'buy' ? 'Bạn thanh toán' : 'Bạn bán' }}</label>
-  <div class="input-group">
-    <input
-  type="number"
-  [ngModel]="amountPay"
-  (ngModelChange)="onAmountPayChange($event)"
-  placeholder="0"
-  name="amountPay"
-/>
-    <div class="custom-dropdown" (click)="toggleDropdown(1)">
-      {{ selectedPay.icon }} {{ selectedPay.code }} <span>▾</span>
+    <div class="left-info">
+      <h1>
+        Giao dịch Nhanh<br />
+        P2P<br />
+        {{ activeTab === 'buy' ? 'Mua USDT bằng' : 'Bán USDT lấy' }}<br />
+        VND
+      </h1>
+      <p>
+        Giao dịch Nhanh P2P tìm giá {{ activeTab === 'buy' ? 'mua' : 'bán' }} USDT tốt nhất cho bạn
+        trong số những lựa chọn hiện có trên thị trường P2P.
+      </p>
     </div>
-    <div class="dropdown-list" *ngIf="dropdownOpen1">
-      <div
-        class="dropdown-item"
-        *ngFor="let c of getPayList()"
-        (click)="selectCurrency(1, c)"
-      >
-        {{ c.icon }} {{ c.code }}
+
+    <div class="right-form">
+      <div class="tab-header">
+        <div class="tab" [class.active]="activeTab === 'buy'" (click)="switchTab('buy')">Mua</div>
+        <div class="tab" [class.active]="activeTab === 'sell'" (click)="switchTab('sell')">Bán</div>
       </div>
-    </div>
-  </div>
-  <small style="color:#777" *ngIf="activeTab === 'buy'">130.000 - 2.600.000.000 VND</small>
-  <small style="color:#777" *ngIf="activeTab === 'sell'">Khả dụng 0,00 {{ selectedPay.code }}</small>
-</div>
 
-<!-- Trường 2 -->
-<div class="form-group">
-  <label>Bạn nhận</label>
-  <div class="input-group">
-    <input
-  type="number"
-  [ngModel]="amountReceive"
-  (ngModelChange)="onAmountReceiveChange($event)"
-  placeholder="0"
-  name="amountReceive"
-/>
-    <div class="custom-dropdown" (click)="toggleDropdown(2)">
-      {{ selectedReceive.icon }} {{ selectedReceive.code }} <span>▾</span>
-    </div>
-    <div class="dropdown-list" *ngIf="dropdownOpen2">
-      <div
-        class="dropdown-item"
-        *ngFor="let c of getReceiveList()"
-        (click)="selectCurrency(2, c)"
-      >
-        {{ c.icon }} {{ c.code }}
+      <!-- Trường 1 -->
+      <div class="form-group">
+        <label>{{ activeTab === 'buy' ? 'Bạn thanh toán' : 'Bạn bán' }}</label>
+        <div class="input-group">
+          <input type="number" [ngModel]="amountPay" (ngModelChange)="onAmountPayChange($event)" placeholder="0"
+            name="amountPay" />
+          <div class="custom-dropdown" (click)="toggleDropdown(1); $event.stopPropagation()">
+            <img [src]="selectedPay.icon" class="currency-icon" *ngIf="selectedPay.icon" /> {{ selectedPay.code }}
+            <span>▾</span>
+          </div>
+          <div class="dropdown-list" *ngIf="dropdownOpen1">
+            <div class="dropdown-item" *ngFor="let c of getPayList()" (click)="selectCurrency(1, c)">
+              <img [src]="c.icon" class="currency-icon" *ngIf="c.icon" /> {{ c.code }}
+            </div>
+          </div>
+        </div>
+        <small style="color:#777" *ngIf="activeTab === 'buy'">{{ transactionLimit.min | number }} - {{
+          transactionLimit.max | number }} VND</small>
+        <small style="color:#777" *ngIf="activeTab === 'sell'">Khả dụng {{ availableBalance | number:'1.2-2' }} {{
+          selectedPay.code }}</small>
       </div>
+
+      <!-- Trường 2 -->
+      <div class="form-group">
+        <label>Bạn nhận</label>
+        <div class="input-group">
+          <input type="number" [ngModel]="amountReceive" (ngModelChange)="onAmountReceiveChange($event)" placeholder="0"
+            name="amountReceive" />
+          <div class="custom-dropdown" (click)="toggleDropdown(2); $event.stopPropagation()">
+            <img [src]="selectedReceive.icon" class="currency-icon" *ngIf="selectedReceive.icon" /> {{
+            selectedReceive.code }} <span>▾</span>
+          </div>
+          <div class="dropdown-list" *ngIf="dropdownOpen2">
+            <div class="dropdown-item" *ngFor="let c of getReceiveList()" (click)="selectCurrency(2, c)">
+              <img [src]="c.icon" class="currency-icon" *ngIf="c.icon" /> {{ c.code }}
+            </div>
+          </div>
+        </div>
+        <small style="color:#777" *ngIf="activeTab === 'sell'">130.000 - 2.600.000.000 VND</small>
+        <small style="color:white" *ngIf="activeTab === 'buy'">.</small>
+      </div>
+
+
+      <div class="rate">
+        Giá tham chiếu:
+        <a href="#">
+          1 USDT ≈ {{ exchangeRate | number:'1.0-0' }} VND
+        </a>
+      </div>
+
+      <button class="payment-btn" [disabled]="!isFormValid" (click)="methodpaymentPage()">
+        {{ activeTab === 'buy' ? 'Chọn phương thức thanh toán' : 'Chọn phương thức nhận' }}
+      </button>
     </div>
   </div>
-  <small style="color:#777" *ngIf="activeTab === 'sell'">130.000 - 2.600.000.000 VND</small>
-   <small style="color:white" *ngIf="activeTab === 'buy'">.</small>
-</div>
 
-
-  <div class="rate">
-    Giá tham chiếu:
-    <a href="#">
-      1 USDT ≈ {{ activeTab === 'buy' ? '26.361' : '26.364' }} VND
-    </a>
-  </div>
-
-  <button class="payment-btn"
-        [disabled]="!isFormValid"
-        (click)="methodpaymentPage()">
-  {{ activeTab === 'buy' ? 'Chọn phương thức thanh toán' : 'Chọn phương thức nhận' }}
-</button>
-</div>
-</div>
-
-<div class="infomation-container">
+  <div class="infomation-container">
 
     <p>Cách mua USDT bằng VND thông qua Giao dịch Nhanh P2P</p>
 
     <div class="infomation-list">
       <div class="infor-item">
         <div class="icon">
-          <i><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#000000" d="M160 0c17.7 0 32 14.3 32 32l0 35.7c1.6 .2 3.1 .4 4.7 .7c.4 .1 .7 .1 1.1 .2l48 8.8c17.4 3.2 28.9 19.9 25.7 37.2s-19.9 28.9-37.2 25.7l-47.5-8.7c-31.3-4.6-58.9-1.5-78.3 6.2s-27.2 18.3-29 28.1c-2 10.7-.5 16.7 1.2 20.4c1.8 3.9 5.5 8.3 12.8 13.2c16.3 10.7 41.3 17.7 73.7 26.3l2.9 .8c28.6 7.6 63.6 16.8 89.6 33.8c14.2 9.3 27.6 21.9 35.9 39.5c8.5 17.9 10.3 37.9 6.4 59.2c-6.9 38-33.1 63.4-65.6 76.7c-13.7 5.6-28.6 9.2-44.4 11l0 33.4c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-34.9c-.4-.1-.9-.1-1.3-.2l-.2 0s0 0 0 0c-24.4-3.8-64.5-14.3-91.5-26.3c-16.1-7.2-23.4-26.1-16.2-42.2s26.1-23.4 42.2-16.2c20.9 9.3 55.3 18.5 75.2 21.6c31.9 4.7 58.2 2 76-5.3c16.9-6.9 24.6-16.9 26.8-28.9c1.9-10.6 .4-16.7-1.3-20.4c-1.9-4-5.6-8.4-13-13.3c-16.4-10.7-41.5-17.7-74-26.3l-2.8-.7s0 0 0 0C119.4 279.3 84.4 270 58.4 253c-14.2-9.3-27.5-22-35.8-39.6c-8.4-17.9-10.1-37.9-6.1-59.2C23.7 116 52.3 91.2 84.8 78.3c13.3-5.3 27.9-8.9 43.2-11L128 32c0-17.7 14.3-32 32-32z"/></svg></i>
+          <i><svg xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 320 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+              <path fill="#000000"
+                d="M160 0c17.7 0 32 14.3 32 32l0 35.7c1.6 .2 3.1 .4 4.7 .7c.4 .1 .7 .1 1.1 .2l48 8.8c17.4 3.2 28.9 19.9 25.7 37.2s-19.9 28.9-37.2 25.7l-47.5-8.7c-31.3-4.6-58.9-1.5-78.3 6.2s-27.2 18.3-29 28.1c-2 10.7-.5 16.7 1.2 20.4c1.8 3.9 5.5 8.3 12.8 13.2c16.3 10.7 41.3 17.7 73.7 26.3l2.9 .8c28.6 7.6 63.6 16.8 89.6 33.8c14.2 9.3 27.6 21.9 35.9 39.5c8.5 17.9 10.3 37.9 6.4 59.2c-6.9 38-33.1 63.4-65.6 76.7c-13.7 5.6-28.6 9.2-44.4 11l0 33.4c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-34.9c-.4-.1-.9-.1-1.3-.2l-.2 0s0 0 0 0c-24.4-3.8-64.5-14.3-91.5-26.3c-16.1-7.2-23.4-26.1-16.2-42.2s26.1-23.4 42.2-16.2c20.9 9.3 55.3 18.5 75.2 21.6c31.9 4.7 58.2 2 76-5.3c16.9-6.9 24.6-16.9 26.8-28.9c1.9-10.6 .4-16.7-1.3-20.4c-1.9-4-5.6-8.4-13-13.3c-16.4-10.7-41.5-17.7-74-26.3l-2.8-.7s0 0 0 0C119.4 279.3 84.4 270 58.4 253c-14.2-9.3-27.5-22-35.8-39.6c-8.4-17.9-10.1-37.9-6.1-59.2C23.7 116 52.3 91.2 84.8 78.3c13.3-5.3 27.9-8.9 43.2-11L128 32c0-17.7 14.3-32 32-32z" />
+            </svg></i>
         </div>
         <h1>Khớp với giá chào USDT tốt nhất</h1>
         <p>Chọn USDT và VND, rồi nhập số lượng bạn muốn mua.</p>
       </div>
       <div class="infor-item">
         <div class="icon">
-          <i><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#000000" d="M24 0C10.7 0 0 10.7 0 24S10.7 48 24 48l8 0 0 19c0 40.3 16 79 44.5 107.5L158.1 256 76.5 337.5C48 366 32 404.7 32 445l0 19-8 0c-13.3 0-24 10.7-24 24s10.7 24 24 24l336 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-8 0 0-19c0-40.3-16-79-44.5-107.5L225.9 256l81.5-81.5C336 146 352 107.3 352 67l0-19 8 0c13.3 0 24-10.7 24-24s-10.7-24-24-24L24 0zM192 289.9l81.5 81.5C293 391 304 417.4 304 445l0 19L80 464l0-19c0-27.6 11-54 30.5-73.5L192 289.9zm0-67.9l-81.5-81.5C91 121 80 94.6 80 67l0-19 224 0 0 19c0 27.6-11 54-30.5 73.5L192 222.1z"/></svg></i>
+          <i><svg xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 384 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+              <path fill="#000000"
+                d="M24 0C10.7 0 0 10.7 0 24S10.7 48 24 48l8 0 0 19c0 40.3 16 79 44.5 107.5L158.1 256 76.5 337.5C48 366 32 404.7 32 445l0 19-8 0c-13.3 0-24 10.7-24 24s10.7 24 24 24l336 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-8 0 0-19c0-40.3-16-79-44.5-107.5L225.9 256l81.5-81.5C336 146 352 107.3 352 67l0-19 8 0c13.3 0 24-10.7 24-24s-10.7-24-24-24L24 0zM192 289.9l81.5 81.5C293 391 304 417.4 304 445l0 19L80 464l0-19c0-27.6 11-54 30.5-73.5L192 289.9zm0-67.9l-81.5-81.5C91 121 80 94.6 80 67l0-19 224 0 0 19c0 27.6-11 54-30.5 73.5L192 222.1z" />
+            </svg></i>
         </div>
         <h1>Thanh toán bằng VND</h1>
         <p>Chọn quảng cáo USDT ưu tiên của bạn và thanh toán cho người bán trong thời gian quy định.</p>
       </div>
       <div class="infor-item">
         <div class="icon">
-          <i><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#000000" d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-224c0-35.3-28.7-64-64-64L80 128c-8.8 0-16-7.2-16-16s7.2-16 16-16l368 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L64 32zM416 272a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg></i>
+          <i><svg xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+              <path fill="#000000"
+                d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-224c0-35.3-28.7-64-64-64L80 128c-8.8 0-16-7.2-16-16s7.2-16 16-16l368 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L64 32zM416 272a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
+            </svg></i>
         </div>
         <h1>Nhận USDT</h1>
         <p>Sau khi người bán xác nhận khoản thanh toán, bạn sẽ nhận được USDT trong tài khoản của mình.</p>
       </div>
     </div>
-</div>
+  </div>
 
 </div>

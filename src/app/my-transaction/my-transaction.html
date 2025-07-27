@@ -4,44 +4,44 @@
   <!-- Tabs -->
   <div class="tabs-container">
     <div class="tabs">
-    <div [class.active]="tab === 'pending'" (click)="setTab('pending')">Đang chờ xử lý</div>
-    <div [class.active]="tab === 'completed'" (click)="setTab('completed')">Đã hoàn tất</div>
-  </div>
+      <div [class.active]="tab === 'pending'" (click)="setTab('pending')">Đang chờ xử lý</div>
+      <div [class.active]="tab === 'completed'" (click)="setTab('completed')">Đã hoàn tất</div>
+    </div>
 
-  <div class="right-actions">
-    <button (click)="reportUser()"> Báo cáo người dùng</button>
-    <button (click)="exportReport()"> Xuất báo cáo</button>
-  </div>
+    <div class="right-actions">
+      <button (click)="reportUser()"> Báo cáo người dùng</button>
+      <button (click)="exportReport()"> Xuất báo cáo</button>
+    </div>
   </div>
 
   <!-- Filters -->
   <div class="filters">
-    
-    <!-- Dropdown trạng thái -->
-<div class="dropdown">
-  <button (click)="toggleDropdown('status')">
-    {{ selectedStatus || 'Tất cả trạng thái' }}
-    <span class="arrow" [class.open]="openDropdown === 'status'">▼</span>
-  </button>
-  <ul *ngIf="openDropdown === 'status'">
-    <li (click)="selectStatus('')">Tất cả trạng thái</li>
-    <li (click)="selectStatus('Chờ xác nhận')">Đã thực hiện</li>
-    <li (click)="selectStatus('Đang xử lý')">Đã huỷ</li>
-  </ul>
-</div>
 
-<!-- Dropdown lệnh -->
-<div class="dropdown">
-  <button (click)="toggleDropdown('order')">
-    {{ selectedOrder || 'Tất cả lệnh' }}
-    <span class="arrow" [class.open]="openDropdown === 'order'">▼</span>
-  </button>
-  <ul *ngIf="openDropdown === 'order'">
-    <li (click)="selectOrder('')">Tất cả lệnh</li>
-    <li (click)="selectOrder('Mua')">Mua</li>
-    <li (click)="selectOrder('Bán')">Bán</li>
-  </ul>
-</div>
+    <!-- Dropdown trạng thái -->
+    <div class="dropdown" (click)="$event.stopPropagation()">
+      <button (click)="toggleDropdown('status')">
+        {{ selectedStatus || 'Tất cả trạng thái' }}
+        <span class="arrow" [class.open]="openDropdown === 'status'">▼</span>
+      </button>
+      <ul *ngIf="openDropdown === 'status'">
+        <li (click)="selectStatus('')">Tất cả trạng thái</li>
+        <li (click)="selectStatus('Chờ xác nhận')">Đã thực hiện</li>
+        <li (click)="selectStatus('Đang xử lý')">Đã huỷ</li>
+      </ul>
+    </div>
+
+    <!-- Dropdown lệnh -->
+    <div class="dropdown" (click)="$event.stopPropagation()">
+      <button (click)="toggleDropdown('order')">
+        {{ selectedOrder || 'Tất cả lệnh' }}
+        <span class="arrow" [class.open]="openDropdown === 'order'">▼</span>
+      </button>
+      <ul *ngIf="openDropdown === 'order'">
+        <li (click)="selectOrder('')">Tất cả lệnh</li>
+        <li (click)="selectOrder('Mua')">Mua</li>
+        <li (click)="selectOrder('Bán')">Bán</li>
+      </ul>
+    </div>
 
 
     <!-- Date Range -->
@@ -50,11 +50,7 @@
     <input type="date" [(ngModel)]="endDate">
 
     <!-- Search -->
-    <input
-      type="text"
-      placeholder="Tìm kiếm tên người dùng, ID"
-      [(ngModel)]="searchTerm"
-    />
+    <input type="text" placeholder="Tìm kiếm tên người dùng, ID" [(ngModel)]="searchTerm" />
 
     <!-- Reset -->
     <button class="reset-btn" (click)="resetFilters()">Đặt lại</button>
@@ -70,89 +66,89 @@
   </div>
 
   <!-- Nếu có dữ liệu -->
-<table class="order-table" *ngIf="tab === 'completed' && completedOrders.length > 0">
-  <thead>
-    <tr>
-      <th>ID lệnh</th>
-      <th>Loại lệnh</th>
-      <th>Số lượng đặt lệnh</th>
-      <th>Số tiền đặt lệnh</th>
-      <th>Đơn giá</th>
-      <th>Đối tác</th>
-      <th>Trạng thái lệnh</th>
-      <th>Ngày & giờ đặt lệnh</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let order of completedOrders">
-      <td class="order-id">
-        <a href="#" class="id-link">{{ order.id }}</a>
-      </td>
-      <td>
-        <span class="order-type" [ngClass]="{'buy': order.type === 'Mua', 'sell': order.type === 'Bán'}">
-          {{ order.type }}
-        </span>
-      </td>
-      <td>{{ order.amount }} USDT</td>
-      <td>{{ order.totalPrice | number:'1.0-0' }} VND</td>
-      <td>{{ order.price | number:'1.0-0' }} VND</td>
-      <td>
-        <span class="partner-name">{{ order.partner }}</span><br />
-        <button class="chat-btn">Trò chuyện ⌨</button>
-      </td>
-      <td class="status canceled">{{ order.status }}</td>
-      <td>{{ order.time }}</td>
-    </tr>
-  </tbody>
-</table>
+  <table class="order-table" *ngIf="tab === 'completed' && completedOrders.length > 0">
+    <thead>
+      <tr>
+        <th>ID lệnh</th>
+        <th>Loại lệnh</th>
+        <th>Số lượng đặt lệnh</th>
+        <th>Số tiền đặt lệnh</th>
+        <th>Đơn giá</th>
+        <th>Đối tác</th>
+        <th>Trạng thái lệnh</th>
+        <th>Ngày & giờ đặt lệnh</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of completedOrders">
+        <td class="order-id">
+          <a href="#" class="id-link">{{ order.id }}</a>
+        </td>
+        <td>
+          <span class="order-type" [ngClass]="{'buy': order.type === 'Mua', 'sell': order.type === 'Bán'}">
+            {{ order.type }}
+          </span>
+        </td>
+        <td>{{ order.amount }} USDT</td>
+        <td>{{ order.totalPrice | number:'1.0-0' }} VND</td>
+        <td>{{ order.price | number:'1.0-0' }} VND</td>
+        <td>
+          <span class="partner-name">{{ order.partner }}</span><br />
+          <button class="chat-btn">Trò chuyện ⌨</button>
+        </td>
+        <td class="status canceled">{{ order.status }}</td>
+        <td>{{ order.time }}</td>
+      </tr>
+    </tbody>
+  </table>
 
   <!-- Table hiển thị lệnh đang chờ xử lý -->
-<table *ngIf="tab === 'pending' && filteredOrders.length > 0" class="order-table">
-  <thead>
-    <tr>
-      <th>ID lệnh</th>
-      <th>Loại lệnh</th>
-      <th>Số lượng đặt lệnh</th>
-      <th>Số tiền đặt lệnh</th>
-      <th>Đơn giá</th>
-      <th>Đối tác</th>
-      <th>Trạng thái lệnh</th>
-      <th>Ngày & giờ đặt lệnh</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let order of filteredOrders">
-      <td class="order-id">
-        <a href="#" class="id-link">{{ order.id }}</a>
-      </td>
-      <td>
-        <span class="order-type" [ngClass]="{'buy': order.type === 'Mua', 'sell': order.type === 'Bán'}">
-          {{ order.type }}
-        </span>
-      </td>
-      <td>{{ order.amount }} USDT</td>
-      <td>{{ order.totalPrice | number:'1.0-0' }} VND</td>
-      <td>{{ order.price | number:'1.0-0' }} VND</td>
-      <td>
-        <span class="partner-name">{{ order.partner }}</span><br />
-        <button class="chat-btn">Trò chuyện ⌨</button>
-      </td>
-      <td class="status pending">
-        Đang chờ thanh toán<br />
-        {{ order.remainingTime }}
-      </td>
-      <td>{{ order.time }}</td>
-    </tr>
-  </tbody>
-</table>
+  <table *ngIf="tab === 'pending' && filteredOrders.length > 0" class="order-table">
+    <thead>
+      <tr>
+        <th>ID lệnh</th>
+        <th>Loại lệnh</th>
+        <th>Số lượng đặt lệnh</th>
+        <th>Số tiền đặt lệnh</th>
+        <th>Đơn giá</th>
+        <th>Đối tác</th>
+        <th>Trạng thái lệnh</th>
+        <th>Ngày & giờ đặt lệnh</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of filteredOrders">
+        <td class="order-id">
+          <a href="#" class="id-link">{{ order.id }}</a>
+        </td>
+        <td>
+          <span class="order-type" [ngClass]="{'buy': order.type === 'Mua', 'sell': order.type === 'Bán'}">
+            {{ order.type }}
+          </span>
+        </td>
+        <td>{{ order.amount }} USDT</td>
+        <td>{{ order.totalPrice | number:'1.0-0' }} VND</td>
+        <td>{{ order.price | number:'1.0-0' }} VND</td>
+        <td>
+          <span class="partner-name">{{ order.partner }}</span><br />
+          <button class="chat-btn">Trò chuyện ⌨</button>
+        </td>
+        <td class="status pending">
+          Đang chờ thanh toán<br />
+          {{ order.remainingTime }}
+        </td>
+        <td>{{ order.time }}</td>
+      </tr>
+    </tbody>
+  </table>
 
-<!-- Không có dữ liệu -->
-<div *ngIf="tab === 'pending' && filteredOrders.length === 0" class="no-records">
-  <div class="no-records-icon">📄</div>
-  <div class="no-records-text">
-    <strong>Không tìm thấy hồ sơ</strong><br />
-    <span>Chưa có lệnh đang chờ xử lý</span>
+  <!-- Không có dữ liệu -->
+  <div *ngIf="tab === 'pending' && filteredOrders.length === 0" class="no-records">
+    <div class="no-records-icon">📄</div>
+    <div class="no-records-text">
+      <strong>Không tìm thấy hồ sơ</strong><br />
+      <span>Chưa có lệnh đang chờ xử lý</span>
+    </div>
   </div>
-</div>
 
 </div>
