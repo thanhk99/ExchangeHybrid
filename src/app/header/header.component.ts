@@ -1,23 +1,26 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener ,ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Auth } from '../services/auth.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
   imports: [CommonModule],
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   activeDropdown: string | null = null;
   timeout: any;
   isMobile: boolean = false;
   showMobileMenu: boolean = false;
+  private authSubscription !: Subscription;
 
   constructor(private router: Router,
     private sanitizer: DomSanitizer,
-    private authService:Auth
+    private authService:Auth,
+    private cd: ChangeDetectorRef 
   ) {}
 
   searchActive: boolean = false;
@@ -116,6 +119,10 @@ menuItems: any[] = [];
   ];
 
   ngOnInit() {
+    this.authSubscription = this.authService.isLoggedIn$.subscribe(status => {
+      this.isLoggedIn = status;
+      this.cd.detectChanges();
+    });
     this.checkScreenSize();
     this.menuItems = this.rawMenuItems.map(item => ({
       ...item,
@@ -135,8 +142,6 @@ menuItems: any[] = [];
       this.getUser();
     }
   });
-
-
   }
 
   getSanitizedIcon(icon: string): SafeHtml {
@@ -245,7 +250,7 @@ logout(){
   if (this.isLoggingOut) return; 
   this.isLoggingOut = true;
   this.authService.logout()
-
+  this.isLoggingOut = false;
 }
 
 user: any;
@@ -270,6 +275,12 @@ goToLogin() {
   this.router.navigate(['/login']);
 }
 
+goToProfile(){
+  this.router.navigate(["/profile"])
+}
 
+goToAsset(){
+  this.router.navigate(["/assetPage"])
+}
 
 }

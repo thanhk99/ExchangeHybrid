@@ -39,6 +39,7 @@ export class Auth {
 
   return this.http.post(environment.apiLogin, body).pipe(
     map((res: any) => {
+      this.isLoggedInSubject.next(true);
       this.tokenService.setTokens(res.accessToken, res.refreshToken);
       this.deviceService.setDeviceStorage(res.deviceInfo.deviceId);
       // setTimeout(() => {
