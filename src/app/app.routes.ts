@@ -13,7 +13,6 @@ export const routes: Routes = [
   { path: 'security', component: Security },
   { path: 'device-management', component: DeviceManagement },
   { path: 'assetpage', component: Assetpage },
-  { path: 'funding-wallet', component: FundingWallet },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' },
