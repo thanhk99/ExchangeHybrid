@@ -13,23 +13,24 @@ import { ApiService } from '../services/api.service';
   styleUrl: './p2pmarket.css'
 })
 export class P2pmarket implements OnInit {
+
   constructor(
     private _eref: ElementRef,
     private router: Router,
     private apiService: ApiService
-  ) {
-  }
+  ) { }
 
   ngOnInit(): void {
     this.loadAds();
   }
 
   loadAds() {
+    // For now, we fetch all ads. Later, this could be a specific endpoint
+    // or include a filter for large transactions.
     this.apiService.getP2PAds().subscribe(data => {
       if (data && Array.isArray(data)) {
-        // Assuming the ad object has a 'type' property ('BUY' or 'SELL')
-        // and other properties that match the hardcoded structure.
-        // You might need to map the response from the API to fit the frontend model.
+        // You might want to add a filter here for what constitutes a "big transaction"
+        // For example: .filter(ad => ad.maxAmount > SOME_THRESHOLD)
         this.buyAds = data.filter(ad => ad.type === 'BUY').map(this.mapAdData);
         this.sellAds = data.filter(ad => ad.type === 'SELL').map(this.mapAdData);
       }
@@ -39,15 +40,15 @@ export class P2pmarket implements OnInit {
   // Helper to map API response to frontend model
   mapAdData(ad: any) {
     return {
-      id: ad.id, // Make sure to get the ad ID
-      name: ad.user?.username || 'Unknown User', // Example of safe navigation
+      id: ad.id,
+      name: ad.user?.username || 'Unknown User',
       trades: ad.user?.tradeCount || 0,
       successRate: `${ad.user?.completionRate || 0}%`,
       satisfaction: '99%', // Placeholder
       price: ad.price,
       available: ad.availableAmount,
       range: `${ad.minAmount}-${ad.maxAmount}`,
-      bank: ad.paymentMethods.join(', '), // Assuming paymentMethods is an array of strings
+      bank: ad.paymentMethods.join(', '),
       time: '', // Placeholder
     };
   }
@@ -59,7 +60,6 @@ export class P2pmarket implements OnInit {
     { label: 'Lệnh của tôi', path: 'my-transaction' },
     { label: 'Hồ sơ của tôi', path: '/my-profile' },
     { label: 'Thêm', path: '' },
-
   ];
 
   buyAds: any[] = [];
@@ -72,51 +72,70 @@ export class P2pmarket implements OnInit {
   }
 
   dropdownOpen: string | null = null;
+  amountInputFocused = false;
 
   coinList = [
-    { name: 'USDT', icon: '/coin.png' },
-    { name: 'USDC', icon: '/coin.png' },
-    { name: 'BTC', icon: '/coin.png' },
-    { name: 'ETH', icon: '/coin.png' },
-    { name: 'TON', icon: '/coin.png' }
+    { name: 'USDT', icon: '/usdt.png' },
+    { name: 'USDC', icon: '/usdc.png' },
+    { name: 'BTC', icon: '/btc.png' },
+    { name: 'ETH', icon: '/eth.png' },
+    { name: 'TON', icon: '/ton.png' }
   ];
 
   selectedCoin = this.coinList[0];
   searchCoin = '';
 
   toggleDropdown(type: string) {
-    this.dropdownOpen = this.dropdownOpen === type ? null : type;
+    if (this.dropdownOpen === type) {
+      this.dropdownOpen = null;
+      if (type === 'coin') {
+        this.searchCoin = '';
+      } else if (type === 'currency') {
+        this.searchCurrency = '';
+      }
+    } else {
+      this.dropdownOpen = type;
+    }
   }
 
   selectCoin(coin: any) {
     this.selectedCoin = coin;
     this.dropdownOpen = null;
+    this.searchCoin = '';
   }
 
-  filteredCoinList() {
+  get filteredCoinList() {
+    if (!this.searchCoin) {
+      return this.coinList;
+    }
     return this.coinList.filter(coin =>
       coin.name.toLowerCase().includes(this.searchCoin.toLowerCase())
     );
   }
 
   @HostListener('document:click')
-  handleClickOutside() {
+  onDocumentClick() {
     this.dropdownOpen = null;
+    this.searchCoin = '';
+    this.searchCurrency = '';
   }
 
   currencyList = [
-    { name: 'VND', icon: '/coin.png' },
-    { name: 'AED', icon: '/coin.png' },
-    { name: 'ALL', icon: '/coin.png' },
-    { name: 'AMD', icon: '/coin.png' },
-    { name: 'ANG', icon: '/coin.png' },
-    { name: 'ARS', icon: '/coin.png' },
+    { name: 'VND', code: 'VN', icon: 'https://flagsapi.com/VN/flat/64.png' },
+    { name: 'AED', code: 'AE', icon: 'https://flagsapi.com/AE/flat/64.png' },
+    { name: 'ALL', code: 'AL', icon: 'https://flagsapi.com/AL/flat/64.png' },
+    { name: 'AMD', code: 'AM', icon: 'https://flagsapi.com/AM/flat/64.png' },
+    { name: 'ANG', code: 'AN', icon: 'https://flagsapi.com/AN/flat/64.png' },
+    { name: 'ARS', code: 'AR', icon: 'https://flagsapi.com/AR/flat/64.png' },
   ];
 
   selectedCurrency = this.currencyList[0];
   searchCurrency = '';
 
-  filteredCurrencyList() {
+  get filteredCurrencyList() {
+    if (!this.searchCurrency) {
+      return this.currencyList;
+    }
     return this.currencyList.filter(c =>
       c.name.toLowerCase().includes(this.searchCurrency.toLowerCase())
     );
@@ -125,6 +144,17 @@ export class P2pmarket implements OnInit {
   selectCurrency(currency: any) {
     this.selectedCurrency = currency;
     this.dropdownOpen = null;
+    this.searchCurrency = '';
+  }
+
+  onSearch(type: 'coin' | 'currency' | 'payment', value: string) {
+    if (type === 'coin') {
+      this.searchCoin = value;
+    } else if (type === 'currency') {
+      this.searchCurrency = value;
+    } else if (type === 'payment') {
+      this.searchPayment = value;
+    }
   }
 
   paymentMethods = [
@@ -340,23 +370,17 @@ export class P2pmarket implements OnInit {
       adId: this.selectedAd.id,
       amount: this.activeTab === 'buy' ? this.inputBuyAmount : this.sellAmount,
       paymentMethod: this.selectedBankMethod,
-      // Add any other required fields for the TransactionAds model
     };
 
     this.apiService.placeOrder(orderData).subscribe({
       next: (response) => {
         console.log('Order placed successfully!', response);
-        // Handle success (e.g., navigate to a transaction details page)
         this.showConfirmModal = false;
-        // Maybe show a success toastr
       },
       error: (error) => {
         console.error('Error placing order:', error);
-        // Handle error (e.g., show an error message)
         this.showConfirmModal = false;
       }
     });
   }
-
-
 }
