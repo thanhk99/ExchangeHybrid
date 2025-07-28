@@ -15,7 +15,6 @@
           <button class="crypto-select" (click)="toggleFromDropdown()" tabindex="0">
             <ng-container *ngIf="selectedFromAccount; else placeholder">
               <div class="coin-display">
-                <img [src]="selectedFromAccount.img">
                 <span class="coin-symbol">{{ selectedFromAccount.name }}</span>
               </div>
             </ng-container>
@@ -28,7 +27,7 @@
             <input class="dropdown-search" type="text" placeholder="Tìm kiếm" [(ngModel)]="searchFromQuery" />
             <div class="dropdown-section">
               <div *ngFor="let account of filteredFromAccounts()" class="dropdown-item" (click)="selectFromAccount(account)">
-                <img [src]="account.img" width="20" /> {{ account.name }}
+                {{ account.name }}
               </div>
             </div>
           </div>
@@ -36,16 +35,15 @@
       </div>
 
       <!-- Step 2 -->
-      <div class="step">
+      <div class="step" *ngIf="step >= 2">
         <div class="step-number" [class.active]="step >= 2" [class.completed]="step > 2">2</div>
         <div class="step-title" [class.active]="step >= 2">Chọn tài khoản đến</div>
       </div>
-      <div class="step-content">
+      <div class="step-content" *ngIf="step >= 2">
         <div class="dropdown-container" #toDropdownContainer>
           <button class="crypto-select" [disabled]="step < 2" (click)="toggleToDropdown()" tabindex="0">
             <ng-container *ngIf="selectedToAccount; else placeholderTo">
               <div class="coin-display">
-                <img [src]="selectedToAccount.img">
                 <span class="coin-symbol">{{ selectedToAccount.name }}</span>
               </div>
             </ng-container>
@@ -58,7 +56,7 @@
             <input class="dropdown-search" type="text" placeholder="Tìm kiếm" [(ngModel)]="searchToQuery" />
             <div class="dropdown-section">
               <div *ngFor="let account of filteredToAccounts()" class="dropdown-item" (click)="selectToAccount(account)">
-                <img [src]="account.img" width="20" /> {{ account.name }}
+                {{ account.name }}
               </div>
             </div>
           </div>
@@ -66,24 +64,50 @@
       </div>
 
       <!-- Step 3 -->
-      <div class="step">
-        <div class="step-number" [class.active]="step >= 3" [class.completed]="step > 3">3</div>
+      <div class="step" *ngIf="step >= 2">
+        <div class="step-number" [class.active]="step >= 3">3</div>
         <div class="step-title" [class.active]="step >= 3">Chi tiết chuyển tiền</div>
       </div>
-      <div class="step-content" *ngIf="step >= 3">
-        <div class="amount-input-container">
-          <label>Số lượng</label>
-          <div class="amount-wrapper">
-            <input type="number" class="amount-input" [(ngModel)]="amountFrom" placeholder="Nhập số lượng" min="0" />
+      <div class="step-content" *ngIf="step >= 2">
+        <div class="transfer-details-container">
+          <div class="amount-input-container">
+            <label>Số lượng</label>
+            <div class="amount-wrapper">
+              <input type="number" class="amount-input" [(ngModel)]="amountFrom" placeholder="Nhập số lượng" min="0" />
+            </div>
+          </div>
+          <div class="coin-select-container">
+            <label>Loại tiền</label>
+            <div class="dropdown-container" #coinDropdownContainer>
+              <button class="crypto-select" [disabled]="step < 3" (click)="toggleCoinDropdown()" tabindex="0">
+                <ng-container *ngIf="selectedCoin; else placeholderCoin">
+                  <div class="coin-display">
+                    <span class="coin-symbol">{{ selectedCoin.symbol }}</span>
+                  </div>
+                </ng-container>
+                <ng-template #placeholderCoin>
+                  Tìm kiếm tiền mã hóa
+                </ng-template>
+                <span class="arrow">▾</span>
+              </button>
+              <div class="dropdown" *ngIf="showCoinDropdown">
+                <input class="dropdown-search" type="text" placeholder="Tìm kiếm" [(ngModel)]="searchCoinQuery" />
+                <div class="dropdown-section">
+                  <div *ngFor="let coin of filteredCoins()" class="dropdown-item" (click)="selectCoin(coin)">
+                    {{ coin.symbol }} <span class="name">{{ coin.name }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="summary-box" *ngIf="selectedFromAccount && selectedToAccount && amountFrom">
+        <div class="summary-box" *ngIf="selectedFromAccount && selectedToAccount && amountFrom && selectedCoin">
           <div class="summary-content">
             <span class="summary-label">Tóm tắt:</span>
-            <span class="summary-value">{{ amountFrom }} từ {{ selectedFromAccount?.name }} đến {{ selectedToAccount?.name }}</span>
+            <span class="summary-value">{{ amountFrom }} {{ selectedCoin?.symbol }} từ {{ selectedFromAccount?.name }} đến {{ selectedToAccount?.name }}</span>
           </div>
         </div>
-        <div class="deposit-details-box" *ngIf="selectedFromAccount && selectedToAccount && amountFrom">
+        <div class="deposit-details-box" *ngIf="selectedFromAccount && selectedToAccount && amountFrom && selectedCoin">
           <div class="address-info">
             <div class="address-label">Thông tin chuyển tiền</div>
             <div class="transaction-info">
@@ -96,12 +120,17 @@
                 <div class="value">{{ selectedToAccount?.name }}</div>
               </div>
               <div class="info-row">
+                <div class="label">Loại tiền</div>
+                <div class="value">{{ selectedCoin?.symbol }}</div>
+              </div>
+              <div class="info-row">
                 <div class="label">Thời gian hoàn tất</div>
                 <div class="value">~5 phút</div>
               </div>
             </div>
           </div>
         </div>
+        <button class="btn" (click)="proceedToStep3()" [disabled]="!canProceedToStep3()">Tiếp tục</button>
       </div>
     </div>
     <div class="faq-box">

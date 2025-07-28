@@ -26,7 +26,7 @@ export class WithdrawalWalletComponent {
     { label: 'Sao kê tài khoản', path: '' },
     { label: 'Báo cáo PoR', path: '' },
   ];
-    withdrawalType: 'onchain' | 'insystem' = 'onchain';
+  withdrawalType: 'onchain' | 'insystem' = 'onchain';
   contactMethod: 'phone' | 'email' | 'uid' | 'subaccount' = 'email';
   contactValue: string = '';
   step: number = 1;
@@ -41,7 +41,6 @@ export class WithdrawalWalletComponent {
   systemEmail: string = '';
   systemUID: string = '';
   systemBalance: string = '';
-
 
   coinList = [
     { symbol: 'USDT', name: 'Tether', img: 'usdt.png' },
@@ -81,8 +80,6 @@ export class WithdrawalWalletComponent {
     this.step = 3;
   }
 
-
-
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     const fromDropdown = this.fromDropdownContainer?.nativeElement;
@@ -114,23 +111,24 @@ export class WithdrawalWalletComponent {
 
   validatePhoneNumber() {
     if (this.contactMethod === 'phone' && this.contactValue) {
-      const phoneRegex = /^\d{10}$/; 
+      const phoneRegex = /^\d{10}$/;
       this.isPhoneValid = phoneRegex.test(this.contactValue);
     } else {
       this.isPhoneValid = false;
     }
   }
 
- onContactMethodChange() {
+  onContactMethodChange() {
     this.contactValue = '';
-    this.amount = null; 
+    this.amount = null;
+    this.validatePhoneNumber();
   }
 
   canProceedToStep3(): boolean {
     if (this.withdrawalType === 'onchain') {
       return !!this.selectedFromCoin && !!this.selectedToNetwork && !!this.amount;
     } else if (this.withdrawalType === 'insystem') {
-      return !!this.selectedFromCoin && !!this.contactMethod && !!this.contactValue && !!this.amount;
+      return !!this.selectedFromCoin && !!this.contactMethod && !!this.contactValue && !!this.amount && (this.contactMethod !== 'phone' || this.isPhoneValid);
     }
     return false;
   }
@@ -143,13 +141,10 @@ export class WithdrawalWalletComponent {
 
   selectWithdrawalType(type: 'onchain' | 'insystem') {
     this.withdrawalType = type;
-    this.contactMethod = 'email'; 
+    this.contactMethod = 'email';
+    this.contactValue = '';
     this.amount = null;
-    if (type === 'insystem') {
-      this.selectedToNetwork = null;
-      this.step = 2; 
-    } else {
-      this.step = 2; 
-    }
+    this.selectedToNetwork = null;
+    this.step = 2;
   }
 }

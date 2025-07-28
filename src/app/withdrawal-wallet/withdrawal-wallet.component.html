@@ -5,7 +5,7 @@
     <div class="deposit-box">
       <h2>Rút tiền</h2>
 
-      <!-- Step 1 -->
+      <!-- Step 1: Chọn tiền mã hóa -->
       <div class="step">
         <div class="step-number active">1</div>
         <div class="step-title active">Chọn tiền mã hóa</div>
@@ -35,8 +35,8 @@
         </div>
       </div>
 
-      <!-- Step 2 -->
-      <div class="step">
+      <!-- Step 2: Chọn phương thức -->
+      <div class="step" *ngIf="step >= 2">
         <div class="step-number" [class.active]="step >= 2" [class.completed]="step > 2">2</div>
         <div class="step-title" [class.active]="step >= 2">Chọn phương thức</div>
       </div>
@@ -90,7 +90,7 @@
 
             <!-- Dynamic Input Field -->
             <div class="input-group" *ngIf="contactMethod === 'phone'">
-              <input type="tel" class="amount-input" [(ngModel)]="contactValue" placeholder="Nhập số điện thoại" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" />
+              <input type="tel" class="amount-input" [(ngModel)]="contactValue" placeholder="Nhập số điện thoại" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" (input)="validatePhoneNumber()" />
             </div>
             <div class="input-group" *ngIf="contactMethod === 'email'">
               <input type="email" class="amount-input" [(ngModel)]="contactValue" placeholder="skibidichubby@gmail.com" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" />
@@ -101,92 +101,84 @@
             <div class="input-group" *ngIf="contactMethod === 'subaccount'">
               <input type="text" class="amount-input" [(ngModel)]="contactValue" placeholder="Nhập tài khoản phụ" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" />
             </div>
-
-            <!-- Step 3 displayed immediately after contact method selection -->
-            <div class="step-content" *ngIf="contactMethod && withdrawalType === 'insystem'">
-              <div class="step">
-                <div class="step-number" [class.active]="true">3</div>
-                <div class="step-title" [class.active]="true">Chi tiết rút tiền</div>
-              </div>
-              <div class="amount-input-container" *ngIf="selectedFromCoin">
-                <br>
-                <div class="amount-wrapper">
-                  <input type="number" class="amount-input" [(ngModel)]="amount" placeholder="Nhập số lượng" />
-                  <span class="coin-symbol">{{ selectedFromCoin?.symbol || '' }}</span>
-                </div>
-              </div>
-              <div class="summary-box" *ngIf="contactValue && amount">
-                <div class="summary-content">
-                  <span class="summary-label">Số tiền rút:</span>
-                  <span class="summary-value">{{ amount }} {{ selectedFromCoin?.symbol }} qua hệ thống</span>
-                </div>
-                <div class="summary-content">
-                  <span class="summary-label">Địa chỉ nhận:</span>
-                  <span class="summary-value">{{ contactValue }}</span>
-                </div>
-              </div>
-              <div class="transaction-info">
-                <div class="info-row">
-                  <div class="label">Rút tối thiểu</div>
-                  <div class="value">0,01 USDT</div>
-                </div>
-                <div class="info-row">
-                  <div class="label">Thời gian nhận tiền</div>
-                  <div class="value">~1 phút</div>
-                </div>
-                <div class="info-row">
-                  <div class="label">Phí rút tiền</div>
-                  <div class="value">0,00 USDT</div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
 
-      <!-- Original Step 3 (hidden when in-system) -->
-      <div class="step" *ngIf="withdrawalType !== 'insystem'">
+      <!-- Step 3: Chi tiết rút tiền (Always displayed) -->
+      <div class="step" *ngIf="step >= 2">
         <div class="step-number" [class.active]="step >= 3" [class.completed]="step > 3">3</div>
         <div class="step-title" [class.active]="step >= 3">Chi tiết rút tiền</div>
       </div>
-      <div class="step-content" *ngIf="step >= 3 && withdrawalType !== 'insystem'">
-        <div class="amount-input-container" *ngIf="withdrawalType === 'onchain' && selectedFromCoin">
-          <label>Số lượng</label>
+      <div class="step-content" *ngIf="step >= 2">
+        <div class="amount-input-container" *ngIf="selectedFromCoin">
+         <h4>Số lượng cần rút</h4>
           <div class="amount-wrapper">
             <input type="number" class="amount-input" [(ngModel)]="amount" placeholder="Nhập số lượng" />
             <span class="coin-symbol">{{ selectedFromCoin?.symbol || '' }}</span>
           </div>
         </div>
-        <div class="summary-box" *ngIf="withdrawalType === 'onchain' && selectedFromCoin && selectedToNetwork && amount">
-          <div class="summary-content">
-            <span class="summary-label">Số tiền rút:</span>
-            <span class="summary-value">{{ amount }} {{ selectedFromCoin?.symbol }} trên mạng {{ selectedToNetwork?.name }}</span>
+
+        <!-- On-chain Withdrawal Details -->
+        <div class="onchain-details" *ngIf="withdrawalType === 'onchain' && selectedFromCoin && selectedToNetwork && amount">
+          <div class="summary-box">
+            <div class="summary-content">
+              <span class="summary-label">Số tiền rút:</span>
+              <span class="summary-value">{{ amount }} {{ selectedFromCoin?.symbol }} trên mạng {{ selectedToNetwork?.name }}</span>
+            </div>
           </div>
-        </div>
-        <div class="deposit-details-box" *ngIf="withdrawalType === 'onchain' && selectedFromCoin && selectedToNetwork && amount">
-          <div class="address-info">
-            <div class="address-label">Địa chỉ rút</div>
-            <div class="wallet-address">
-              0x9572049d2c37ee298d73c9db2dcd15ebcc2c810b
-              <button class="copy-btn">Sao chép</button>
+          <div class="deposit-details-box">
+            <div class="address-info">
+              <div class="address-label">Địa chỉ rút</div>
+              <div class="wallet-address">
+                0x9572049d2c37ee298d73c9db2dcd15ebcc2c810b
+                <button class="copy-btn">Sao chép</button>
+              </div>
+            </div>
+          </div>
+          <div class="transaction-info">
+            <div class="info-row">
+              <div class="label">Rút tối thiểu</div>
+              <div class="value">0,01 USDT</div>
+            </div>
+            <div class="info-row">
+              <div class="label">Thời gian nhận tiền</div>
+              <div class="value">~7 phút</div>
+            </div>
+            <div class="info-row">
+              <div class="label">Phí rút tiền</div>
+              <div class="value">0,001 USDT</div>
             </div>
           </div>
         </div>
-        <div class="transaction-info" *ngIf="withdrawalType === 'onchain'">
-          <div class="info-row">
-            <div class="label">Rút tối thiểu</div>
-            <div class="value">0,01 USDT</div>
+        <div class="in-system-details" *ngIf="withdrawalType === 'insystem' && selectedFromCoin && contactValue && amount">
+          <div class="summary-box">
+            <div class="summary-content">
+              <span class="summary-label">Số tiền rút:</span>
+              <span class="summary-value">{{ amount }} {{ selectedFromCoin?.symbol }} qua hệ thống</span>
+            </div>
+            <div class="summary-content">
+              <span class="summary-label">Địa chỉ nhận:</span>
+              <span class="summary-value">{{ contactValue }}</span>
+            </div>
           </div>
-          <div class="info-row">
-            <div class="label">Thời gian nhận tiền</div>
-            <div class="value">~7 phút</div>
-          </div>
-          <div class="info-row">
-            <div class="label">Phí rút tiền</div>
-            <div class="value">0,001 USDT</div>
+          <div class="transaction-info">
+            <div class="info-row">
+              <div class="label">Rút tối thiểu</div>
+              <div class="value">0,01 USDT</div>
+            </div>
+            <div class="info-row">
+              <div class="label">Thời gian nhận tiền</div>
+              <div class="value">~1 phút</div>
+            </div>
+            <div class="info-row">
+              <div class="label">Phí rút tiền</div>
+              <div class="value">0,00 USDT</div>
+            </div>
           </div>
         </div>
       </div>
+
       <button class="btn" (click)="proceedToStep3()" [disabled]="!canProceedToStep3()">Tiếp tục</button>
     </div>
     <div class="faq-box">

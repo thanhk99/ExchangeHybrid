@@ -53,7 +53,6 @@
   margin: 8px 0;
 }
 
-/*******************************************/
 .step {
   display: flex;
   align-items: center;
@@ -61,7 +60,7 @@
 }
 
 .step-number {
-  background-color: #d3d3d3;
+  background-color: black;
   color: white;
   border-radius: 50%;
   width: 20px;
@@ -73,8 +72,10 @@
 }
 
 .step-title {
-  color: #a0a0a0;
+  color: black;
   font-weight: 500;
+  font-weight: bold;
+
 }
 
 .step-number.active {
@@ -93,15 +94,8 @@
   width: 70%;
 }
 
-/* Dual Step Content for Step 2 */
-.step-content.dual-step-content {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-}
-
 .onchain-section, .in-system-section {
-  width: 100%; /* Increased width for in-system-section */
+  width: 100%;
   background: #f8f8f8;
   padding: 15px;
   border-radius: 8px;
@@ -116,7 +110,7 @@
 
 .in-system-section .input-group {
   margin-bottom: 15px;
-  padding: 0.5rem; /* Added padding for better spacing */
+  padding: 0.5rem;
 }
 
 .in-system-section .input-group label {
@@ -133,7 +127,6 @@
   font-size: 14px;
 }
 
-/* Button chọn coin */
 .crypto-select {
   width: 100%;
   padding: 12px;
@@ -170,7 +163,6 @@
   white-space: nowrap;
 }
 
-/* Dropdown */
 .dropdown {
   position: absolute;
   top: 110%;
@@ -240,7 +232,6 @@
   margin-top: 12px;
 }
 
-/* Dropdown mạng */
 .network-dropdown {
   position: absolute;
   top: 110%;
@@ -325,11 +316,12 @@
   color: gray;
 }
 
-/********************/
 .amount-input-container {
   margin-bottom: 12px;
 }
-
+.amount-input-container h4 {
+  padding: 1px;
+}
 .amount-input {
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -449,7 +441,6 @@
   margin-left: 4px;
 }
 
-/* Button Styles */
 .btn {
   padding: 8px 16px;
   border-radius: 15px;
@@ -513,12 +504,11 @@
   margin: 10px;
 }
 
-/* Selection Styles */
 .withdrawal-type-selection label,
 .contact-method-selection label {
   cursor: pointer;
-  margin: 0 0.625rem; /* Changed to rem for consistent sizing */
-  padding: 0.3125rem 0.625rem; /* Changed to rem for consistent sizing */
+  margin: 0 0.625rem;
+  padding: 0.3125rem 0.625rem;
   border-radius: 4px;
   transition: all 0.3s ease;
 }
@@ -530,7 +520,7 @@
 }
 
 .contact-method-selection label.selected {
-  text-decoration: underline; /* Changed to underline only */
+  text-decoration: underline;
   color: #333;
 }
 
@@ -545,22 +535,21 @@
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 0.625rem; /* Changed to rem for consistent sizing */
+  gap: 0.625rem;
   flex-wrap: nowrap;
 }
 
 .contact-method-selection a {
   color: #000;
   text-decoration: none;
-  font-size: 0.875rem; /* Changed to rem for consistent sizing */
-  margin-left: 0.625rem; /* Changed to rem for consistent sizing */
+  font-size: 0.875rem;
+  margin-left: 0.625rem;
 }
 
 .contact-method-selection a:hover {
   text-decoration: underline;
 }
 
-/********* Responsive Design **********/
 @media screen and (min-width: 780px) and (max-width: 1280px) {
   .top-section {
     width: 100% !important;
@@ -599,15 +588,6 @@
   .faq-box {
     width: 100%;
     order: 3;
-  }
-
-  .step-content.dual-step-content {
-    flex-direction: column;
-  }
-
-  .onchain-section, .in-system-section {
-    width: 100%;
-    margin-bottom: 20px;
   }
 
   .contact-method-selection {
