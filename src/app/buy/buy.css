@@ -99,6 +99,11 @@
   padding: 0;
 }
 
+.input-area input.invalid-amount {
+  border: 1px solid red;
+  border-radius: 5px;
+}
+
 .currency-selector {
   display: flex;
   align-items: center;
@@ -184,6 +189,7 @@
   z-index: 10;
   max-height: 240px;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .dropdown-item {

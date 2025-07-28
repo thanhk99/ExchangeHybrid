@@ -275,6 +275,12 @@ export class P2pmarket implements OnInit {
     return +(this.inputAmount / this.selectedAd.price).toFixed(6);
   }
 
+  onAmountChange(): void {
+    if (this.inputAmount < 0) {
+      this.inputAmount = 0;
+    }
+  }
+
   showBuyModal: boolean = false;
   selectedBankMethod: string | null = null;
   searchBank: string = '';
@@ -300,6 +306,12 @@ export class P2pmarket implements OnInit {
   calculateReceiveBuyAmount(): number {
     if (!this.selectedAd || !this.inputBuyAmount) return 0;
     return +(this.inputBuyAmount / this.selectedAd.price).toFixed(6);
+  }
+
+  onBuyAmountChange(): void {
+    if (this.inputBuyAmount < 0) {
+      this.inputBuyAmount = 0;
+    }
   }
 
   openBuyModal(ad: any) {
@@ -331,6 +343,12 @@ export class P2pmarket implements OnInit {
   countdownInterval: any;
 
   sellAmount: number = 0;
+
+  onSellAmountChange(): void {
+    if (this.sellAmount < 0) {
+      this.sellAmount = 0;
+    }
+  }
 
   get isBankMatched(): boolean {
     if (!this.selectedAd || !this.selectedBankMethod) return false;

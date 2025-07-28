@@ -35,8 +35,8 @@
         </div>
       </div>
       <div class="amount-input" [class.focused]="amountInputFocused">
-        <input type="number" placeholder="0,00" (focus)="amountInputFocused = true"
-          (blur)="amountInputFocused = false" />
+        <input type="number" placeholder="0,00" [(ngModel)]="inputAmount" (ngModelChange)="onAmountChange()"
+          (focus)="amountInputFocused = true" (blur)="amountInputFocused = false" min="0" />
         <div class="currency-selector">
           <div class="dropdown" (click)="toggleDropdown('currency'); $event.stopPropagation()"
             [class.open]="dropdownOpen === 'currency'">
@@ -182,7 +182,8 @@
           <div class="modal-input-group">
             <label>Số tiền (VND):</label>
             <div class="input-with-suffix">
-              <input type="number" [(ngModel)]="inputBuyAmount" placeholder="0" />
+              <input type="number" [(ngModel)]="inputBuyAmount" (ngModelChange)="onBuyAmountChange()" placeholder="0"
+                min="0" />
               <span class="suffix">VND</span>
             </div>
           </div>
@@ -203,7 +204,8 @@
           <div class="modal-input-group">
             <label>Bạn bán ({{ selectedCoin.name }}):</label>
             <div class="input-with-suffix">
-              <input type="number" [(ngModel)]="sellAmount" placeholder="0,00" />
+              <input type="number" [(ngModel)]="sellAmount" (ngModelChange)="onSellAmountChange()" placeholder="0,00"
+                min="0" />
               <span class="suffix">{{ selectedCoin.name }}</span>
             </div>
           </div>

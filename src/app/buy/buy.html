@@ -24,11 +24,11 @@
       </div>
 
       <!-- Trường 1 -->
-      <div class="form-field">
+      <div class="form-field" [class.invalid-amount]="isAmountInvalid">
         <div class="input-area">
           <label>{{ activeTab === 'buy' ? 'Bạn thanh toán' : 'Bạn bán' }}</label>
-          <input type="number" [ngModel]="amountPay" (ngModelChange)="onAmountPayChange($event)" placeholder="0"
-            name="amountPay" />
+          <input type="number" [ngModel]="amountPay" (ngModelChange)="handleAmountChange($event, 'pay')" placeholder="0"
+            name="amountPay" min="0" />
         </div>
         <div class="currency-selector">
           <div class="custom-dropdown" (click)="toggleDropdown(1); $event.stopPropagation()">
@@ -51,7 +51,7 @@
         </div>
       </div>
       <small class="field-info" *ngIf="activeTab === 'buy'">{{ transactionLimit.min | number }} - {{
-        transactionLimit.max | number }} VND</small>
+        transactionLimit.max | number }} {{ selectedPay.code }}</small>
       <small class="field-info" *ngIf="activeTab === 'sell'">Khả dụng {{ availableBalance | number:'1.2-2' }} {{
         selectedPay.code }}</small>
 
@@ -60,8 +60,8 @@
       <div class="form-field">
         <div class="input-area">
           <label>Bạn nhận</label>
-          <input type="number" [ngModel]="amountReceive" (ngModelChange)="onAmountReceiveChange($event)" placeholder="0"
-            name="amountReceive" />
+          <input type="number" [ngModel]="amountReceive" (ngModelChange)="handleAmountChange($event, 'receive')"
+            placeholder="0" name="amountReceive" min="0" />
         </div>
         <div class="currency-selector">
           <div class="custom-dropdown" (click)="toggleDropdown(2); $event.stopPropagation()">
@@ -83,15 +83,13 @@
           </div>
         </div>
       </div>
-      <small class="field-info" *ngIf="activeTab === 'sell'">130.000 - 2.600.000.000 VND</small>
+      <small class="field-info" *ngIf="activeTab === 'sell'">{{ transactionLimit.min | number }} - {{
+        transactionLimit.max | number }} {{ selectedReceive.code }}</small>
       <small class="field-info" *ngIf="activeTab === 'buy'">&nbsp;</small>
 
 
       <div class="rate">
-        Giá tham chiếu:
-        <a href="#">
-          1 USDT ≈ {{ exchangeRate | number:'1.0-0' }} VND
-        </a>
+        &nbsp;
       </div>
 
       <button class="payment-btn" [disabled]="!isFormValid" (click)="methodpaymentPage()">
