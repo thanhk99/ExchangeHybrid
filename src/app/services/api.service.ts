@@ -39,8 +39,8 @@ export class ApiService {
     /**
       * Fetches the list of P2P advertisements to determine transaction limits.
       */
-    getP2PAds(): Observable<any> {
-        return this.http.get(`${this.apiUrl}/p2pads/getList`);
+    getP2PAds(params: any = {}): Observable<any> {
+        return this.http.get(`${this.apiUrl}/p2pads/getList`, { params });
     }
 
     /**
