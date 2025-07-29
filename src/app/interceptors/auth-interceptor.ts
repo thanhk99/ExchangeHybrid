@@ -4,17 +4,20 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpErrorResponse
+  HttpErrorResponse,
+  HttpContextToken
 } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { Auth } from '../services/auth.service';
 import { TokenService } from '../services/token.service';
 
+export const BYPASS_REFRESH_TOKEN = new HttpContextToken<boolean>(() => false);
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private isRefreshing = false;
   private refreshTokenSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+  BYPASS_REFRESH_TOKEN = new HttpContextToken<boolean>(() => false);
 
   constructor(
     private tokenService: TokenService,
@@ -26,15 +29,14 @@ export class AuthInterceptor implements HttpInterceptor {
     const accessToken = this.tokenService.getAccessToken();
     request = this.addHeadersToRequest(request, accessToken);
 
+    if (request.context.get(BYPASS_REFRESH_TOKEN) === true) {
+      return next.handle(request);
+    }
+
     return next.handle(request).pipe(
       catchError(error => {
-        if (error instanceof HttpErrorResponse) {
-          switch (error.status) {
-            case 403: // Unauthorized (Token hết hạn/không hợp lệ)
-              return this.handleUnauthorizedError(request, next);
-            default:
-              return throwError(() => error);
-          }
+        if (error instanceof HttpErrorResponse && error.status === 403 && !request.url.includes('api/v1/auth/refresh') ) {
+          return this.handleUnauthorizedError(request, next); 
         }
         return throwError(() => error);
       })
@@ -67,10 +69,10 @@ export class AuthInterceptor implements HttpInterceptor {
           this.refreshTokenSubject.next(tokens.accessToken);
           return next.handle(this.addHeadersToRequest(request, tokens.accessToken));
         }),
-        catchError((error) => {
-          this.isRefreshing = false;
-          this.authService.logout();
-          return throwError(() => error);
+        catchError((refreshError) => {
+          console.error('Refresh token failed. Logging out...', refreshError);
+          this.authService.revokeService();
+          return throwError(() => refreshError);
         })
       );
     } else {

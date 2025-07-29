@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap, BehaviorSubject,of,throwError } from 'rxjs';
 import { TokenService } from './token.service';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, finalize, map } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { DeviceService } from './device.service';
+import { BYPASS_REFRESH_TOKEN } from '../interceptors/auth-interceptor';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -55,17 +57,14 @@ export class Auth {
     })
   );
 }
-  refreshToken(): Observable<{}> {
+  refreshToken(): Observable<any> {
     const refreshToken = this.tokenService.getRefreshToken();
-    const body = { 
-      refreshToken: refreshToken
-    };
-    
-    return this.http.post (
-      environment.apiRefreshToken,
-      body
-    ).pipe(
+    const body = { refreshToken: refreshToken };
+
+    // KHÔNG dùng catchError ở đây. Hãy để Interceptor xử lý.
+    return this.http.post(environment.apiRefreshToken, body).pipe(
       tap((res: any) => {
+        // Chỉ xử lý khi thành công
         this.tokenService.setTokens(res.accessToken, res.refreshToken);
       })
     );
@@ -97,14 +96,6 @@ export class Auth {
 
   getUser(): Observable<any> {
     return this.http.get(environment.apiGetUser);
-    // this.http.get(environment.apiGetUser).subscribe(
-    //   (res:any)=>{
-    //     console.log(res)
-    //   },
-    //   (err:any)=>{
-    //     console.log(err)
-    //   }
-    // )
   }
 // send otp
   sendOtp(email: string): Observable<any> {
@@ -170,5 +161,34 @@ registerService(email: string, password: string, username: string, nation: strin
         }
       })
     );
+  }
+
+  revokeService() : void {
+    const body = {
+      deviceId: this.deviceService.getDeviceId()
+    };
+
+    // Tạo context để bảo interceptor bỏ qua request này
+    const context = new HttpContext().set(BYPASS_REFRESH_TOKEN, true);
+
+    this.http.post(environment.apiLogout, body, { context })
+      .pipe(
+        // Bắt lỗi nếu API thất bại, trả về một Observable rỗng để luồng đi tiếp
+        catchError(error => {
+          console.error('Logout API failed, but proceeding with client-side logout.', error);
+          return of(null); // Trả về Observable rỗng để không phá vỡ chuỗi
+        }),
+        // finalize() LUÔN LUÔN được gọi, dù API thành công hay thất bại
+        finalize(() => {
+          this.performClientSideLogout();
+        })
+      )
+      .subscribe();
+  }
+  private performClientSideLogout(): void {
+    this.tokenService.clearTokens();
+    this.deviceService.clearDeviceId();
+    this.isLoggedInSubject.next(false);
+    this.router.navigate(['/login']);
   }
 }

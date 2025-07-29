@@ -19,10 +19,11 @@ export const appConfig: ApplicationConfig = {
       progressBar: true,
     }),
     provideHttpClient(),
+    AuthInterceptor,
     provideAnimations(),
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
+      useExisting: AuthInterceptor,
       multi: true
     },
     provideHttpClient(
