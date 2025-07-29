@@ -19,14 +19,11 @@
 .deposit-box {
   width: 60%;
   background: #fff;
-  /* border: 1px solid #eee; */
   padding: 20px;
   border-radius: 8px;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
-
 }
 
 .faq-box {
@@ -40,7 +37,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-
 }
 
 .faq-header {
@@ -379,7 +375,6 @@
   margin-left: 4px;
 }
 
-
 /*******************************************/
  .bottom-section {
   background: #fff;
@@ -511,12 +506,6 @@
   display: flex;
 }
 
-/* .total-value-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-} */
-
 .eye-icon {
   cursor: pointer;
   margin-left: 10px;
@@ -530,7 +519,6 @@
 }
 
 /* ASSET SECTION */
-
 
 .assets-section {
   background-color:white;
@@ -613,7 +601,6 @@
 .content-above h1{
   font-size: 18px;
 }
-
 
 .content-above .arrow{
   font-size: 30px;
@@ -706,8 +693,6 @@
 .history-amount.negative {
   color: red;
 }
-
-
 /***/
 .more {
   text-align: center;
@@ -732,9 +717,6 @@
   justify-content: space-between;
   align-items: center;
 }
-/*************************************************/
-
-
 /********* res ko dl **********/
 @media screen and (min-width: 780px) and (max-width: 1280px) {
     .top-section {
@@ -774,12 +756,11 @@
 
   .faq-box {
     width: 100%;
-    order: 3; /* Đưa xuống cuối */
+    order: 3; 
   }
 }
 
 /***************res có dl****************/
-
 
 @media (max-width: 900px) {
   .dashboard-container {
