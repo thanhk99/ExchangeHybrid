@@ -75,7 +75,6 @@
   color: black;
   font-weight: 500;
   font-weight: bold;
-
 }
 
 .step-number.active {
@@ -111,12 +110,6 @@
 .in-system-section .input-group {
   margin-bottom: 15px;
   padding: 0.5rem;
-}
-
-.in-system-section .input-group label {
-  display: block;
-  margin-bottom: 5px;
-  color: #666;
 }
 
 .in-system-section .input-group input {
@@ -437,8 +430,22 @@
 }
 
 .arrow {
-  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 12px;
   margin-left: 4px;
+  transition: transform 0.2s;
+}
+
+.arrow svg {
+  width: 100%;
+  height: 100%;
+}
+
+.arrow.rotate {
+  transform: rotate(180deg);
 }
 
 .btn {

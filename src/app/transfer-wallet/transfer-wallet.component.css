@@ -103,6 +103,17 @@
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  box-sizing: border-box;
+}
+
+.crypto-select.compact {
+  font-size: 14px;
+  height: 100%;
+  border: none;
+  border-radius: 0 10px 10px 0;
+  background-color: transparent;
+  box-sizing: border-box;
+  line-height: 1;
 }
 
 .coin-display {
@@ -124,9 +135,9 @@
 
 .dropdown {
   position: absolute;
-  top: 110%;
+  top: 100%;
   left: 0;
-  width: 100%;
+  width: 10vw;
   background: white;
   border-radius: 8px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
@@ -173,13 +184,43 @@
 
 .transfer-details-container {
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
-.amount-input-container,
-.coin-select-container {
+.combined-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  height: auto;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 500px;
+  position: relative; /* Added to ensure dropdown positioning */
+}
+
+.input-header {
+  padding: 10px 15px;
+  font-size: 14px;
+  color: #333;
+}
+
+.combined-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 48px;
+  width: 100%;
+}
+
+.amount-input-container {
   flex: 1;
+  height: 100%;
+  position: relative;
 }
 
 .amount-input-container label,
@@ -191,28 +232,53 @@
 }
 
 .amount-input {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 10px 12px;
-  font-size: 14px;
+  border: none;
+  border-radius: 10px 0 0 10px;
+  padding: 0 12px;
+  font-size: 16px;
   width: 100%;
-  background-color: #f8f8f8;
+  background-color: transparent;
   transition: border-color 0.2s;
   -webkit-appearance: none;
   -moz-appearance: textfield;
   appearance: textfield;
+  height: 100%;
+  box-sizing: border-box;
+  line-height: 48px;
+  text-indent: 12px;
 }
 
 .amount-input:focus {
   outline: none;
   border-color: #333;
-  background-color: #fff;
+  background-color: transparent;
 }
 
 .amount-input::-webkit-inner-spin-button,
 .amount-input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.amount-input-container::after {
+  content: attr(data-symbol);
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.coin-select-container {
+  flex: 0 0 150px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* Added to ensure dropdown positioning */
 }
 
 .amount-wrapper {
@@ -287,8 +353,18 @@
 }
 
 .arrow {
-  font-size: 12px;
+  width: 12px;
+  height: 12px;
   margin-left: 4px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path fill="%23ffffff" d="M297.4 470.6C309.9 483.1 330.2 483.1 342.7 470.6L534.7 278.6C547.2 266.1 547.2 245.8 534.7 233.3C522.2 220.8 501.9 220.8 489.4 233.3L320 402.7L150.6 233.4C138.1 220.9 117.8 220.9 105.3 233.4C92.8 245.9 92.8 266.2 105.3 278.7L297.3 470.7z"/></svg>');
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+.arrow.rotate {
+  transform: rotate(180deg);
 }
 
 .btn {
@@ -393,5 +469,23 @@
   .transfer-details-container {
     flex-direction: column;
     gap: 10px;
+  }
+
+  .combined-input-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .coin-select-container {
+    flex: 1;
+    width: 60px;
+  }
+
+  .amount-input {
+    border-radius: 10px;
+  }
+
+  .crypto-select.compact {
+    border-radius: 10px;
   }
 }
