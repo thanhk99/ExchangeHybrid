@@ -1,5 +1,3 @@
-<app-nav-tabs [tabs]="buytabs"></app-nav-tabs>
-
 <div class="order-page">
   <!-- Tabs -->
   <div class="tabs-container">
@@ -18,29 +16,35 @@
   <div class="filters">
 
     <!-- Dropdown trạng thái -->
-    <div class="dropdown" (click)="$event.stopPropagation()">
-      <button (click)="toggleDropdown('status')">
+    <div class="dropdown" [class.open]="openDropdown === 'status'" (click)="$event.stopPropagation()">
+      <button class="dropdown-btn" (click)="toggleDropdown('status')">
         {{ selectedStatus || 'Tất cả trạng thái' }}
-        <span class="arrow" [class.open]="openDropdown === 'status'">▼</span>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"
+          class="chevron" [class.open]="openDropdown === 'status'">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
+        </svg>
       </button>
-      <ul *ngIf="openDropdown === 'status'">
-        <li (click)="selectStatus('')">Tất cả trạng thái</li>
-        <li (click)="selectStatus('Chờ xác nhận')">Đã thực hiện</li>
-        <li (click)="selectStatus('Đang xử lý')">Đã huỷ</li>
-      </ul>
+      <div class="dropdown-menu" *ngIf="openDropdown === 'status'">
+        <div class="dropdown-item" (click)="selectStatus('')">Tất cả trạng thái</div>
+        <div class="dropdown-item" (click)="selectStatus('Chờ xác nhận')">Đã thực hiện</div>
+        <div class="dropdown-item" (click)="selectStatus('Đang xử lý')">Đã huỷ</div>
+      </div>
     </div>
 
     <!-- Dropdown lệnh -->
-    <div class="dropdown" (click)="$event.stopPropagation()">
-      <button (click)="toggleDropdown('order')">
+    <div class="dropdown" [class.open]="openDropdown === 'order'" (click)="$event.stopPropagation()">
+      <button class="dropdown-btn" (click)="toggleDropdown('order')">
         {{ selectedOrder || 'Tất cả lệnh' }}
-        <span class="arrow" [class.open]="openDropdown === 'order'">▼</span>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"
+          class="chevron" [class.open]="openDropdown === 'order'">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
+        </svg>
       </button>
-      <ul *ngIf="openDropdown === 'order'">
-        <li (click)="selectOrder('')">Tất cả lệnh</li>
-        <li (click)="selectOrder('Mua')">Mua</li>
-        <li (click)="selectOrder('Bán')">Bán</li>
-      </ul>
+      <div class="dropdown-menu" *ngIf="openDropdown === 'order'">
+        <div class="dropdown-item" (click)="selectOrder('')">Tất cả lệnh</div>
+        <div class="dropdown-item" (click)="selectOrder('Mua')">Mua</div>
+        <div class="dropdown-item" (click)="selectOrder('Bán')">Bán</div>
+      </div>
     </div>
 
 
