@@ -338,6 +338,10 @@
   justify-content: center;
 }
 
+.mobile-dropdown-header.exit {
+  display: none;
+}
+
 @media screen and (min-width: 1920px) {
   .header {
     padding: 1rem 2rem; 
@@ -454,7 +458,9 @@
   }
 
 .mobile-dropdown-content a:hover {
-    color: white;
+  background-color: #717171;
+  color: rgb(255, 255, 255);
+  border-radius: 10px;
   }
 
   .hamburger-menu {
@@ -478,8 +484,8 @@
 }
 
 .mobile-dropdown-content .dropdown-item:hover {
-  background-color: #b3b3b3;
-  color: black; 
+  background-color: #717171;
+  /* color: black;  */
 }
 
 .mobile-dropdown-content .dropdown-title {
@@ -582,5 +588,9 @@
   .user-dropdown,
   .asset-dropdown {
     display: none !important;
+  }
+
+  .mobile-dropdown-header.exit {
+    display: block;
   }
 }
