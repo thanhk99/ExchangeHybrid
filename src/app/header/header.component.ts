@@ -131,11 +131,7 @@ menuItems: any[] = [];
         icon: this.sanitizer.bypassSecurityTrustHtml(sub.icon || '') as SafeHtml
       }))
     }));
-    // if(this.authService.isAuthenticated()){
-    //   this.isLoggedIn=true
-    //   this.getUser()
-    // }
-   
+
     this.authService.isLoggedIn$.subscribe((loggedIn) => {
     this.isLoggedIn = loggedIn;
     if (loggedIn) {
@@ -253,6 +249,14 @@ logout(){
   this.isLoggingOut = false;
 }
 
+exit(){
+  this.toggleMenu();
+  if (this.isLoggingOut) return; 
+  this.isLoggingOut = true;
+  this.authService.logout()
+  this.isLoggingOut = false;
+}
+
 user: any;
 
 getUser() {
@@ -268,10 +272,12 @@ getUser() {
 }
 
 goToRegister() {
+  this.toggleMenu();
   this.router.navigate(['/register']);
 }
 
 goToLogin() {
+  this.toggleMenu();
   this.router.navigate(['/login']);
 }
 
