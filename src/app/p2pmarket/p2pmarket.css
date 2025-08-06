@@ -239,6 +239,27 @@
   border-bottom: 1px solid #eee;
   word-wrap: break-word;
   white-space: normal;
+  font-size: 14px;
+  color: #5e6673;
+  line-height: 1.6;
+}
+
+.ads-table td strong {
+  font-weight: 600;
+  color: #1e2329;
+  font-size: 16px;
+}
+
+.ads-table .price {
+  font-weight: 600;
+  color: #1e2329;
+  font-size: 16px;
+}
+
+.ads-table .limit-info {
+  font-size: 12px;
+  font-weight: 500;
+  color: #1e2329;
 }
 
 
@@ -276,27 +297,27 @@
 }
 
 .buy-btn {
-  background-color: #f5f5f5;
-  color: #000;
-  border: 1px solid #ccc;
-  border-radius: 20px;
+  background-color: #16c784;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
   padding: 8px 20px;
-  font-weight: bold;
+  font-weight: 600;
   font-size: 14px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .buy-btn:hover {
-  background-color: #e0e0e0;
+  background-color: #14a76b;
 }
 
 .buy-btn.sell {
-  background-color: #f5f5f5;
+  background-color: #f6465d;
 }
 
 .buy-btn.sell:hover {
-  background-color: #e0e0e0;
+  background-color: #e53e3e;
 }
 
 .buy-modal-backdrop {
@@ -312,29 +333,49 @@
 
 /* Modal */
 
-.buy-modal {
-  background: #fff;
+.buy-modal.new-modal-style {
+  background: transparent;
+  width: 800px;
+  max-width: 90%;
+  padding: 0;
   border-radius: 16px;
-  padding: 24px;
-  width: 40%;
+  overflow: hidden;
   position: relative;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  font-family: 'Inter', sans-serif;
 }
 
 .modal-close-btn {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 16px;
+  right: 16px;
   border: none;
   background: transparent;
-  font-size: 20px;
+  font-size: 18px;
   cursor: pointer;
+  color: #6b7280;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  z-index: 1000;
+}
+
+.modal-close-btn:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: #1e2329;
 }
 
 .modal-info p {
   margin: 8px 0;
   font-size: 14px;
+  color: #1e2329;
+}
+
+.countdown {
+  color: #6b7280;
+  font-weight: normal;
 }
 
 .modal-input-group {
@@ -342,58 +383,180 @@
 }
 
 .modal-input-group label {
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: 500;
   display: block;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+  color: #1e2329;
 }
 
 .modal-input-group input {
   width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
+  padding: 12px 16px;
+  border: 1px solid #e5e7eb;
   border-radius: 8px;
   font-size: 14px;
+  background-color: #f9fafb;
+  color: #1e2329;
+}
+
+.modal-input-group input:focus {
+  outline: none;
+  border-color: #007bff;
+  background-color: #fff;
+}
+
+.modal-input-group input:disabled {
+  background-color: #f3f4f6;
+  color: #6b7280;
+  cursor: not-allowed;
 }
 
 .confirm-btn {
-  /* margin-top: 20px; */
   width: 100%;
-  padding: 10px;
-  background-color: #f5f5f5;
-  color: #000;
-  font-weight: bold;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  font-size: 15px;
+  padding: 14px 24px;
+  background-color: #f3f4f6;
+  color: #6b7280;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: not-allowed;
+  transition: all 0.2s ease;
+  margin-top: 20px;
+}
+
+.confirm-btn:not(:disabled) {
+  background-color: #007bff;
+  color: #fff;
   cursor: pointer;
 }
 
-.confirm-btn:hover {
-  background-color: #e0e0e0;
+.confirm-btn:not(:disabled):hover {
+  background-color: #0056b3;
 }
 
 .confirm-btn:disabled {
-  background-color: #ccc;
+  background-color: #f3f4f6;
+  color: #6b7280;
   cursor: not-allowed;
-  opacity: 0.7;
+  opacity: 1;
 }
 
 .modal-content-2col {
   display: flex;
   flex-direction: row;
-  gap: 24px;
 }
 
-.modal-left {
+.modal-left.dark-panel {
+  background-color: #1e2329;
+  color: #fff;
+  padding: 24px;
+  width: 45%;
+}
 
-  width: 50%;
-  padding-right: 12px;
-  border-right: 1px solid #eee;
+.advertiser-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.merchant-details {
+  flex: 1;
+}
+
+.merchant-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.merchant-name h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.star-icon {
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #4f46e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.verified-badge {
+  font-size: 12px;
+  color: #22c55e;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.currency-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 12px;
+  color: #fff;
+}
+
+.currency-icon.usdt-icon {
+  background-color: #26a17b;
+}
+
+.currency-icon.vnd-icon {
+  background-color: #dc2626;
+}
+
+.trade-stats p {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+  font-size: 14px;
+  color: #a1a1aa;
+}
+
+.trade-stats p span:last-child {
+  color: #fff;
+  font-weight: 500;
+}
+
+.trade-conditions {
+  margin-top: 24px;
+}
+
+.trade-conditions h4 {
+  margin-bottom: 8px;
+}
+
+.trade-conditions p {
+  font-size: 13px;
+  color: #a1a1aa;
+  line-height: 1.5;
 }
 
 .modal-left h3 {
-  margin-bottom: 12px;
+  margin: 0;
   font-size: 18px;
+  font-weight: 600;
 }
 
 .modal-left p {
@@ -401,11 +564,39 @@
   margin: 6px 0;
 }
 
-.modal-right {
-  width: 50%;
+.modal-right.light-panel {
+  background-color: #fff;
+  padding: 24px;
+  width: 55%;
+}
+
+.suffix-icon {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
+  align-items: center;
+  gap: 6px;
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #1e2329;
+  font-weight: 500;
+}
+
+.availability-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-top: 4px;
+  color: #5e6673;
+}
+
+.availability-info a {
+  color: #4f46e5;
+  text-decoration: none;
+}
+
+.bank-dropdown .dropdown-btn {
+  justify-content: space-between;
 }
 
 .dropdown-menu.bank {
@@ -440,24 +631,34 @@
 }
 
 .warning-text {
-  color: red;
+  margin: 16px 0 12px 0;
   font-size: 14px;
-  margin-top: 10px;
+  line-height: 1.6;
+}
+
+.warning-text .red-text {
+  color: #e53935;
+  font-weight: 500;
 }
 
 .warning-text a {
-  color: black;
-  text-decoration: none;
+  color: #007bff;
+  text-decoration: underline;
+  font-weight: 500;
+  margin-left: 4px;
+  cursor: pointer;
 }
 
 .warning-text a:hover {
+  color: #0056b3;
   text-decoration: underline;
 }
 
 .limit-note {
-  font-size: 13px;
-  color: #666;
+  font-size: 12px;
+  color: #6b7280;
   margin-top: 8px;
+  margin-bottom: 16px;
 }
 
 .confirm-modal-backdrop {
@@ -595,6 +796,200 @@
   }
 
   .buy-btn.sell {
-    background-color: #f6465d;
+    background-color: #ff6b6b;
+  }
+}
+
+/* Modal Thêm phương thức thanh toán */
+.payment-method-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.payment-method-modal {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.payment-method-modal .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px 0 24px;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 20px;
+}
+
+.payment-method-modal .modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
+}
+
+.payment-method-modal .modal-body {
+  padding: 24px;
+}
+
+.payment-method-modal .form-group {
+  margin-bottom: 20px;
+}
+
+.payment-method-modal .form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.payment-method-modal .form-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #f8f8f8;
+  color: #333;
+  box-sizing: border-box;
+}
+
+.payment-method-modal .form-input:focus {
+  outline: none;
+  border-color: #007bff;
+  background-color: white;
+}
+
+.payment-method-modal .form-input::placeholder {
+  color: #999;
+}
+
+.payment-method-modal .currency-display,
+.payment-method-modal .payment-method-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #f8f8f8;
+  color: #333;
+  font-size: 14px;
+}
+
+.payment-method-modal .currency-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+}
+
+.payment-method-modal .currency-icon.vnd-icon {
+  background-color: #dc3545;
+}
+
+.payment-method-modal .payment-icon {
+  color: #ff6b35;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.payment-method-modal .info-text {
+  background-color: #f8f9fa;
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.payment-method-modal .info-text .link-blue {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.payment-method-modal .info-text .link-blue:hover {
+  text-decoration: underline;
+}
+
+.payment-method-modal .modal-actions {
+  display: flex;
+  gap: 12px;
+  padding: 0 24px 24px 24px;
+}
+
+.payment-method-modal .back-btn {
+  flex: 1;
+  padding: 12px 24px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: white;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.payment-method-modal .back-btn:hover {
+  background-color: #f8f8f8;
+  border-color: #ccc;
+}
+
+.payment-method-modal .confirm-btn {
+  flex: 1;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  background-color: #e0e0e0;
+  color: #999;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: not-allowed;
+  transition: all 0.2s ease;
+}
+
+.payment-method-modal .confirm-btn:not(:disabled) {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.payment-method-modal .confirm-btn:not(:disabled):hover {
+  background-color: #0056b3;
+}
+
+/* Responsive cho modal */
+@media (max-width: 768px) {
+  .payment-method-modal {
+    width: 95%;
+    margin: 20px;
+  }
+
+  .payment-method-modal .modal-header,
+  .payment-method-modal .modal-body,
+  .payment-method-modal .modal-actions {
+    padding-left: 16px;
+    padding-right: 16px;
   }
 }
