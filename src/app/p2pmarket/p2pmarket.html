@@ -1,0 +1,363 @@
+<div class="p2p-container">
+  <!-- Thanh Mua/Bán và Tạo quảng cáo -->
+  <div class="top-bar">
+    <div class="tabs">
+      <span [class.active]="activeTab === 'buy'" (click)="activeTab = 'buy'">Mua</span>
+      <span [class.active]="activeTab === 'sell'" (click)="activeTab = 'sell'">Bán</span>
+    </div>
+    <button class="create-ad" (click)="CreateAdsPage()">Tạo quảng cáo</button>
+  </div>
+
+  <!-- Bộ lọc -->
+  <div class="filters">
+    <div class="filter-left">
+      <div class="dropdown" [class.open]="dropdownOpen === 'coin'" (click)="$event.stopPropagation()">
+
+        <button class="dropdown-btn" (click)="toggleDropdown('coin')">
+          <img *ngIf="selectedCoin.icon" [src]="selectedCoin.icon" class="icon" />
+          {{ selectedCoin.name }}
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"
+            class="chevron" [class.open]="dropdownOpen === 'coin'">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
+          </svg>
+        </button>
+
+        <div class="dropdown-menu" *ngIf="dropdownOpen === 'coin'">
+          <input type="text" #searchCoinInput [value]="searchCoin" (input)="onSearch('coin', searchCoinInput.value)"
+            placeholder="Tìm kiếm" class="search-box" (click)="$event.stopPropagation()" />
+          <div class="dropdown-item" *ngFor="let coin of filteredCoinList" (click)="selectCoin(coin)">
+            <img [src]="coin.icon" class="icon" />
+            {{ coin.name }}
+            <span *ngIf="coin.name === selectedCoin.name">✔</span>
+          </div>
+        </div>
+      </div>
+      <div class="amount-input" [class.focused]="amountInputFocused">
+        <input type="number" placeholder="0,00" [(ngModel)]="inputAmount" (ngModelChange)="onAmountChange()"
+          (focus)="amountInputFocused = true" (blur)="amountInputFocused = false" min="0" />
+        <div class="currency-selector">
+          <div class="dropdown" (click)="toggleDropdown('currency'); $event.stopPropagation()"
+            [class.open]="dropdownOpen === 'currency'">
+            <button class="dropdown-btn" [class.focused]="dropdownOpen === 'currency'">
+              <img *ngIf="selectedCurrency.icon" [src]="selectedCurrency.icon" class="icon" />
+              {{ selectedCurrency.name }}
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3"
+                stroke="currentColor" class="chevron" [class.open]="dropdownOpen === 'currency'">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
+              </svg>
+            </button>
+            <div class="dropdown-menu" *ngIf="dropdownOpen === 'currency'" (click)="$event.stopPropagation()">
+              <input type="text" #searchCurrencyInput [value]="searchCurrency"
+                (input)="onSearch('currency', searchCurrencyInput.value)" placeholder="Tìm kiếm" class="search-box"
+                (click)="$event.stopPropagation()" />
+              <div class="dropdown-item" *ngFor="let currency of filteredCurrencyList"
+                (click)="selectCurrency(currency)">
+                <img [src]="currency.icon" class="icon" />
+                {{ currency.name }}
+                <span *ngIf="currency.name === selectedCurrency.name">✔</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Dropdown phương thức -->
+      <div class="dropdown" (click)="toggleDropdown('method'); $event.stopPropagation()"
+        [class.open]="dropdownOpen === 'method'">
+        <button class="dropdown-btn">
+          {{ getSelectedPaymentLabel() }}
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"
+            class="chevron" [class.open]="dropdownOpen === 'method'">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
+          </svg>
+        </button>
+
+        <div class="dropdown-menu" *ngIf="dropdownOpen === 'method'" (click)="$event.stopPropagation()">
+          <input type="text" #searchPaymentInput [value]="searchPayment"
+            (input)="onSearch('payment', searchPaymentInput.value)" placeholder="Tìm kiếm" class="search-box"
+            (click)="$event.stopPropagation()" />
+          <label class="dropdown-item" *ngFor="let method of filteredPaymentMethods()">
+            <input type="checkbox" [(ngModel)]="method.selected" (change)="togglePaymentSelection(method)" />
+            {{ method.name }}
+          </label>
+        </div>
+      </div>
+      <!-- <button class="filter-button">🔍</button> -->
+    </div>
+
+    <div class="filter-right">
+      <div class="dropdown" (click)="toggleDropdown('sort'); $event.stopPropagation()"
+        [class.open]="dropdownOpen === 'sort'">
+        <button class="dropdown-btn">
+          {{ selectedSortOption?.label || 'Sắp xếp theo' }}
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"
+            class="chevron" [class.open]="dropdownOpen === 'sort'">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
+          </svg>
+        </button>
+
+        <div class="dropdown-menu" *ngIf="dropdownOpen === 'sort'" (click)="$event.stopPropagation()">
+          <div class="dropdown-header">
+            <strong>Được khuyên nghị</strong>
+            <div class="subtext">Đã xếp hạng theo chất lượng tổng thể của Nhà quảng cáo</div>
+          </div>
+          <div class="dropdown-item" *ngFor="let option of sortOptions" (click)="selectSortOption(option)">
+            {{ option.label }}
+            <span *ngIf="option.value === selectedSortOption?.value">✔</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bảng quảng cáo -->
+  <table class="ads-table">
+    <thead>
+      <tr>
+        <th>Nhà quảng cáo</th>
+        <th>Đơn giá</th>
+        <th>Giới hạn khả dụng/Giới hạn lệnh</th>
+        <th>Phương thức thanh toán</th>
+        <th>Mua/Bán</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ad of filteredAdsToShow">
+        <td data-label="Nhà quảng cáo">
+          <strong>{{ ad.name }}</strong><br />
+          Giao dịch {{ ad.trades }} • Hoàn tất {{ ad.successRate }} • {{ ad.satisfaction }}<br />
+          <span class="status-time">
+            ● Đang online
+            <span *ngIf="ad.time"> • {{ ad.time }}</span>
+          </span>
+        </td>
+        <td data-label="Đơn giá" class="price">
+          <strong>{{ ad.price | number }} VND</strong>
+        </td>
+        <td data-label="Giới hạn" class="limit-info">
+          {{ ad.available }} USDT<br />{{ ad.range }} VND
+        </td>
+        <td data-label="Phương thức thanh toán">
+          <div *ngFor="let method of ad.paymentMethods">
+            <span>{{ method }}</span>
+          </div>
+        </td>
+        <td data-label="">
+          <button class="buy-btn" [ngClass]="{ 'sell': activeTab === 'sell' }" (click)="openBuyModal(ad)">
+            {{ activeTab === 'buy' ? 'Mua' : 'Bán' }}
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<!-- **************** -->
+<!-- Modal Mua/Bán -->
+<div class="buy-modal-backdrop" *ngIf="showBuyModal" (click)="closeBuyModal()">
+  <div class="buy-modal new-modal-style" (click)="onModalClick($event); $event.stopPropagation()">
+    <button class="modal-close-btn" (click)="closeBuyModal()">✕</button>
+    <div class="modal-content-2col">
+      <!-- Panel trái: Thông tin người bán -->
+      <div class="modal-left dark-panel">
+        <div class="advertiser-info">
+          <div class="avatar">{{ selectedAd?.name.charAt(0) }}</div>
+          <div class="merchant-details">
+            <div class="merchant-name">
+              <h3>{{ selectedAd?.name }}</h3>
+              <span class="verified-dot"></span>
+              <span class="verified-badge">✔ ID đã xác minh</span>
+            </div>
+          </div>
+        </div>
+        <div class="trade-stats">
+          <p><span>Các lệnh đã hoàn tất</span> <span>{{ selectedAd?.trades | number }}</span></p>
+          <p><span>Tỷ lệ hoàn tất</span> <span>{{ selectedAd?.successRate }}</span></p>
+          <p><span>Cửa sổ thanh toán</span> <span>10 phút</span></p>
+          <p><span>Tên</span> <span>T**</span></p>
+        </div>
+        <hr>
+        <div class="trade-conditions">
+          <h4>Điều khoản giao dịch</h4>
+          <p>Vui lòng đảm bảo rằng tài khoản nhận khớp với tên tài khoản OKX đã xác minh của bạn. Bạn có thể liên hệ với
+            tôi nếu gặp phải bất kỳ vấn đề nào trước khi đưa ra tranh chấp.</p>
+        </div>
+      </div>
+      <!-- Panel phải: Giao dịch -->
+      <div class="modal-right light-panel">
+        <div class="modal-info">
+          <p><strong>Đơn giá {{ selectedAd?.price | number }} VND</strong>
+            <span class="countdown">({{ countdown }}s)</span>
+          </p>
+        </div>
+        <!-- MUA -->
+        <ng-container *ngIf="activeTab === 'buy'">
+          <div class="modal-input-group">
+            <label>Bạn trả</label>
+            <div class="input-with-suffix">
+              <input type="number" [(ngModel)]="inputBuyAmount" (ngModelChange)="onBuyAmountChange()" placeholder="0,00"
+                min="0" />
+              <span class="suffix-icon"><img [src]="currencyList[0].icon" class="icon" /> {{ currencyList[0].name
+                }}</span>
+            </div>
+          </div>
+          <div class="modal-input-group">
+            <label>Bạn nhận</label>
+            <div class="input-with-suffix">
+              <input type="text" [value]="receiveAmount" disabled />
+              <span class="suffix-icon"><img [src]="selectedCoin.icon" class="icon" /> {{ selectedCoin.name }}</span>
+            </div>
+          </div>
+          <p class="limit-note">Giới hạn lệnh: {{ selectedAd?.range }} VND</p>
+        </ng-container>
+        <!-- BÁN -->
+        <ng-container *ngIf="activeTab === 'sell'">
+          <div class="modal-input-group">
+            <label>Bạn bán</label>
+            <div class="input-with-suffix">
+              <input type="number" [(ngModel)]="sellAmount" (ngModelChange)="onSellAmountChange()" placeholder="0,00"
+                min="0" />
+              <span class="suffix-icon">
+                <div class="currency-icon usdt-icon">T</div>
+                {{ selectedCoin.name }}
+              </span>
+            </div>
+            <div class="availability-info">
+              <span>Khả dụng {{ selectedAd?.available }} {{ selectedCoin.name }}</span>
+              <a href="#">Quản lý tiền</a>
+            </div>
+          </div>
+          <div class="modal-input-group">
+            <label>Bạn nhận</label>
+            <div class="input-with-suffix">
+              <input type="text" [value]="sellAmount * selectedAd?.price | number:'1.0-0'" disabled />
+              <span class="suffix-icon">
+                <div class="currency-icon vnd-icon">₫</div>
+                {{ currencyList[0].name }}
+              </span>
+            </div>
+          </div>
+          <p class="limit-note">Giới hạn lệnh: {{ selectedAd?.range }} VND</p>
+        </ng-container>
+        <!-- Dropdown ngân hàng -->
+        <div class="dropdown bank-dropdown" (click)="toggleDropdown('bank'); $event.stopPropagation()"
+          [class.open]="dropdownOpen === 'bank'">
+          <button class="dropdown-btn">
+            <span>{{ selectedBankMethod || 'Chuyển khoản ngân hàng' }}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3"
+              stroke="currentColor" class="chevron" [class.open]="dropdownOpen === 'bank'">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
+            </svg>
+          </button>
+          <div class="dropdown-menu bank" *ngIf="dropdownOpen === 'bank'">
+            <div class="dropdown-item" *ngFor="let method of filteredBankMethods()"
+              (click)="selectBankMethod(method); $event.stopPropagation()">
+              {{ method }}
+            </div>
+          </div>
+        </div>
+        <ng-container *ngIf="activeTab === 'sell'">
+          <div class="warning-text" style="margin-top: 4px;">
+            <span class="red-text">Đối tác chỉ chấp nhận thanh toán qua Chuyển khoản ngân hàng.</span>
+            <a href="#" (click)="openPaymentMethodModal(); $event.preventDefault()"> Thêm phương thức thanh toán <span
+                style='font-size:16px;'>&#8594;</span></a>
+          </div>
+        </ng-container>
+        <button class="confirm-btn" [disabled]="(activeTab === 'buy' ? !isBuyFormValid : !isSellFormValid)"
+          (click)="openConfirmModal()">
+          {{ activeTab === 'buy' ? 'Mua ' + selectedCoin.name : 'Bán USDT với mức phí bằng 0' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Xác nhận giao dịch -->
+<div class="confirm-modal-backdrop" *ngIf="showConfirmModal" (click)="closeConfirmModal()">
+  <div class="confirm-modal" (click)="$event.stopPropagation()">
+    <button class="modal-close-btn" (click)="closeConfirmModal()">✕</button>
+
+    <h3>Chi tiết lệnh</h3>
+    <div class="confirm-info">
+      <p><strong>Đơn giá:</strong> {{ selectedAd?.price | number }} VND ({{ countdown }}s)</p>
+      <p><strong>Số lượng:</strong> {{ receiveAmount }} {{ selectedCoin.name }}</p>
+      <p><strong>Giá trị đặt lệnh:</strong> {{ inputBuyAmount | number:'1.0-0' }} VND</p>
+      <p><strong>Phương thức thanh toán:</strong> {{ selectedBankMethod }}</p>
+    </div>
+
+    <p class="disclaimer">
+      Khi tiếp tục, tôi đã đọc và đồng ý với
+      <a href="#">Tuyên bố miễn trừ trách nhiệm về giao dịch P2P</a>
+    </p>
+
+    <div class="modal-actions">
+      <button class="back-btn " (click)="closeConfirmModal()">Quay lại</button>
+      <button class="confirm-btn black" (click)="submitOrder()">Xác nhận</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Thêm phương thức thanh toán -->
+<div class="payment-method-modal-backdrop" *ngIf="showPaymentMethodModal" (click)="closePaymentMethodModal()">
+  <div class="payment-method-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Thêm phương thức thanh toán</h3>
+      <button class="modal-close-btn" (click)="closePaymentMethodModal()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Loại tiền tệ -->
+      <div class="form-group">
+        <label>Loại tiền tệ</label>
+        <div class="currency-display">
+          <div class="currency-icon vnd-icon">₫</div>
+          <span>VND</span>
+        </div>
+      </div>
+
+      <!-- Phương thức thanh toán -->
+      <div class="form-group">
+        <label>Phương thức thanh toán</label>
+        <div class="payment-method-display">
+          <div class="payment-icon">|</div>
+          <span>Chuyển khoản ngân hàng</span>
+        </div>
+      </div>
+
+      <!-- Thông tin bổ sung -->
+      <div class="info-text">
+        Một số phương thức thanh toán nhất định có thể áp dụng phí và hạn mức hằng ngày theo quy định của nhà cung cấp
+        dịch vụ thanh toán. Ngoài ra còn có các tính năng độc đáo thể hiện qua <a href="#" class="link-blue">nhãn</a>.
+      </div>
+
+      <!-- Tên tài khoản -->
+      <div class="form-group">
+        <label>Tên tài khoản *</label>
+        <input type="text" [(ngModel)]="paymentForm.accountName" placeholder="" class="form-input" />
+      </div>
+
+      <!-- Số tài khoản -->
+      <div class="form-group">
+        <label>Số tài khoản *</label>
+        <input type="number" [(ngModel)]="paymentForm.accountNumber" placeholder="" class="form-input" />
+      </div>
+
+      <!-- Tên ngân hàng -->
+      <div class="form-group">
+        <label>Tên ngân hàng *</label>
+        <input type="text" [(ngModel)]="paymentForm.bankName" placeholder="" class="form-input" />
+      </div>
+
+      <!-- Tên chi nhánh -->
+      <div class="form-group">
+        <label>Tên chi nhánh *</label>
+        <input type="text" [(ngModel)]="paymentForm.branchName" placeholder="" class="form-input" />
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="back-btn" (click)="closePaymentMethodModal()">Quay lại</button>
+      <button class="confirm-btn" [disabled]="!isPaymentFormValid" (click)="savePaymentMethod()">Xác nhận</button>
+    </div>
+  </div>
+</div>

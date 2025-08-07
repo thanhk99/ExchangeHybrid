@@ -1,0 +1,25 @@
+<div class="method-payment">
+    <div class="navigation">
+        <div class="breadcrumb" (click)="buyPage()">Giao dịch Nhanh</div>
+        <div> > </div>
+        <div class="breadcrumb current"> Chọn phương thức thanh toán</div>
+    </div>
+
+<h2>Chọn phương thức thanh toán</h2>
+
+<p class="countdown">
+  Danh sách này sẽ được làm mới sau <span class="green">00:{{ countdown < 10 ? '0' + countdown : countdown }}</span> giây
+</p>
+
+<div
+  class="payment-option"
+  *ngFor="let method of methods; let i = index"
+  [class.selected]="selectedMethodIndex === i"
+  (click)="selectMethod(i)"
+>
+  {{ method }}
+  <span class="checkmark" *ngIf="selectedMethodIndex === i">✔</span>
+</div>
+
+<button class="confirm-button" (click)="AdvertisementPage()">Chọn quảng cáo</button>
+</div>

@@ -1,0 +1,158 @@
+<div class="order-page">
+  <!-- Tabs -->
+  <div class="tabs-container">
+    <div class="tabs">
+      <div [class.active]="tab === 'pending'" (click)="setTab('pending')">Đang chờ xử lý</div>
+      <div [class.active]="tab === 'completed'" (click)="setTab('completed')">Đã hoàn tất</div>
+    </div>
+
+    <div class="right-actions">
+      <button (click)="reportUser()"> Báo cáo người dùng</button>
+      <button (click)="exportReport()"> Xuất báo cáo</button>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters">
+
+    <!-- Dropdown trạng thái -->
+    <div class="dropdown" [class.open]="openDropdown === 'status'" (click)="$event.stopPropagation()">
+      <button class="dropdown-btn" (click)="toggleDropdown('status')">
+        {{ selectedStatus || 'Tất cả trạng thái' }}
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"
+          class="chevron" [class.open]="openDropdown === 'status'">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
+        </svg>
+      </button>
+      <div class="dropdown-menu" *ngIf="openDropdown === 'status'">
+        <div class="dropdown-item" (click)="selectStatus('')">Tất cả trạng thái</div>
+        <div class="dropdown-item" (click)="selectStatus('Chờ xác nhận')">Đã thực hiện</div>
+        <div class="dropdown-item" (click)="selectStatus('Đang xử lý')">Đã huỷ</div>
+      </div>
+    </div>
+
+    <!-- Dropdown lệnh -->
+    <div class="dropdown" [class.open]="openDropdown === 'order'" (click)="$event.stopPropagation()">
+      <button class="dropdown-btn" (click)="toggleDropdown('order')">
+        {{ selectedOrder || 'Tất cả lệnh' }}
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"
+          class="chevron" [class.open]="openDropdown === 'order'">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
+        </svg>
+      </button>
+      <div class="dropdown-menu" *ngIf="openDropdown === 'order'">
+        <div class="dropdown-item" (click)="selectOrder('')">Tất cả lệnh</div>
+        <div class="dropdown-item" (click)="selectOrder('Mua')">Mua</div>
+        <div class="dropdown-item" (click)="selectOrder('Bán')">Bán</div>
+      </div>
+    </div>
+
+
+    <!-- Date Range -->
+    <input type="date" [(ngModel)]="startDate">
+    <span>→</span>
+    <input type="date" [(ngModel)]="endDate">
+
+    <!-- Search -->
+    <input type="text" placeholder="Tìm kiếm tên người dùng, ID" [(ngModel)]="searchTerm" />
+
+    <!-- Reset -->
+    <button class="reset-btn" (click)="resetFilters()">Đặt lại</button>
+  </div>
+
+  <!-- No Records -->
+  <div *ngIf="tab === 'completed' && completedOrders.length === 0" class="no-records">
+    <div class="no-records-icon">📄</div>
+    <div class="no-records-text">
+      <strong>Không tìm thấy hồ sơ</strong><br />
+      <span>Chưa có lệnh đã hoàn tất</span>
+    </div>
+  </div>
+
+  <!-- Nếu có dữ liệu -->
+  <table class="order-table" *ngIf="tab === 'completed' && completedOrders.length > 0">
+    <thead>
+      <tr>
+        <th>ID lệnh</th>
+        <th>Loại lệnh</th>
+        <th>Số lượng đặt lệnh</th>
+        <th>Số tiền đặt lệnh</th>
+        <th>Đơn giá</th>
+        <th>Đối tác</th>
+        <th>Trạng thái lệnh</th>
+        <th>Ngày & giờ đặt lệnh</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of completedOrders">
+        <td class="order-id">
+          <a href="#" class="id-link">{{ order.id }}</a>
+        </td>
+        <td>
+          <span class="order-type" [ngClass]="{'buy': order.type === 'Mua', 'sell': order.type === 'Bán'}">
+            {{ order.type }}
+          </span>
+        </td>
+        <td>{{ order.amount }} USDT</td>
+        <td>{{ order.totalPrice | number:'1.0-0' }} VND</td>
+        <td>{{ order.price | number:'1.0-0' }} VND</td>
+        <td>
+          <span class="partner-name">{{ order.partner }}</span><br />
+          <button class="chat-btn">Trò chuyện ⌨</button>
+        </td>
+        <td class="status canceled">{{ order.status }}</td>
+        <td>{{ order.time }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Table hiển thị lệnh đang chờ xử lý -->
+  <table *ngIf="tab === 'pending' && filteredOrders.length > 0" class="order-table">
+    <thead>
+      <tr>
+        <th>ID lệnh</th>
+        <th>Loại lệnh</th>
+        <th>Số lượng đặt lệnh</th>
+        <th>Số tiền đặt lệnh</th>
+        <th>Đơn giá</th>
+        <th>Đối tác</th>
+        <th>Trạng thái lệnh</th>
+        <th>Ngày & giờ đặt lệnh</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of filteredOrders">
+        <td class="order-id">
+          <a href="#" class="id-link">{{ order.id }}</a>
+        </td>
+        <td>
+          <span class="order-type" [ngClass]="{'buy': order.type === 'Mua', 'sell': order.type === 'Bán'}">
+            {{ order.type }}
+          </span>
+        </td>
+        <td>{{ order.amount }} USDT</td>
+        <td>{{ order.totalPrice | number:'1.0-0' }} VND</td>
+        <td>{{ order.price | number:'1.0-0' }} VND</td>
+        <td>
+          <span class="partner-name">{{ order.partner }}</span><br />
+          <button class="chat-btn">Trò chuyện ⌨</button>
+        </td>
+        <td class="status pending">
+          Đang chờ thanh toán<br />
+          {{ order.remainingTime }}
+        </td>
+        <td>{{ order.time }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Không có dữ liệu -->
+  <div *ngIf="tab === 'pending' && filteredOrders.length === 0" class="no-records">
+    <div class="no-records-icon">📄</div>
+    <div class="no-records-text">
+      <strong>Không tìm thấy hồ sơ</strong><br />
+      <span>Chưa có lệnh đang chờ xử lý</span>
+    </div>
+  </div>
+
+</div>
