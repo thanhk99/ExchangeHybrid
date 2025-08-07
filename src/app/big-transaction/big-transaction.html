@@ -1,5 +1,3 @@
-<app-nav-tabs [tabs]="buytabs"></app-nav-tabs>
-
 <div class="p2p-container">
   <!-- Thanh Mua/Bán và Tạo quảng cáo -->
   <div class="top-bar">
@@ -18,35 +16,46 @@
         <button class="dropdown-btn" (click)="toggleDropdown('coin')">
           <img *ngIf="selectedCoin.icon" [src]="selectedCoin.icon" class="icon" />
           {{ selectedCoin.name }}
-          <span class="arrow" [class.open]="dropdownOpen === 'coin'">▼</span>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"
+            class="chevron" [class.open]="dropdownOpen === 'coin'">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
+          </svg>
         </button>
 
         <div class="dropdown-menu" *ngIf="dropdownOpen === 'coin'">
-          <input type="text" [(ngModel)]="searchCoin" placeholder="Tìm kiếm" class="search-box" />
-          <div class="dropdown-item" *ngFor="let coin of filteredCoinList()" (click)="selectCoin(coin)">
+          <input type="text" #searchCoinInput [value]="searchCoin" (input)="onSearch('coin', searchCoinInput.value)"
+            placeholder="Tìm kiếm" class="search-box" (click)="$event.stopPropagation()" />
+          <div class="dropdown-item" *ngFor="let coin of filteredCoinList" (click)="selectCoin(coin)">
             <img [src]="coin.icon" class="icon" />
             {{ coin.name }}
             <span *ngIf="coin.name === selectedCoin.name">✔</span>
           </div>
         </div>
       </div>
-      <div class="amount-input">
-        <input type="text" placeholder="0,00" />
-        <!-- Dropdown tiền tệ -->
-        <div class="dropdown" (click)="toggleDropdown('currency'); $event.stopPropagation()"
-          [class.open]="dropdownOpen === 'currency'">
-          <button class="dropdown-btn">
-            <img *ngIf="selectedCurrency.icon" [src]="selectedCurrency.icon" class="icon" />
-            {{ selectedCurrency.name }}
-            <span class="arrow" [class.open]="dropdownOpen === 'currency'">▼</span>
-          </button>
-
-          <div class="dropdown-menu" *ngIf="dropdownOpen === 'currency'" (click)="$event.stopPropagation()">
-            <input type="text" [(ngModel)]="searchCurrency" placeholder="Tìm kiếm" class="search-box" />
-            <div class="dropdown-item" *ngFor="let currency of filteredCurrencyList()"
-              (click)="selectCurrency(currency)">
-              <img [src]="currency.icon" class="icon" />
-              {{ currency.name }}
+      <div class="amount-input" [class.focused]="amountInputFocused">
+        <input type="number" placeholder="0,00" [(ngModel)]="inputAmount" (ngModelChange)="onAmountChange()"
+          (focus)="amountInputFocused = true" (blur)="amountInputFocused = false" min="0" />
+        <div class="currency-selector">
+          <div class="dropdown" (click)="toggleDropdown('currency'); $event.stopPropagation()"
+            [class.open]="dropdownOpen === 'currency'">
+            <button class="dropdown-btn" [class.focused]="dropdownOpen === 'currency'">
+              <img *ngIf="selectedCurrency.icon" [src]="selectedCurrency.icon" class="icon" />
+              {{ selectedCurrency.name }}
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3"
+                stroke="currentColor" class="chevron" [class.open]="dropdownOpen === 'currency'">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
+              </svg>
+            </button>
+            <div class="dropdown-menu" *ngIf="dropdownOpen === 'currency'" (click)="$event.stopPropagation()">
+              <input type="text" #searchCurrencyInput [value]="searchCurrency"
+                (input)="onSearch('currency', searchCurrencyInput.value)" placeholder="Tìm kiếm" class="search-box"
+                (click)="$event.stopPropagation()" />
+              <div class="dropdown-item" *ngFor="let currency of filteredCurrencyList"
+                (click)="selectCurrency(currency)">
+                <img [src]="currency.icon" class="icon" />
+                {{ currency.name }}
+                <span *ngIf="currency.name === selectedCurrency.name">✔</span>
+              </div>
             </div>
           </div>
         </div>
@@ -56,12 +65,16 @@
         [class.open]="dropdownOpen === 'method'">
         <button class="dropdown-btn">
           {{ getSelectedPaymentLabel() }}
-          <span class="arrow" [class.open]="dropdownOpen === 'method'">▼</span>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"
+            class="chevron" [class.open]="dropdownOpen === 'method'">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
+          </svg>
         </button>
 
         <div class="dropdown-menu" *ngIf="dropdownOpen === 'method'" (click)="$event.stopPropagation()">
-          <input type="text" [(ngModel)]="searchPayment" placeholder="Tìm kiếm" class="search-box" />
-
+          <input type="text" #searchPaymentInput [value]="searchPayment"
+            (input)="onSearch('payment', searchPaymentInput.value)" placeholder="Tìm kiếm" class="search-box"
+            (click)="$event.stopPropagation()" />
           <label class="dropdown-item" *ngFor="let method of filteredPaymentMethods()">
             <input type="checkbox" [(ngModel)]="method.selected" (change)="togglePaymentSelection(method)" />
             {{ method.name }}
@@ -76,7 +89,10 @@
         [class.open]="dropdownOpen === 'sort'">
         <button class="dropdown-btn">
           {{ selectedSortOption?.label || 'Sắp xếp theo' }}
-          <span class="arrow" [class.open]="dropdownOpen === 'sort'">▼</span>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"
+            class="chevron" [class.open]="dropdownOpen === 'sort'">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
+          </svg>
         </button>
 
         <div class="dropdown-menu" *ngIf="dropdownOpen === 'sort'" (click)="$event.stopPropagation()">
@@ -99,9 +115,9 @@
       <tr>
         <th>Nhà quảng cáo</th>
         <th>Đơn giá</th>
-        <th>Giới hạn</th>
+        <th>Giới hạn khả dụng/Giới hạn lệnh</th>
         <th>Phương thức thanh toán</th>
-        <th></th>
+        <th>Mua/Bán</th>
       </tr>
     </thead>
     <tbody>
@@ -164,7 +180,8 @@
           <div class="modal-input-group">
             <label>Số tiền (VND):</label>
             <div class="input-with-suffix">
-              <input type="number" [(ngModel)]="inputBuyAmount" placeholder="0" />
+              <input type="number" [(ngModel)]="inputBuyAmount" (ngModelChange)="onBuyAmountChange()" placeholder="0"
+                min="0" />
               <span class="suffix">VND</span>
             </div>
           </div>
@@ -185,7 +202,8 @@
           <div class="modal-input-group">
             <label>Bạn bán ({{ selectedCoin.name }}):</label>
             <div class="input-with-suffix">
-              <input type="number" [(ngModel)]="sellAmount" placeholder="0,00" />
+              <input type="number" [(ngModel)]="sellAmount" (ngModelChange)="onSellAmountChange()" placeholder="0,00"
+                min="0" />
               <span class="suffix">{{ selectedCoin.name }}</span>
             </div>
           </div>
@@ -207,7 +225,10 @@
           [class.open]="dropdownOpen === 'bank'">
           <button class="dropdown-btn">
             {{ selectedBankMethod || 'Chọn phương thức thanh toán' }}
-            <span class="arrow" [class.open]="dropdownOpen === 'bank'">▼</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3"
+              stroke="currentColor" class="chevron" [class.open]="dropdownOpen === 'bank'">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
+            </svg>
           </button>
           <div class="dropdown-menu bank" *ngIf="dropdownOpen === 'bank'">
             <input type="text" [(ngModel)]="searchBank" class="search-box" placeholder="Tìm kiếm ngân hàng" />

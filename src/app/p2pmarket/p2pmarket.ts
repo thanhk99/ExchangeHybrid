@@ -1,6 +1,5 @@
 import { Component, HostListener, ElementRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavTabs } from '../shared/nav-tabs/nav-tabs';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
@@ -8,7 +7,7 @@ import { ApiService } from '../services/api.service';
 @Component({
   selector: 'app-p2pmarket',
   standalone: true,
-  imports: [CommonModule, RouterModule, NavTabs, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './p2pmarket.html',
   styleUrl: './p2pmarket.css'
 })
@@ -21,49 +20,90 @@ export class P2pmarket implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loadAds();
+    // this.loadAds();
   }
 
-  loadAds() {
-    // For now, we fetch all ads. Later, this could be a specific endpoint
-    // or include a filter for large transactions.
-    this.apiService.getP2PAds().subscribe(data => {
-      if (data && Array.isArray(data)) {
-        // You might want to add a filter here for what constitutes a "big transaction"
-        // For example: .filter(ad => ad.maxAmount > SOME_THRESHOLD)
-        this.buyAds = data.filter(ad => ad.type === 'BUY').map(this.mapAdData);
-        this.sellAds = data.filter(ad => ad.type === 'SELL').map(this.mapAdData);
-      }
-    });
-  }
+  // loadAds() {
+  //   // For now, we fetch all ads. Later, this could be a specific endpoint
+  //   // or include a filter for large transactions.
+  //   this.apiService.getP2PAds().subscribe(data => {
+  //     if (data && Array.isArray(data)) {
+  //       // You might want to add a filter here for what constitutes a "big transaction"
+  //       // For example: .filter(ad => ad.maxAmount > SOME_THRESHOLD)
+  //       this.buyAds = data.filter(ad => ad.type === 'BUY').map(this.mapAdData);
+  //       this.sellAds = data.filter(ad => ad.type === 'SELL').map(this.mapAdData);
+  //     }
+  //   });
+  // }
 
-  // Helper to map API response to frontend model
-  mapAdData(ad: any) {
-    return {
-      id: ad.id,
-      name: ad.user?.username || 'Unknown User',
-      trades: ad.user?.tradeCount || 0,
-      successRate: `${ad.user?.completionRate || 0}%`,
-      satisfaction: '99%', // Placeholder
-      price: ad.price,
-      available: ad.availableAmount,
-      range: `${ad.minAmount}-${ad.maxAmount}`,
-      bank: ad.paymentMethods.join(', '),
-      time: '', // Placeholder
-    };
-  }
+  // // Helper to map API response to frontend model
+  // mapAdData(ad: any) {
+  //   return {
+  //     id: ad.id,
+  //     name: ad.user?.username || 'Unknown User',
+  //     trades: ad.user?.tradeCount || 0,
+  //     successRate: `${ad.user?.completionRate || 0}%`,
+  //     satisfaction: '99%', // Placeholder
+  //     price: ad.price,
+  //     available: ad.availableAmount,
+  //     range: `${ad.minAmount}-${ad.maxAmount}`,
+  //     bank: ad.paymentMethods.join(', '),
+  //     time: '', // Placeholder
+  //   };
+  // }
 
-  buytabs = [
-    { label: 'Giao dịch nhanh', path: '/buy' },
-    { label: 'Giao dịch P2P', path: '/p2pmarket' },
-    { label: 'Giao dịch Lô', path: '/big-transaction' },
-    { label: 'Lệnh của tôi', path: 'my-transaction' },
-    { label: 'Hồ sơ của tôi', path: '/my-profile' },
-    { label: 'Thêm', path: '' },
+  buyAds: any[] = [
+    {
+      id: 1,
+      name: 'RẻNhấtThếGiới',
+      trades: 8361,
+      successRate: '99.7%',
+      satisfaction: '99%',
+      price: 26409,
+      available: 686.29,
+      range: '2.000.000-18.124.232',
+      paymentMethods: ['Chuyển khoản ngân hàng'],
+      time: '',
+    },
+    {
+      id: 2,
+      name: 'NamMôADiĐàPhật',
+      trades: 97024,
+      successRate: '99.91%',
+      satisfaction: '99%',
+      price: 26410,
+      available: 2565.87,
+      range: '132.000-132.000',
+      paymentMethods: ['Chuyển khoản ngân hàng', 'Vietcombank – NH Ngoại thương VN'],
+      time: '',
+    },
+    {
+      id: 3,
+      name: '$ONDAY',
+      trades: 2286,
+      successRate: '99.65%',
+      satisfaction: '99%',
+      price: 26410,
+      available: 907.42,
+      range: '20.000.000-23.964.962',
+      paymentMethods: ['Chuyển khoản ngân hàng'],
+      time: '',
+    }
   ];
-
-  buyAds: any[] = [];
-  sellAds: any[] = [];
+  sellAds: any[] = [
+    {
+      id: 4,
+      name: 'BINUSDT',
+      trades: 11137,
+      successRate: '97.57%',
+      satisfaction: '99%',
+      price: 26427,
+      available: 0,
+      range: '20.000.000-24.209.246',
+      paymentMethods: ['Chuyển khoản ngân hàng'],
+      time: '',
+    }
+  ];
 
   activeTab: 'buy' | 'sell' = 'buy';
 
@@ -92,6 +132,8 @@ export class P2pmarket implements OnInit {
         this.searchCoin = '';
       } else if (type === 'currency') {
         this.searchCurrency = '';
+      } else if (type === 'bank') {
+        this.searchBank = '';
       }
     } else {
       this.dropdownOpen = type;
@@ -115,9 +157,12 @@ export class P2pmarket implements OnInit {
 
   @HostListener('document:click')
   onDocumentClick() {
-    this.dropdownOpen = null;
-    this.searchCoin = '';
-    this.searchCurrency = '';
+    if (this.dropdownOpen) {
+      this.dropdownOpen = null;
+      this.searchCoin = '';
+      this.searchCurrency = '';
+      this.searchBank = '';
+    }
   }
 
   currencyList = [
@@ -190,7 +235,6 @@ export class P2pmarket implements OnInit {
       .filter(p => p.selected && p.name !== 'Tất cả phương thức')
       .map(p => p.name);
 
-    // Nếu chọn "Tất cả phương thức" hoặc không chọn gì thì trả lại toàn bộ
     if (
       this.paymentMethods.find(p => p.name === 'Tất cả phương thức')?.selected ||
       selectedMethods.length === 0
@@ -198,25 +242,23 @@ export class P2pmarket implements OnInit {
       return ads;
     }
 
-    // Lọc theo các phương thức được chọn
     return ads.filter(ad =>
-      selectedMethods.some(method => ad.bank.includes(method))
+      selectedMethods.some(method => ad.paymentMethods.includes(method))
     );
   }
 
   togglePaymentSelection(method: any) {
     if (method.name === 'Tất cả phương thức') {
-      // Chọn tất cả => bỏ chọn các method khác
       method.selected = true;
       this.paymentMethods.forEach(p => {
         if (p.name !== 'Tất cả phương thức') p.selected = false;
       });
     } else {
-      // Chọn từng ngân hàng => bỏ chọn "Tất cả phương thức"
       method.selected = !method.selected;
       const allMethod = this.paymentMethods.find(p => p.name === 'Tất cả phương thức');
       if (allMethod) allMethod.selected = false;
     }
+    // Không đóng dropdown vì có thể chọn nhiều phương thức
   }
 
   sortOptions = [
@@ -233,7 +275,6 @@ export class P2pmarket implements OnInit {
     this.sortAds();
   }
 
-  // Sort theo lựa chọn 
   sortAds() {
     const ads = this.activeTab === 'buy' ? this.buyAds : this.sellAds;
 
@@ -261,15 +302,6 @@ export class P2pmarket implements OnInit {
   selectedAd: any = null;
   inputAmount: number = 0;
 
-  // openBuyModal(ad: any) {
-  //   this.selectedAd = ad;
-  //   this.inputAmount = 0; 
-  // }
-
-  // closeBuyModal() {
-  //   this.selectedAd = null;
-  // }
-
   calculateReceiveAmount(): number {
     if (!this.selectedAd || !this.inputAmount) return 0;
     return +(this.inputAmount / this.selectedAd.price).toFixed(6);
@@ -288,8 +320,7 @@ export class P2pmarket implements OnInit {
 
   get availableBankMethods(): string[] {
     if (!this.selectedAd) return [];
-    // Có thể chứa nhiều phương thức ngăn cách bởi dấu phẩy nếu muốn
-    return [this.selectedAd.bank];
+    return this.selectedAd.paymentMethods;
   }
 
   filteredBankMethods(): string[] {
@@ -301,6 +332,7 @@ export class P2pmarket implements OnInit {
   selectBankMethod(method: string) {
     this.selectedBankMethod = method;
     this.dropdownOpen = null;
+    this.searchBank = '';
   }
 
   calculateReceiveBuyAmount(): number {
@@ -317,11 +349,14 @@ export class P2pmarket implements OnInit {
   openBuyModal(ad: any) {
     this.selectedAd = ad;
     this.inputBuyAmount = 0;
-    this.selectedBankMethod = null;
+    this.sellAmount = 0;
+    this.selectedBankMethod = ad.paymentMethods[0]; // Tự động chọn phương thức đầu tiên
     this.searchBank = '';
     this.showBuyModal = true;
     this.dropdownOpen = null;
 
+    // Reset countdown
+    this.countdown = 45;
     clearInterval(this.countdownInterval);
     this.countdownInterval = setInterval(() => {
       if (this.countdown > 0) {
@@ -335,7 +370,23 @@ export class P2pmarket implements OnInit {
   closeBuyModal() {
     this.showBuyModal = false;
     this.selectedAd = null;
+    this.inputBuyAmount = 0;
+    this.sellAmount = 0;
+    this.selectedBankMethod = null;
+    this.searchBank = '';
+    this.dropdownOpen = null;
     clearInterval(this.countdownInterval);
+  }
+
+  onModalClick(event: Event) {
+    const target = event.target as HTMLElement;
+    const bankDropdown = target.closest('.bank-dropdown');
+
+    // Nếu click trong modal mà không phải từ dropdown bank, đóng dropdown
+    if (this.dropdownOpen === 'bank' && !bankDropdown) {
+      this.dropdownOpen = null;
+      this.searchBank = '';
+    }
   }
 
 
@@ -352,7 +403,7 @@ export class P2pmarket implements OnInit {
 
   get isBankMatched(): boolean {
     if (!this.selectedAd || !this.selectedBankMethod) return false;
-    return this.selectedAd.bank.includes(this.selectedBankMethod);
+    return this.selectedAd.paymentMethods.includes(this.selectedBankMethod);
   }
 
   get isSellFormValid(): boolean {
@@ -381,6 +432,71 @@ export class P2pmarket implements OnInit {
     this.showConfirmModal = true;
   }
 
+  closeConfirmModal() {
+    this.showConfirmModal = false;
+    this.showBuyModal = true;
+  }
+
+  // Modal Thêm phương thức thanh toán
+  showPaymentMethodModal: boolean = false;
+  paymentForm: {
+    accountName: string;
+    accountNumber: number | null;
+    bankName: string;
+    branchName: string;
+  } = {
+      accountName: '',
+      accountNumber: null,
+      bankName: '',
+      branchName: ''
+    };
+
+  get isPaymentFormValid(): boolean {
+    return !!(
+      this.paymentForm.accountName.trim() &&
+      this.paymentForm.accountNumber !== null &&
+      this.paymentForm.bankName.trim() &&
+      this.paymentForm.branchName.trim()
+    );
+  }
+
+  openPaymentMethodModal() {
+    this.showPaymentMethodModal = true;
+    this.showBuyModal = false;
+  }
+
+  closePaymentMethodModal() {
+    this.showPaymentMethodModal = false;
+    this.showBuyModal = true;
+    // Reset form
+    this.paymentForm = {
+      accountName: '',
+      accountNumber: null,
+      bankName: '',
+      branchName: ''
+    };
+  }
+
+  savePaymentMethod() {
+    if (this.isPaymentFormValid) {
+      // Thêm phương thức thanh toán mới vào danh sách
+      const newMethod = `${this.paymentForm.bankName} - ${this.paymentForm.branchName}`;
+
+      // Thêm vào danh sách payment methods nếu chưa có
+      if (!this.paymentMethods.find(p => p.name === newMethod)) {
+        this.paymentMethods.push({ name: newMethod, selected: false });
+      }
+
+      // Chọn phương thức mới
+      this.selectedBankMethod = newMethod;
+
+      // Đóng modal và quay lại modal mua/bán
+      this.closePaymentMethodModal();
+    }
+  }
+
+
+
   submitOrder() {
     if (!this.selectedAd) return;
 
@@ -394,6 +510,7 @@ export class P2pmarket implements OnInit {
       next: (response) => {
         console.log('Order placed successfully!', response);
         this.showConfirmModal = false;
+        this.closeBuyModal(); // Reset all data after successful submission
       },
       error: (error) => {
         console.error('Error placing order:', error);
