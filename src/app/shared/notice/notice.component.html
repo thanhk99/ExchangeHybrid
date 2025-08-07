@@ -1,0 +1,8 @@
+<div
+  class="notice"
+  *ngIf="visible"
+  [ngClass]="type"
+  (click)="close()"
+>
+  <span>{{ message }}</span>
+</div>
