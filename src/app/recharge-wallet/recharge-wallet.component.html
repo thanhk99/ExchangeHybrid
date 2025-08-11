@@ -3,7 +3,15 @@
 <div *ngIf="true" class="main-container">
   <div class="top-section">
     <div class="deposit-box">
-      <h2>Nạp tiền</h2>
+      <app-summary
+        [totalValue]="totalValue"
+        [isHidden]="isHidden"
+        (toggleHidden)="toggleHidden()"
+        (navigateToRecharge)="navigateToRecharge()"
+        (navigateToConvert)="navigateToConvert()"
+        (navigateToWithdrawal)="navigateToWithdrawal()"
+        (navigateToTransfer)="navigateToTransfer()"
+      ></app-summary>
 
       <!-- Step 1 -->
       <div class="step">
@@ -88,11 +96,12 @@
         </div>
         <div class="deposit-details-box" *ngIf="selectedFromCoin && selectedToNetwork && amount">
           <img src="assets/icons/qr-sample.png" class="qr-img" alt="QR Code" />
-          <div class="address-info">
-            <div class="address-label">Địa chỉ nạp <span>›</span></div>
-            <div class="wallet-address">
-              0x9572049d2c37ee298d73c9db2dcd15ebcc2c810b
-              <button class="copy-btn">Sao chép</button>
+          <div class="info-box">
+            <div class="info-label">Thông tin bổ sung</div>
+            <div class="info-content">
+              <p>Địa chỉ ví: 0x9572049d2c37ee298d73c9db2dcd15ebcc2c810b</p>
+              <p>Mạng: {{ selectedToNetwork?.name }}</p>
+              <p>Thời gian xử lý: ~{{ selectedToNetwork?.eta }}</p>
             </div>
           </div>
         </div>
@@ -121,15 +130,7 @@
       </div>
     </div>
     <div class="faq-box">
-      <div class="faq-header"><h3>Câu hỏi thường gặp</h3></div>
-      <div class="faq-content">
-        <ul>
-          <li>Làm sao để nạp tiền?</li>
-          <li>Tại sao tiền tôi nạp vào vẫn chưa xuất hiện trong tài khoản OKX?</li>
-          <li>Làm sao để tìm được địa chỉ nạp tiền và tag/memo?</li>
-          <li>Làm cách nào để kiểm tra tiến trình nạp tiền?</li>
-        </ul>
-      </div>
+      <app-history [fundingHistory]="fundingHistory"></app-history>
     </div>
   </div>
 

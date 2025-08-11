@@ -3,7 +3,16 @@
 <div *ngIf="true" class="main-container">
   <div class="top-section">
     <div class="deposit-box">
-      <h2>Chuyển tiền</h2>
+      <app-summary
+        [totalValue]="totalValue"
+        [isHidden]="isHidden"
+        (toggleHidden)="toggleHidden()"
+        (navigateToRecharge)="navigateToRecharge()"
+        (navigateToConvert)="navigateToConvert()"
+        (navigateToWithdrawal)="navigateToWithdrawal()"
+        (navigateToTransfer)="navigateToTransfer()"
+      ></app-summary>
+      
 
       <!-- Step 1 -->
       <div class="step">
@@ -146,15 +155,7 @@
       </div>
     </div>
     <div class="faq-box">
-      <div class="faq-header"><h3>Câu hỏi thường gặp</h3></div>
-      <div class="faq-content">
-        <ul>
-          <li>Làm sao để chuyển tiền?</li>
-          <li>Tại sao chuyển tiền của tôi chưa hoàn tất?</li>
-          <li>Làm sao để kiểm tra trạng thái chuyển tiền?</li>
-          <li>Phí chuyển tiền là bao nhiêu?</li>
-        </ul>
-      </div>
+      <app-history [fundingHistory]="fundingHistory"></app-history>
     </div>
   </div>
 

@@ -1,0 +1,23 @@
+<div class="history-section">
+  <div class="history-header">
+    <h4>Lịch sử ví funding gần đây</h4>
+    <a class="see-more" href="#">Xem thêm >></a>
+  </div>
+
+  <ul>
+    <li *ngFor="let item of fundingHistory; let last = last">
+      <div class="history-row">
+        <div class="left">
+          <span class="history-desc">{{ item.description }}</span>
+          <div class="timestamp">{{ item.time }} - {{ item.date }}</div>
+        </div>
+        <span 
+          class="history-amount"
+          [ngClass]="{ 'positive': item.amount > 0, 'negative': item.amount < 0 }"
+        >
+          {{ item.amount > 0 ? '+' : '' }}{{ item.amount }} {{ item.token }}
+        </span>
+      </div>
+    </li>
+  </ul>
+</div>

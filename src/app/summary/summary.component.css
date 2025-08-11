@@ -1,0 +1,83 @@
+.summary-section {
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e0e0e0;
+  font-family: 'Inter', sans-serif;
+}
+
+.summary-section h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
+}
+
+.total-value {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 10px 0 4px;
+  color: #000;
+}
+
+.pnl-today {
+  color: #999;
+  font-size: 14px;
+}
+
+.green {
+  color: green;
+  font-weight: 500;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border-radius: 15px;
+  border: none;
+  background-color: #000;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn.light {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #ccc;
+}
+
+.btn:hover {
+  background-color: #f0f0f0;
+}
+
+.total-value-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sumary-header {
+  display: flex;
+  align-items: center;
+}
+
+.eye-icon {
+  cursor: pointer;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.eye-icon svg {
+  width: 20px;
+  height: 20px;
+}

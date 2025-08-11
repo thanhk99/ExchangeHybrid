@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { NavTabs } from '../shared/nav-tabs/nav-tabs';
 import { FormsModule } from '@angular/forms';
+import { SummaryComponent } from '../summary/summary.component';
+import { HistoryComponent } from '../history/history.component';
 
 @Component({
   selector: 'app-transfer-wallet',
   standalone: true,
-  imports: [CommonModule, RouterModule, NavTabs, FormsModule],
+  imports: [CommonModule, RouterModule, NavTabs, FormsModule, SummaryComponent, HistoryComponent],
   templateUrl: './transfer-wallet.component.html',
   styleUrls: ['./transfer-wallet.component.css']
 })
@@ -40,6 +42,32 @@ export class TransferWalletComponent {
   searchToQuery = '';
   searchCoinQuery = '';
 
+  totalValue: number = 1000; // Added to bind with app-summary
+  isHidden: boolean = false; // Added to bind with app-summary
+  hasDataAsset: boolean = false; // Added to bind with app-assets
+  fundingHistory: Array<{
+    description: string;
+    amount: number;
+    token: string;
+    time: string;
+    date: string;
+  }> = [
+    {
+      description: 'Rút tiền USDC',
+      amount: -100.909494,
+      token: 'USDC',
+      time: '14:30',
+      date: '2025-08-07'
+    },
+    {
+      description: 'Nạp tiền USDT',
+      amount: 100.96,
+      token: 'USDT',
+      time: '14:20',
+      date: '2025-08-07'
+    }
+  ]; // Added to bind with app-history
+
   accountList = [
     { name: 'Ví Funding' },
     { name: 'Ví Giao dịch' },
@@ -54,6 +82,10 @@ export class TransferWalletComponent {
   ];
 
   constructor(private router: Router) {}
+
+  toggleHidden() {
+    this.isHidden = !this.isHidden;
+  }
 
   toggleFromDropdown() {
     this.showFromDropdown = !this.showFromDropdown;
@@ -138,5 +170,21 @@ export class TransferWalletComponent {
     if (this.canProceedToStep3()) {
       this.step = 3;
     }
+  }
+
+  navigateToRecharge() {
+    this.router.navigate(['/funding-wallet/recharge']);
+  }
+
+  navigateToConvert() {
+    this.router.navigate(['/funding-wallet/convert']);
+  }
+
+  navigateToWithdrawal() {
+    this.router.navigate(['/funding-wallet/withdrawal']);
+  }
+
+  navigateToTransfer() {
+    this.router.navigate(['/funding-wallet/transfer']);
   }
 }

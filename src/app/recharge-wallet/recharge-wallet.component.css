@@ -6,37 +6,40 @@
   font-family: 'Inter', sans-serif;
   justify-content: center;
   align-items: center;
+  max-width: 1200px; /* Added to prevent excessive width on large screens */
+  margin: 0 auto; /* Center the container */
 }
 
 .top-section {
   display: flex;
   justify-content: space-between;
   gap: 40px;
-  width: 70%;
-  align-items: center;
+  width: 100%; /* Changed to 100% for flexibility */
+  align-items: flex-start; /* Adjusted to align items at the top */
 }
 
 .deposit-box {
-  width: 60%;
+  width: 65%; /* Slightly adjusted for better balance with faq-box */
   background: #fff;
   padding: 20px;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-height: 600px; /* Added to ensure minimum height for content */
 }
 
 .faq-box {
-  width: 35%;
+  width: 30%; /* Adjusted to complement deposit-box */
   background: #ffffff;
   padding: 20px;
   border-radius: 8px;
   font-size: 14px;
   border: 1px solid #eee;
-  height: 60%;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-height: 600px; /* Added to match deposit-box height */
 }
 
 .faq-header {
@@ -90,7 +93,7 @@
   margin-left: 30px;
   margin-top: 10px;
   position: relative;
-  width: 70%;
+  width: 100%; /* Changed to 100% for full width within deposit-box */
 }
 
 /* Button chọn coin */
@@ -410,11 +413,35 @@
   background-color: #fff;
   gap: 16px;
   margin-bottom: 20px;
+  flex-wrap: wrap; /* Added for responsiveness */
 }
 
 .qr-img {
   width: 100px;
   height: 100px;
+  flex-shrink: 0; /* Prevents QR image from shrinking */
+}
+
+.info-box {
+  flex: 1;
+  padding: 10px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  min-width: 200px; /* Added to ensure info box has a minimum width */
+}
+
+.info-label {
+  font-size: 13px;
+  color: gray;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.info-content p {
+  font-size: 14px;
+  color: #333;
+  margin: 4px 0;
 }
 
 .address-info {
@@ -832,19 +859,19 @@
 /********* res ko dl **********/
 @media screen and (min-width: 780px) and (max-width: 1280px) {
   .top-section {
-    width: 100% !important;
+    width: 100%;
     flex-direction: row;
   }
 
   .deposit-box {
-    width: 75% !important;
+    width: 70%;
   }
 
   .faq-box {
-    width: 25% !important;
+    width: 28%;
   }
   .bottom-section {
-    width: 85%;
+    width: 90%;
   }
 }
 
@@ -868,6 +895,16 @@
   .faq-box {
     width: 100%;
     order: 3;
+    min-height: auto; /* Reset min-height for mobile */
+  }
+
+  .deposit-details-box {
+    flex-direction: column; /* Stack QR and info box on mobile */
+    align-items: flex-start;
+  }
+
+  .qr-img {
+    margin-bottom: 16px; /* Add spacing between QR and info box */
   }
 }
 

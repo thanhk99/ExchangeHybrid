@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { NavTabs } from '../shared/nav-tabs/nav-tabs';
 import { FormsModule } from '@angular/forms';
+import { SummaryComponent } from '../summary/summary.component';
+import { HistoryComponent } from '../history/history.component';
 
 @Component({
   selector: 'app-withdrawal-wallet',
   standalone: true,
-  imports: [CommonModule, RouterModule, NavTabs, FormsModule],
+  imports: [CommonModule, RouterModule, NavTabs, FormsModule, SummaryComponent, HistoryComponent],
   templateUrl: './withdrawal-wallet.component.html',
   styleUrls: ['./withdrawal-wallet.component.css']
 })
@@ -42,6 +44,31 @@ export class WithdrawalWalletComponent {
   systemUID: string = '';
   systemBalance: string = '';
 
+  totalValue: number = 5000; // Added to bind with app-summary
+  isHidden: boolean = false; // Added to bind with app-summary
+  fundingHistory: Array<{
+    description: string;
+    amount: number;
+    token: string;
+    time: string;
+    date: string;
+  }> = [
+    {
+      description: 'Rút tiền USDT',
+      amount: -50.75,
+      token: 'USDT',
+      time: '10:50',
+      date: '2025-08-07'
+    },
+    {
+      description: 'Nạp tiền BTC',
+      amount: 0.02,
+      token: 'BTC',
+      time: '09:30',
+      date: '2025-08-07'
+    }
+  ]; // Added to bind with app-history
+
   coinList = [
     { symbol: 'USDT', name: 'Tether', img: 'usdt.png' },
     { symbol: 'BTC', name: 'Bitcoin', img: 'btc.png' },
@@ -56,6 +83,10 @@ export class WithdrawalWalletComponent {
   ];
 
   constructor(private router: Router) {}
+
+  toggleHidden() {
+    this.isHidden = !this.isHidden;
+  }
 
   toggleFromDropdown() {
     this.showFromDropdown = !this.showFromDropdown;
@@ -146,5 +177,21 @@ export class WithdrawalWalletComponent {
     this.amount = null;
     this.selectedToNetwork = null;
     this.step = 2;
+  }
+
+  navigateToRecharge() {
+    this.router.navigate(['/funding-wallet/recharge']);
+  }
+
+  navigateToConvert() {
+    this.router.navigate(['/funding-wallet/convert']);
+  }
+
+  navigateToWithdrawal() {
+    this.router.navigate(['/funding-wallet/withdrawal']);
+  }
+
+  navigateToTransfer() {
+    this.router.navigate(['/funding-wallet/transfer']);
   }
 }

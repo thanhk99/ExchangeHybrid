@@ -3,15 +3,20 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { NavTabs } from '../shared/nav-tabs/nav-tabs';
 import { FormsModule } from '@angular/forms';
+import { Output, EventEmitter } from '@angular/core';
+import { SummaryComponent } from '../summary/summary.component';
+import { AssetsComponent } from '../assets/assets.component';
+import { HistoryComponent } from '../history/history.component';
 
 @Component({
   selector: 'app-funding-wallet',
   standalone: true,
-  imports: [CommonModule, RouterModule, NavTabs, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, SummaryComponent, HistoryComponent, AssetsComponent],
   templateUrl: './funding-wallet.html',
   styleUrls: ['./funding-wallet.css']
 })
 export class FundingWallet {
+  activeTab: string = 'assets';
   assetpagetabs = [
     { label: 'Tổng quan', path: '/assetpage' },
     { label: 'Ví Funding', path: '/funding-wallet' },
@@ -23,10 +28,10 @@ export class FundingWallet {
     { label: 'Sao kê tài khoản', path: '' },
     { label: 'Báo cáo PoR', path: '' },
   ];
-
+  totalValue: number = 1000;
   hasData = true;
   isHidden = false;
-  totalValue = '0,00';
+  
   hasDataAsset = false;
   fundingHistory = [
     {
@@ -47,22 +52,53 @@ export class FundingWallet {
 
   constructor(private router: Router) {}
 
+  @Output() navigateToRecharge = new EventEmitter<void>();
+  @Output() navigateToConvert = new EventEmitter<void>();
+  @Output() navigateToWithdrawal = new EventEmitter<void>();
+  @Output() navigateToTransfer = new EventEmitter<void>();
+
   toggleHidden() {
     this.isHidden = !this.isHidden;
   }
 
-  navigateToRecharge() {
+  onTabSelected(tabPath: string) {
+    if (tabPath) {
+      this.router.navigate([tabPath]);
+      this.updateActiveTab(tabPath);
+    }
+  }
+
+  updateActiveTab(path: string) {
+    const tab = this.assetpagetabs.find(t => t.path === path);
+    if (tab) {
+      this.activeTab = tab.label.toLowerCase().replace(/ /g, '-');
+    } else {
+      // Default to 'assets' if no matching path is found
+      this.activeTab = 'assets';
+    }
+  }
+
+  onNavigateToRecharge() {
+    this.navigateToRecharge.emit();
     this.router.navigate(['/funding-wallet/recharge']);
+    this.activeTab = 'recharge';
   }
-  navigateToConvert() {
+
+  onNavigateToConvert() {
+    this.navigateToConvert.emit();
     this.router.navigate(['/funding-wallet/convert']);
+    this.activeTab = 'convert';
   }
 
-  navigateToWithdrawal() {
-    this.router.navigate(['/funding-wallet/withdrawal']); 
+  onNavigateToWithdrawal() {
+    this.navigateToWithdrawal.emit();
+    this.router.navigate(['/funding-wallet/withdrawal']);
+    this.activeTab = 'withdrawal';
   }
 
-  navigateToTransfer() {
-    this.router.navigate(['/funding-wallet/transfer']); 
+  onNavigateToTransfer() {
+    this.navigateToTransfer.emit();
+    this.router.navigate(['/funding-wallet/transfer']);
+    this.activeTab = 'transfer';
   }
 }

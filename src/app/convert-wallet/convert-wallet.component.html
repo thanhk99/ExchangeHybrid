@@ -2,7 +2,15 @@
 <div class="main-container">
   <div class="top-section">
     <div class="deposit-box">
-      <h2>Chuyển đổi</h2>
+      <app-summary
+        [totalValue]="totalValue"
+        [isHidden]="isHidden"
+        (toggleHidden)="toggleHidden()"
+        (navigateToRecharge)="navigateToRecharge()"
+        (navigateToConvert)="navigateToConvert()"
+        (navigateToWithdrawal)="navigateToWithdrawal()"
+        (navigateToTransfer)="navigateToTransfer()"
+      ></app-summary>
 
       <!-- Step 1 -->
       <div class="step">
@@ -13,7 +21,7 @@
         <div class="amount-coin-container">
           <div class="input-dropdown-box">
             <div class="amount-input-container" [attr.data-symbol]="selectedFromCoin?.symbol || ''">
-              <input type="number" class="amount-input" [(ngModel)]="amountFrom" placeholder="Nhập số lượng" min="0" (input)="calculateAmountTo()" />
+              <input type="number" class="amount-input" [(ngModel)]="amountFrom" placeholder="Nhập số lượng" min="0" />
             </div>
             <div class="dropdown-container compact" #fromDropdownContainer>
               <button class="crypto-select compact" (click)="toggleFromDropdown()" tabindex="0">
@@ -65,7 +73,7 @@
         <div class="amount-coin-container">
           <div class="input-dropdown-box">
             <div class="amount-input-container" [attr.data-symbol]="selectedToCoin?.symbol || ''">
-              <input type="number" class="amount-input" [(ngModel)]="amountTo" placeholder="Nhập số lượng" min="0" (input)="calculateAmountFrom()" />
+              <input type="number" class="amount-input" [(ngModel)]="amountTo" placeholder="Nhập số lượng" min="0"/>
             </div>
             <div class="dropdown-container compact" #toDropdownContainer>
               <button class="crypto-select compact" [disabled]="step < 2" (click)="toggleToDropdown()" tabindex="0">
@@ -131,15 +139,7 @@
       </div>
     </div>
     <div class="faq-box">
-      <div class="faq-header"><h3>Câu hỏi thường gặp</h3></div>
-      <div class="faq-content">
-        <ul>
-          <li>Làm sao để chuyển đổi tiền?</li>
-          <li>Tại sao chuyển đổi của tôi chưa hoàn tất?</li>
-          <li>Làm sao để kiểm tra tỷ giá?</li>
-          <li>Phí chuyển đổi là bao nhiêu?</li>
-        </ul>
-      </div>
+      <app-history [fundingHistory]="fundingHistory"></app-history>
     </div>
   </div>
 

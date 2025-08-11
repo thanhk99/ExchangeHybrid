@@ -1,0 +1,81 @@
+.history-section {
+  background-color: white;
+  padding: 16px 20px;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+  font-family: 'Inter', sans-serif;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.history-header h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000;
+  margin: 0;
+}
+
+.see-more {
+  font-size: 14px;
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.see-more:hover {
+  text-decoration: underline;
+}
+
+.history-section ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.history-section li {
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.history-section li:last-child {
+  border-bottom: none;
+}
+
+.history-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.history-desc {
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.timestamp {
+  font-size: 12px;
+  color: #888;
+  margin-top: 4px;
+}
+
+.history-amount {
+  font-size: 14px;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.history-amount.positive {
+  color: green;
+}
+
+.history-amount.negative {
+  color: red;
+}

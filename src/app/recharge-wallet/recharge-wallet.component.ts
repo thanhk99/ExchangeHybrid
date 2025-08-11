@@ -4,11 +4,13 @@ import { Router, RouterModule } from '@angular/router';
 import { NavTabs } from '../shared/nav-tabs/nav-tabs';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { SummaryComponent } from '../summary/summary.component';
+import { HistoryComponent } from '../history/history.component';
 
 @Component({
   selector: 'app-recharge-wallet',
   standalone: true,
-  imports: [CommonModule, RouterModule, NavTabs, FormsModule],
+  imports: [CommonModule, RouterModule, NavTabs, FormsModule, SummaryComponent, HistoryComponent],
   templateUrl: './recharge-wallet.component.html',
   styleUrls: ['./recharge-wallet.component.css']
 })
@@ -37,6 +39,31 @@ export class RechargeWalletComponent {
   searchFromQuery = '';
   searchToQuery = '';
 
+  totalValue: number = 3000; // Added to bind with app-summary
+  isHidden: boolean = false; // Added to bind with app-summary
+  fundingHistory: Array<{
+    description: string;
+    amount: number;
+    token: string;
+    time: string;
+    date: string;
+  }> = [
+    {
+      description: 'Nạp tiền USDT',
+      amount: 100,
+      token: 'USDT',
+      time: '10:50',
+      date: '2025-08-07'
+    },
+    {
+      description: 'Nạp tiền BTC',
+      amount: 0.05,
+      token: 'BTC',
+      time: '09:30',
+      date: '2025-08-07'
+    }
+  ]; // Added to bind with app-history
+
   coinList = [
     { symbol: 'USDT', name: 'Tether', icon: 'usdt.png' },
     { symbol: 'BTC', name: 'Bitcoin', icon: 'btc.png' },
@@ -51,6 +78,10 @@ export class RechargeWalletComponent {
   ];
 
   constructor(private router: Router, private route: ActivatedRoute) {}
+
+  toggleHidden() {
+    this.isHidden = !this.isHidden;
+  }
 
   toggleFromDropdown() {
     this.showFromDropdown = !this.showFromDropdown;
@@ -102,5 +133,21 @@ export class RechargeWalletComponent {
       n.min.toLowerCase().includes(this.searchToQuery.toLowerCase()) ||
       n.eta.toLowerCase().includes(this.searchToQuery.toLowerCase())
     );
+  }
+
+  navigateToRecharge() {
+    this.router.navigate(['/funding-wallet/recharge']);
+  }
+
+  navigateToConvert() {
+    this.router.navigate(['/funding-wallet/convert']);
+  }
+
+  navigateToWithdrawal() {
+    this.router.navigate(['/funding-wallet/withdrawal']);
+  }
+
+  navigateToTransfer() {
+    this.router.navigate(['/funding-wallet/transfer']);
   }
 }

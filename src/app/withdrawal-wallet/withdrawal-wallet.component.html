@@ -3,7 +3,15 @@
 <div *ngIf="true" class="main-container">
   <div class="top-section">
     <div class="deposit-box">
-      <h2>Rút tiền</h2>
+      <app-summary
+        [totalValue]="totalValue"
+        [isHidden]="isHidden"
+        (toggleHidden)="toggleHidden()"
+        (navigateToRecharge)="navigateToRecharge()"
+        (navigateToConvert)="navigateToConvert()"
+        (navigateToWithdrawal)="navigateToWithdrawal()"
+        (navigateToTransfer)="navigateToTransfer()"
+      ></app-summary>
 
       <!-- Step 1: Chọn tiền mã hóa -->
       <div class="step">
@@ -190,15 +198,7 @@
       <button class="btn" (click)="proceedToStep3()" [disabled]="!canProceedToStep3()">Tiếp tục</button>
     </div>
     <div class="faq-box">
-      <div class="faq-header"><h3>Câu hỏi thường gặp</h3></div>
-      <div class="faq-content">
-        <ul>
-          <li>Làm sao để rút tiền?</li>
-          <li>Tại sao tiền rút của tôi chưa đến?</li>
-          <li>Làm sao để tìm địa chỉ rút tiền?</li>
-          <li>Phí rút tiền là bao nhiêu?</li>
-        </ul>
-      </div>
+      <app-history [fundingHistory]="fundingHistory"></app-history>
     </div>
   </div>
 
